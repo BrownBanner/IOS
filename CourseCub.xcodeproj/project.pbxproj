@@ -13,6 +13,9 @@
 		1748F26E1A929496000ACBCF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1748F26D1A929496000ACBCF /* Images.xcassets */; };
 		1748F2711A929496000ACBCF /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1748F26F1A929496000ACBCF /* LaunchScreen.xib */; };
 		1748F27D1A929496000ACBCF /* CourseCubTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1748F27C1A929496000ACBCF /* CourseCubTests.swift */; };
+		1748F28B1A9299EE000ACBCF /* DepartmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1748F28A1A9299EE000ACBCF /* DepartmentViewController.swift */; };
+		1748F28D1A929ABC000ACBCF /* CoursesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1748F28C1A929ABC000ACBCF /* CoursesViewController.swift */; };
+		1748F28F1A929B1F000ACBCF /* CourseDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1748F28E1A929B1F000ACBCF /* CourseDetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +39,9 @@
 		1748F2761A929496000ACBCF /* CourseCubTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CourseCubTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1748F27B1A929496000ACBCF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1748F27C1A929496000ACBCF /* CourseCubTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseCubTests.swift; sourceTree = "<group>"; };
+		1748F28A1A9299EE000ACBCF /* DepartmentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DepartmentViewController.swift; sourceTree = "<group>"; };
+		1748F28C1A929ABC000ACBCF /* CoursesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoursesViewController.swift; sourceTree = "<group>"; };
+		1748F28E1A929B1F000ACBCF /* CourseDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +86,9 @@
 				1748F2661A929496000ACBCF /* AppDelegate.swift */,
 				1748F2681A929496000ACBCF /* ViewController.swift */,
 				1748F26A1A929496000ACBCF /* Main.storyboard */,
+				1748F28E1A929B1F000ACBCF /* CourseDetailViewController.swift */,
+				1748F28C1A929ABC000ACBCF /* CoursesViewController.swift */,
+				1748F28A1A9299EE000ACBCF /* DepartmentViewController.swift */,
 				1748F26D1A929496000ACBCF /* Images.xcassets */,
 				1748F26F1A929496000ACBCF /* LaunchScreen.xib */,
 				1748F2641A929496000ACBCF /* Supporting Files */,
@@ -212,6 +221,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1748F28F1A929B1F000ACBCF /* CourseDetailViewController.swift in Sources */,
+				1748F28B1A9299EE000ACBCF /* DepartmentViewController.swift in Sources */,
+				1748F28D1A929ABC000ACBCF /* CoursesViewController.swift in Sources */,
 				1748F2691A929496000ACBCF /* ViewController.swift in Sources */,
 				1748F2671A929496000ACBCF /* AppDelegate.swift in Sources */,
 			);
