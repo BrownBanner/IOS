@@ -10,6 +10,12 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    //So we can test the next pages
+    @IBOutlet weak var nextPageTest: UIButton!
+    
+    @IBAction func nextPage(sender: AnyObject) {
+        self.performSegueWithIdentifier("CalToDep", sender: nil)
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.

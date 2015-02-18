@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1714C5EC1A950CEF00B74BAC /* Department(List).swift in Sources */ = {isa = PBXBuildFile; fileRef = 1714C5EB1A950CEF00B74BAC /* Department(List).swift */; };
 		1748F2671A929496000ACBCF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1748F2661A929496000ACBCF /* AppDelegate.swift */; };
 		1748F2691A929496000ACBCF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1748F2681A929496000ACBCF /* ViewController.swift */; };
 		1748F26C1A929496000ACBCF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1748F26A1A929496000ACBCF /* Main.storyboard */; };
@@ -30,6 +31,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1714C5EB1A950CEF00B74BAC /* Department(List).swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Department(List).swift"; sourceTree = "<group>"; };
 		1748F2611A929496000ACBCF /* CourseCub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CourseCub.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1748F2651A929496000ACBCF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1748F2661A929496000ACBCF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -86,6 +88,7 @@
 			isa = PBXGroup;
 			children = (
 				17967BD71A92A78100E48054 /* Course.swift */,
+				1714C5EB1A950CEF00B74BAC /* Department(List).swift */,
 				1748F2661A929496000ACBCF /* AppDelegate.swift */,
 				1748F2681A929496000ACBCF /* ViewController.swift */,
 				1748F26A1A929496000ACBCF /* Main.storyboard */,
@@ -229,6 +232,7 @@
 				1748F28B1A9299EE000ACBCF /* DepartmentViewController.swift in Sources */,
 				1748F28D1A929ABC000ACBCF /* CoursesViewController.swift in Sources */,
 				1748F2691A929496000ACBCF /* ViewController.swift in Sources */,
+				1714C5EC1A950CEF00B74BAC /* Department(List).swift in Sources */,
 				1748F2671A929496000ACBCF /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
