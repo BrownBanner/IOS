@@ -52,6 +52,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Departments" id="ck1-BQ-I9l"/>
                     <connections>
+                        <outlet property="tView" destination="Wa6-dV-2hO" id="GJF-PB-Cup"/>
                         <segue destination="yIv-NI-gDE" kind="show" id="ij6-yN-hRX"/>
                     </connections>
                 </tableViewController>
