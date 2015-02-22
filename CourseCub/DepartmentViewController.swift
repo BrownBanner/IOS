@@ -8,18 +8,18 @@
 
 import UIKit
 
-class DepartmentViewController: UITableViewController, UITableViewDataSource, UITableViewDelegate {
-
 var dep_abrv_list = appDelegate.department_list
 
 class DepartmentViewController: UITableViewController, UITableViewDataSource, UITableViewDelegate {
+        var alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
+        var tableData = []
     
     @IBOutlet var tView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        var tableData = []
-        var alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
+
+
         //getClasses("a")
         print(tableData)
         
