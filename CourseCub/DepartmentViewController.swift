@@ -8,10 +8,15 @@
 
 import UIKit
 
-class DepartmentViewController: UITableViewController {
+class DepartmentViewController: UITableViewController, UITableViewDataSource, UITableViewDelegate {
+    var tableData = []
+    var alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        //getClasses("a")
+        print(tableData)
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -37,6 +42,50 @@ class DepartmentViewController: UITableViewController {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
         return 0
+    }
+    
+    //THIS WILL BE THE API CALL
+    /*func getClasses(searchTerm: String) {
+        
+        //Something like this will be useful eventually
+        //let searchTerm = searchTerm.stringByReplacingOccurrencesOfString(" ", withString: "+", options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil)
+        
+        // Now escape anything else that isn't URL-friendly
+        //This will also be useful eventually
+        //if let escapedSearchTerm = itunesSearchTerm.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding) {
+            let urlPath = "https://ords-dev.brown.edu/dprd/banner/mobile/courses?term=201420"
+            let url = NSURL(string: urlPath)
+            let session = NSURLSession.sharedSession()
+            let task = session.dataTaskWithURL(url!, completionHandler: {data, response, error -> Void in
+                println("Task completed")
+                if(error != nil) {
+                    // If there is an error in the web request, print it to the console
+                    println(error.localizedDescription)
+                }
+                var err: NSError?
+                
+                var jsonResult = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: &err) as NSDictionary
+                if(err != nil) {
+                    // If there is an error parsing JSON, print it to the console
+                    println("JSON Error \(err!.localizedDescription)")
+                }
+                let results: NSArray = jsonResult["results"] as NSArray
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.tableData = results
+                    self.tableView!.reloadData()
+                })
+            })
+            
+            task.resume()
+        //}
+    } */
+    
+    override func sectionIndexTitlesForTableView(tableView: UITableView) -> [AnyObject]! {
+        return self.alphabet
+    }
+    
+    override func tableView(tableView: UITableView, sectionForSectionIndexTitle title: String, atIndex index: Int) -> Int {
+        return index
     }
 
     /*
