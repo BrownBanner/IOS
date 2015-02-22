@@ -37,7 +37,7 @@ class DepartmentViewController: UITableViewController, UITableViewDataSource, UI
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
-        return 1
+        return 26
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -48,8 +48,14 @@ class DepartmentViewController: UITableViewController, UITableViewDataSource, UI
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("department", forIndexPath: indexPath) as UITableViewCell
+        let cell = UITableViewCell()
         cell.textLabel?.text = dep_abrv_list[indexPath.row].abbrev;
+        
+        var title_label = UILabel(frame: CGRectMake(105, 0, 210, 40))
+        title_label.text = dep_abrv_list[indexPath.row].name;
+        cell.contentView.addSubview(title_label)
+        
+
         return cell
     }
 
