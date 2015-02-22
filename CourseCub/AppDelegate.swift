@@ -8,14 +8,27 @@
 
 import UIKit
 
+let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    let hardcoded_departments_abrv = ["AFRI", "AMST", "ANTH", "APMA", "ARAB", "ARCH", "AWAS", "BEO", "BIOL", "CATL", "CHEM", "CHIN", "CLAS", "CLPS", "COLT", "CROL", "CSCI", "CZCH", "DEVL", "EAST", "ECON", "EDUC", "EGYT", "EINT", "ENGL", "ENGN", "ENVS", "ERLY", "ETHN", "FREN", "GEOL", "GISP", "GNSS", "GREK", "GRMN", "HIAA", "HISP", "HIST", "HMAN", "HNDI", "INDP", "INTL", "ITAL", "JAPN", "JUDS","KREA", "LANG", "LAST", "LATN", "LING", "LITR", "MATH", "MCM", "MDVL", "MES", "MGRK", "MUSC", "NEUR", "PHIL", "PHP", "PHYS", "PLME", "PLSH", "POBS", "POLS", "PPAI", "PRSN", "RELS", "REMS", "RUSS", "SANS", "SCSO", "SIGN", "SLAV", "SOC",  "SWED", "TAPS", "TKSH", "UNIV", "URBN", "VISA"]
+    
+    let hardcoded_department_abrv = ["AFRI", "AMST", "ANTH", "APMA", "ARAB", "ARCH", "AWAS", "BEO", "BIOL", "CATL", "CHEM", "CHIN", "CLAS", "CLPS", "COLT", "CROL", "CSCI", "CZCH", "DEVL", "EAST", "ECON", "EDUC", "EGYT", "EINT", "ENGL", "ENGN", "ENVS", "ERLY", "ETHN", "FREN", "GEOL", "GISP", "GNSS", "GREK", "GRMN", "HIAA", "HISP", "HIST", "HMAN", "HNDI", "INDP", "INTL", "ITAL", "JAPN", "JUDS","KREA", "LANG", "LAST", "LATN", "LING", "LITR", "MATH", "MCM", "MDVL", "MES", "MGRK", "MUSC", "NEUR", "PHIL", "PHP", "PHYS", "PLME", "PLSH", "POBS", "POLS", "PPAI", "PRSN", "RELS", "REMS", "RUSS", "SANS", "SCSO", "SIGN", "SLAV", "SOC",  "SWED", "TAPS", "TKSH", "UNIV", "URBN", "VISA"]
 
+    
+    var department_list = [Department]()
+    
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        
+        for dep in hardcoded_department_abrv {
+            var new_dep = Department()
+            new_dep.abbrev = dep
+            department_list.append(new_dep)
+        }
+        
         return true
     }
 
