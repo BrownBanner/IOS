@@ -10,6 +10,13 @@ import UIKit
 
 class CourseDetailViewController: UIViewController  {
 
+    @IBOutlet weak var className: UILabel!
+    @IBOutlet weak var classTime: UILabel!
+    @IBOutlet weak var classRoom: UILabel!
+    @IBOutlet weak var professor: UILabel!
+    @IBOutlet weak var seatNum: UILabel!
+    @IBOutlet weak var availableLabel: UILabel!
+    @IBOutlet weak var courseDetails: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
