@@ -10,7 +10,7 @@ import UIKit
 
 var dep_abrv_list = appDelegate.department_list
 
-class DepartmentViewController: UITableViewController, UITableViewDataSource, UITableViewDelegate {
+class DepartmentViewController: UITableViewController, UITableViewDataSource, UITableViewDelegate, NSURLSessionDelegate {
         var alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
         var tableData = []
     
@@ -20,7 +20,7 @@ class DepartmentViewController: UITableViewController, UITableViewDataSource, UI
         super.viewDidLoad()
 
 
-        //getClasses("a")
+        getClasses("a")
         print(tableData)
         
         self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "department")
@@ -51,7 +51,7 @@ class DepartmentViewController: UITableViewController, UITableViewDataSource, UI
     }
     
     //THIS WILL BE THE API CALL
-    /*func getClasses(searchTerm: String) {
+    func getClasses(searchTerm: String) {
         
         //Something like this will be useful eventually
         //let searchTerm = searchTerm.stringByReplacingOccurrencesOfString(" ", withString: "+", options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil)
@@ -61,7 +61,8 @@ class DepartmentViewController: UITableViewController, UITableViewDataSource, UI
         //if let escapedSearchTerm = itunesSearchTerm.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding) {
             let urlPath = "https://ords-dev.brown.edu/dprd/banner/mobile/courses?term=201420"
             let url = NSURL(string: urlPath)
-            let session = NSURLSession.sharedSession()
+            //let session = NSURLSession.sharedSession()
+            let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: self, delegateQueue: nil)
             let task = session.dataTaskWithURL(url!, completionHandler: {data, response, error -> Void in
                 println("Task completed")
                 if(error != nil) {
@@ -71,6 +72,8 @@ class DepartmentViewController: UITableViewController, UITableViewDataSource, UI
                 var err: NSError?
                 
                 var jsonResult = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: &err) as NSDictionary
+                print(jsonResult)
+                print("hi")
                 if(err != nil) {
                     // If there is an error parsing JSON, print it to the console
                     println("JSON Error \(err!.localizedDescription)")
@@ -81,10 +84,80 @@ class DepartmentViewController: UITableViewController, UITableViewDataSource, UI
                     self.tableView!.reloadData()
                 })
             })
+            print(tableData)
             
             task.resume()
         //}
-    } */
+    }
+    
+    /*func urlSessionCompHand {
+        println("Task completed")
+        if(error != nil) {
+            // If there is an error in the web request, print it to the console
+            println(error.localizedDescription)
+        }
+        var err: NSError?
+        
+        var jsonResult = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: &err) as NSDictionary
+        print(jsonResult)
+        print("hi")
+        if(err != nil) {
+            // If there is an error parsing JSON, print it to the console
+            println("JSON Error \(err!.localizedDescription)")
+        }
+        let results: NSArray = jsonResult["results"] as NSArray
+        dispatch_async(dispatch_get_main_queue(), {
+            self.tableData = results
+            self.tableView!.reloadData()
+        })
+    }*/
+    
+    /* This function is a workaround for CIS's bad SSL*/
+    func URLSession(session: NSURLSession!, didReceiveChallenge challenge: NSURLAuthenticationChallenge!, completionHandler:  ((NSURLSessionAuthChallengeDisposition, NSURLCredential!) -> Void)!) {
+        if challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust && challenge.protectionSpace.host == "ords-dev.brown.edu" {
+            let credential = NSURLCredential(forTrust: challenge.protectionSpace.serverTrust)
+            challenge.sender.useCredential(credential, forAuthenticationChallenge: challenge)
+        } else {
+            challenge.sender.performDefaultHandlingForAuthenticationChallenge!(challenge)
+        }
+        
+    }
+    
+   /* Original Copy
+    func URLSession(session: NSURLSession!, didReceiveChallenge challenge: NSURLAuthenticationChallenge!, completionHandler: ((NSURLSessionAuthChallengeDisposition, NSURLCredential!) -> Void)!) {
+        
+        if challenge.protectionSpace.authenticationMethod.compare(NSURLAuthenticationMethodServerTrust) == 0 {
+            if challenge.protectionSpace.host.compare("HOST_NAME") == 0 {
+                completionHandler(.UseCredential, NSURLCredential(forTrust: challenge.protectionSpace.serverTrust))
+            }
+            
+        } else if challenge.protectionSpace.authenticationMethod.compare(NSURLAuthenticationMethodHTTPBasic) == 0 {
+            if challenge.previousFailureCount > 0 {
+                println("Alert Please check the credential")
+                completionHandler(NSURLSessionAuthChallengeDisposition.CancelAuthenticationChallenge, nil)
+            } else {
+                var credential = NSURLCredential(user:"username", password:"password", persistence: .ForSession)
+                completionHandler(NSURLSessionAuthChallengeDisposition.UseCredential,credential)
+            }
+        }
+        
+    }
+    
+    func URLSession(session: NSURLSession!, task: NSURLSessionTask!, didReceiveChallenge challenge: NSURLAuthenticationChallenge!, completionHandler: ((NSURLSessionAuthChallengeDisposition, NSURLCredential!) -> Void)!){
+        
+        println("task-didReceiveChallenge")
+        
+        if challenge.previousFailureCount > 0 {
+            println("Alert Please check the credential")
+            completionHandler(NSURLSessionAuthChallengeDisposition.CancelAuthenticationChallenge, nil)
+        } else {
+            var credential = NSURLCredential(user:"username", password:"password", persistence: .ForSession)
+            completionHandler(NSURLSessionAuthChallengeDisposition.UseCredential,credential)
+        }
+        
+        
+    }*/
+    
     
     override func sectionIndexTitlesForTableView(tableView: UITableView) -> [AnyObject]! {
         return self.alphabet
