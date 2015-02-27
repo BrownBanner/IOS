@@ -8,27 +8,37 @@
 
 import UIKit
 
-var dep_abrv_list = appDelegate.department_list
+var dep_list = appDelegate.department_list
 
 class DepartmentViewController: UITableViewController, UITableViewDataSource, UITableViewDelegate, NSURLSessionDelegate {
-        var alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
-        var tableData = []
+    
+    var alphabet = ["*", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+    var alphabet_dict = Dictionary<String, Int>()
+    var alphabet_count = [Int](count: 27, repeatedValue: 0);
+    var favorites = [Department]()
+
+    var tableData = []
     
     @IBOutlet var tView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-
-        getClasses("a")
-        print(tableData)
         
         self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "department")
         // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
+        self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        
+        for letter in alphabet {
+            alphabet_dict[letter] = 0
+        }
+        
+        countSections()
+        
+        getClasses("a")
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -41,14 +51,21 @@ class DepartmentViewController: UITableViewController, UITableViewDataSource, UI
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
-        return 26
+        return alphabet.count
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
-          return dep_abrv_list.count
+        var letter = ""
+        for var i = 0 ; i < alphabet.count; i++ {
+            if i == section {
+                letter = alphabet[i]
+            }
+        }
+        return alphabet_dict[letter]!
     }
+
     
     //THIS WILL BE THE API CALL
     func getClasses(searchTerm: String) {
@@ -121,6 +138,7 @@ class DepartmentViewController: UITableViewController, UITableViewDataSource, UI
             challenge.sender.performDefaultHandlingForAuthenticationChallenge!(challenge)
         }
         
+        
     }
     
    /* Original Copy
@@ -170,15 +188,24 @@ class DepartmentViewController: UITableViewController, UITableViewDataSource, UI
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
-        cell.textLabel?.text = dep_abrv_list[indexPath.row].abbrev;
+        
+        var row_increment = 0
+        if (indexPath.section != 0){
+            row_increment = alphabet_count[indexPath.section - 1]
+        }
+        
+        cell.textLabel?.text = dep_list[row_increment + indexPath.row].abbrev;
         
         var title_label = UILabel(frame: CGRectMake(105, 0, 210, 40))
-        title_label.text = dep_abrv_list[indexPath.row].name;
+        title_label.text = dep_list[row_increment + indexPath.row].name;
         cell.contentView.addSubview(title_label)
-        
-
         return cell
     }
+
+    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return alphabet[section]
+    }
+
 
 
     /*
@@ -225,5 +252,47 @@ class DepartmentViewController: UITableViewController, UITableViewDataSource, UI
         // Pass the selected object to the new view controller.
     }
     */
+    
+    
+    //Check the first letters of each item in the departmentAbbrevArray, change the letter to a number corresponding to the section numbers, and then use those numbers to count the number of items in each alphabetical section. UGH.
+    func countSections () {
+        
+        for department in dep_list {
+            var firstLetter = department.abbrev.substringToIndex(advance(department.abbrev.startIndex, 1))
+            if alphabet_dict[firstLetter] == nil {
+                alphabet_dict[firstLetter] = 0
+            } else {
+                alphabet_dict[firstLetter] = 1 + alphabet_dict[firstLetter]!
+            }
+        }
+        
+        for var i = 0 ; i < alphabet.count; i++ {
+            var previous = 0
+            if (i != 0) {
+                previous = alphabet_count[i - 1]
+            }
+            alphabet_count[i] = alphabet_dict[alphabet[i]]! + previous
+            
+        }
+    }
+    
+    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if (section == 0) {
+            return 20
+        } else {
+            if (alphabet_count[section] == 0) {
+                return 0
+            }
+            else if (section > 1) {
+                if (alphabet_count[section] == alphabet_count[section - 1]) {
+                    return 0
+                }
+            }
+           return 20
+        }
+        
+    }
+    
+    
 
 }
