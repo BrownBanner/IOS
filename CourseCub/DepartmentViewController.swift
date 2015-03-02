@@ -12,9 +12,9 @@ var dep_list = appDelegate.department_list
 
 class DepartmentViewController: UITableViewController, UITableViewDataSource, UITableViewDelegate, NSURLSessionDelegate {
     
-    var alphabet = ["*", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+    var alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
     var alphabet_dict = Dictionary<String, Int>()
-    var alphabet_count = [Int](count: 27, repeatedValue: 0);
+    var alphabet_count = [Int](count: 26, repeatedValue: 0);
     var favorites = [Department]()
 
     var tableData = []
@@ -35,10 +35,10 @@ class DepartmentViewController: UITableViewController, UITableViewDataSource, UI
             alphabet_dict[letter] = 0
         }
         
-        countSections()
         
-        getClasses("a")
-
+        countSections()
+//        getClasses("a")
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -195,10 +195,13 @@ class DepartmentViewController: UITableViewController, UITableViewDataSource, UI
         }
         
         cell.textLabel?.text = dep_list[row_increment + indexPath.row].abbrev;
+    
         
         var title_label = UILabel(frame: CGRectMake(105, 0, 210, 40))
         title_label.text = dep_list[row_increment + indexPath.row].name;
         cell.contentView.addSubview(title_label)
+        
+
         return cell
     }
 
@@ -278,7 +281,7 @@ class DepartmentViewController: UITableViewController, UITableViewDataSource, UI
     
     override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if (section == 0) {
-            return 20
+            return 0
         } else {
             if (alphabet_count[section] == 0) {
                 return 0
