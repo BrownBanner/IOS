@@ -10,7 +10,9 @@ import UIKit
 
 class CoursesViewController: UITableViewController, UITableViewDataSource, UITableViewDelegate  {
     
-    var alphabet = ["*", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
+    var alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
+    var alphabet_dict = Dictionary<String, Int>()
+    var alphabet_count = [Int](count: 26, repeatedValue: 0);
     var courseList = [Course]();
     
     override func viewDidLoad() {
@@ -21,6 +23,12 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        
+        for letter in alphabet {
+            alphabet_dict[letter] = 0
+        }
+        
+        countSections()
     }
 
     override func didReceiveMemoryWarning() {
@@ -33,18 +41,30 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
-        return 27
+        return alphabet.count
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
-        return courseList.count
+        var letter = ""
+        for var i = 0 ; i < alphabet.count; i++ {
+            if i == section {
+                letter = alphabet[i]
+            }
+        }
+        return alphabet_dict[letter]!
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
-        cell.textLabel?.text = courseList[indexPath.row].title;
+        
+        var row_increment = 0
+        if (indexPath.section != 0){
+            row_increment = alphabet_count[indexPath.section - 1]
+        }
+        
+        cell.textLabel?.text = courseList[row_increment + indexPath.row].title;
         
 //        var title_label = UILabel(frame: CGRectMake(105, 0, 210, 40))
 //        title_label.text = dep_list[indexPath.row].name;
@@ -52,6 +72,19 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
         
         
         return cell
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        var selectedCourse = CourseDetailViewController();
+        
+        var row_increment = 0
+        if (indexPath.section != 0){
+            row_increment = alphabet_count[indexPath.section - 1]
+        }
+        
+        selectedCourse.course = courseList[indexPath.row + row_increment];
+        selectedCourse.navigationItem.title = selectedCourse.course?.title
+        navigationController?.pushViewController(selectedCourse, animated: true);
     }
     
     
@@ -62,6 +95,11 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
     override func tableView(tableView: UITableView, sectionForSectionIndexTitle title: String, atIndex index: Int) -> Int {
         return index
     }
+    
+    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return alphabet[section]
+    }
+
 
     /*
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -117,5 +155,43 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
         // Pass the selected object to the new view controller.
     }
     */
+    
+    func countSections () {
+        
+        for course in courseList {
+            var firstLetter = course.title.substringToIndex(advance(course.title.startIndex, 1))
+            if alphabet_dict[firstLetter] == nil {
+                alphabet_dict[firstLetter] = 0
+            } else {
+                alphabet_dict[firstLetter] = 1 + alphabet_dict[firstLetter]!
+            }
+        }
+        
+        for var i = 0 ; i < alphabet.count; i++ {
+            var previous = 0
+            if (i != 0) {
+                previous = alphabet_count[i - 1]
+            }
+            alphabet_count[i] = alphabet_dict[alphabet[i]]! + previous
+            
+        }
+    }
+    
+    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if (section == 0) {
+            return 0
+        } else {
+            if (alphabet_count[section] == 0) {
+                return 0
+            }
+            else if (section > 1) {
+                if (alphabet_count[section] == alphabet_count[section - 1]) {
+                    return 0
+                }
+            }
+            return 20
+        }
+        
+    }
 
 }

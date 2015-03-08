@@ -10,7 +10,7 @@ import Foundation
 
 class Course {
     var crn: NSString;
-    var title: NSString;
+    var title: String;
     var term_desc: NSString;
     var term: NSString;
     var dept: NSString;

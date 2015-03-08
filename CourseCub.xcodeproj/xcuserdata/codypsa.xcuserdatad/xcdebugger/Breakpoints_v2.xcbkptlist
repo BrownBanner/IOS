@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CourseCub/DepartmentViewController.swift"
-            timestampString = "447544352.563449"
+            timestampString = "447546172.268949"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "95"
-            endingLineNumber = "95"
+            startingLineNumber = "83"
+            endingLineNumber = "83"
             landmarkName = "getClassesByDepartment(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -26,12 +26,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CourseCub/DepartmentViewController.swift"
-            timestampString = "447544352.563449"
+            timestampString = "447546172.268949"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "105"
-            endingLineNumber = "105"
-            landmarkName = "URLSession(_:didReceiveChallenge:completionHandler:)"
+            startingLineNumber = "93"
+            endingLineNumber = "93"
+            landmarkName = "getClassesByDepartment(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -42,12 +42,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CourseCub/DepartmentViewController.swift"
-            timestampString = "447538337.935298"
+            timestampString = "447546172.268949"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "59"
-            endingLineNumber = "59"
-            landmarkName = "getClassesByDepartment(_:)"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
+            landmarkName = "numberOfSectionsInTableView(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
