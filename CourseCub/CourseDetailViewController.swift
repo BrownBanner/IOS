@@ -9,7 +9,9 @@
 import UIKit
 
 class CourseDetailViewController: UIViewController  {
-
+    
+    var course: Course?
+    
     @IBOutlet weak var className: UILabel!
     @IBOutlet weak var classTime: UILabel!
     @IBOutlet weak var classRoom: UILabel!
@@ -17,9 +19,23 @@ class CourseDetailViewController: UIViewController  {
     @IBOutlet weak var seatNum: UILabel!
     @IBOutlet weak var availableLabel: UILabel!
     @IBOutlet weak var courseDetails: UILabel!
+    @IBOutlet weak var crn: UILabel!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //Populates all UILabels with data
+        className.text = course?.title
+        classTime.text = course?.time_stamp
+        classRoom.text = course?.location
+        professor.text = course?.professor
+        courseDetails.text = course?.description
+        crn.text = course?.crn
+        //TODO: seats avilable and seats registered (not sure how we want to display yet)
+        //TODO: Registered or not for each user (need to model user first)
+        
+        
 
         // Do any additional setup after loading the view.
     }
