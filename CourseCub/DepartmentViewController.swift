@@ -170,7 +170,7 @@ class DepartmentViewController: UITableViewController, UITableViewDataSource, UI
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
-        cell.textLabel?.text = dep_abrv_list[indexPath.row].abbrev;
+        cell.textLabel.text = dep_abrv_list[indexPath.row].abbrev;
         
         var title_label = UILabel(frame: CGRectMake(105, 0, 210, 40))
         title_label.text = dep_abrv_list[indexPath.row].name;

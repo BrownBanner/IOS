@@ -18,6 +18,7 @@
 		1748F28D1A929ABC000ACBCF /* CoursesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1748F28C1A929ABC000ACBCF /* CoursesViewController.swift */; };
 		1748F28F1A929B1F000ACBCF /* CourseDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1748F28E1A929B1F000ACBCF /* CourseDetailViewController.swift */; };
 		17967BD81A92A78100E48054 /* Course.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17967BD71A92A78100E48054 /* Course.swift */; };
+		8C64B1451A9E6B0A000D555E /* Cart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C64B1441A9E6B0A000D555E /* Cart.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +47,7 @@
 		1748F28C1A929ABC000ACBCF /* CoursesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoursesViewController.swift; sourceTree = "<group>"; };
 		1748F28E1A929B1F000ACBCF /* CourseDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDetailViewController.swift; sourceTree = "<group>"; };
 		17967BD71A92A78100E48054 /* Course.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Course.swift; sourceTree = "<group>"; };
+		8C64B1441A9E6B0A000D555E /* Cart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cart.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +90,7 @@
 			isa = PBXGroup;
 			children = (
 				17967BD71A92A78100E48054 /* Course.swift */,
+				8C64B1441A9E6B0A000D555E /* Cart.swift */,
 				1714C5EB1A950CEF00B74BAC /* Department(List).swift */,
 				1748F2661A929496000ACBCF /* AppDelegate.swift */,
 				1748F2681A929496000ACBCF /* ViewController.swift */,
@@ -234,6 +237,7 @@
 				1748F2691A929496000ACBCF /* ViewController.swift in Sources */,
 				1714C5EC1A950CEF00B74BAC /* Department(List).swift in Sources */,
 				1748F2671A929496000ACBCF /* AppDelegate.swift in Sources */,
+				8C64B1451A9E6B0A000D555E /* Cart.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
