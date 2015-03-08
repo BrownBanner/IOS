@@ -9,7 +9,10 @@
 import UIKit
 
 class CoursesViewController: UITableViewController, UITableViewDataSource, UITableViewDelegate  {
-
+    
+    var alphabet = ["*", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
+    var courseList = [Course]();
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -30,13 +33,34 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
-        return 0
+        return 27
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
-        return 0
+        return courseList.count
+    }
+    
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = UITableViewCell()
+        cell.textLabel?.text = courseList[indexPath.row].title;
+        
+//        var title_label = UILabel(frame: CGRectMake(105, 0, 210, 40))
+//        title_label.text = dep_list[indexPath.row].name;
+//        cell.contentView.addSubview(title_label)
+        
+        
+        return cell
+    }
+    
+    
+    override func sectionIndexTitlesForTableView(tableView: UITableView) -> [AnyObject]! {
+        return self.alphabet
+    }
+    
+    override func tableView(tableView: UITableView, sectionForSectionIndexTitle title: String, atIndex index: Int) -> Int {
+        return index
     }
 
     /*

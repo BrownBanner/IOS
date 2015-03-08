@@ -13,7 +13,3 @@ class Department: NSObject {
     var name = ""
     var abbrev = ""
 }
-
-class DepartmentList: NSObject {
-    var departments = [Department]()
-}

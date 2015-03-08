@@ -17,6 +17,7 @@
 		1748F28B1A9299EE000ACBCF /* DepartmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1748F28A1A9299EE000ACBCF /* DepartmentViewController.swift */; };
 		1748F28D1A929ABC000ACBCF /* CoursesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1748F28C1A929ABC000ACBCF /* CoursesViewController.swift */; };
 		1748F28F1A929B1F000ACBCF /* CourseDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1748F28E1A929B1F000ACBCF /* CourseDetailViewController.swift */; };
+		178A96E11A9E53DD000E74A9 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178A96E01A9E53DD000E74A9 /* SwiftyJSON.swift */; };
 		17967BD81A92A78100E48054 /* Course.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17967BD71A92A78100E48054 /* Course.swift */; };
 /* End PBXBuildFile section */
 
@@ -45,6 +46,7 @@
 		1748F28A1A9299EE000ACBCF /* DepartmentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DepartmentViewController.swift; sourceTree = "<group>"; };
 		1748F28C1A929ABC000ACBCF /* CoursesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoursesViewController.swift; sourceTree = "<group>"; };
 		1748F28E1A929B1F000ACBCF /* CourseDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDetailViewController.swift; sourceTree = "<group>"; };
+		178A96E01A9E53DD000E74A9 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = SOURCE_ROOT; };
 		17967BD71A92A78100E48054 /* Course.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Course.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -95,6 +97,7 @@
 				1748F28E1A929B1F000ACBCF /* CourseDetailViewController.swift */,
 				1748F28C1A929ABC000ACBCF /* CoursesViewController.swift */,
 				1748F28A1A9299EE000ACBCF /* DepartmentViewController.swift */,
+				178A96E01A9E53DD000E74A9 /* SwiftyJSON.swift */,
 				1748F26D1A929496000ACBCF /* Images.xcassets */,
 				1748F26F1A929496000ACBCF /* LaunchScreen.xib */,
 				1748F2641A929496000ACBCF /* Supporting Files */,
@@ -230,6 +233,7 @@
 				17967BD81A92A78100E48054 /* Course.swift in Sources */,
 				1748F28F1A929B1F000ACBCF /* CourseDetailViewController.swift in Sources */,
 				1748F28B1A9299EE000ACBCF /* DepartmentViewController.swift in Sources */,
+				178A96E11A9E53DD000E74A9 /* SwiftyJSON.swift in Sources */,
 				1748F28D1A929ABC000ACBCF /* CoursesViewController.swift in Sources */,
 				1748F2691A929496000ACBCF /* ViewController.swift in Sources */,
 				1714C5EC1A950CEF00B74BAC /* Department(List).swift in Sources */,

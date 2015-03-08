@@ -11,29 +11,99 @@ import Foundation
 class Course {
     var crn: NSString;
     var title: NSString;
-    var department: NSString;
+    var term_desc: NSString;
+    var term: NSString;
+    var dept: NSString;
     var location: NSString;
-    var time_stamp: NSString;
-    var description: NSString;
-    var professor: NSString;
-    var booklist: [NSString];
-    var course_links: [String: String];
+    var meeting_time: NSString;
+    //var description: NSString;
+    var instructor: NSString;
+    var booklist: NSString;
+    //var course_links: [String: String];
     
     var numStudentsRegistered: NSInteger; //number of students registered
     var numStudentsAllowed: NSInteger; //number of students allowed
     
-    init (courseDict: NSDictionary) {
-        crn = courseDict.objectForKey("crn")! as NSString
-        title = courseDict.objectForKey("title")! as NSString
-        department = courseDict.objectForKey("department")! as NSString
-        location = courseDict.objectForKey("location")! as NSString
-        time_stamp = courseDict.objectForKey("time_stamp")! as NSString
-        description = courseDict.objectForKey("description")! as NSString
-        professor = courseDict.objectForKey("professor")! as NSString
-        booklist = courseDict.objectForKey("booklist")! as [NSString]
-        course_links = courseDict.objectForKey("course_links")! as[String: String];
+    init (jsonCourse: JSON) {
+        if jsonCourse["crn"] != nil {
+            crn = jsonCourse["crn"].string!
+        } else {
+            //log some error
+            crn = "error"
+        }
         
-        numStudentsRegistered  = courseDict.objectForKey("registered")! as NSInteger;
-        numStudentsAllowed  = courseDict.objectForKey("allowed")! as NSInteger;
+        if jsonCourse["term_desc"] != nil {
+            term_desc = jsonCourse["tdesc"].string!
+        } else {
+            //log some error
+            term_desc = "error"
+        }
+        
+        if jsonCourse["dept"] != nil {
+            dept = jsonCourse["dept"].string!
+        } else {
+            //log some error
+            dept = "error"
+        }
+        
+        if jsonCourse["term"] != nil {
+            term = jsonCourse["term"].string!
+        } else {
+            //log some error
+            term = "error"
+        }
+        
+        if jsonCourse["title"] != nil {
+            title = jsonCourse["title"].string!
+        } else {
+            //log some error
+            title = "error"
+        }
+        
+        if jsonCourse["meetinglocation"] != nil {
+            location = jsonCourse["meetinglocation"].string!
+        } else {
+            //log some error
+            location = "error"
+        }
+        
+        if jsonCourse["meetingtime"] != nil {
+            meeting_time = jsonCourse["meetingtime"].string!
+        } else {
+            //log some error
+            meeting_time = "error"
+        }
+        
+        if jsonCourse["instructor"] != nil {
+            instructor = jsonCourse["instructor"].string!
+        } else {
+            //log some error
+            instructor = "error"
+        }
+        
+        if jsonCourse["booklist"] != nil {
+            booklist = jsonCourse["booklist"].string!
+        } else {
+            //log some error
+            booklist = "error"
+        }
+        
+        if jsonCourse["maxregallowed"] != nil {
+            numStudentsAllowed = jsonCourse["maxregallowed"].int!
+        } else {
+            //log some error
+            numStudentsAllowed = 1
+        }
+        
+        if jsonCourse["actualreg"] != nil {
+            numStudentsRegistered = jsonCourse["actualreg"].int!
+        } else {
+            //log some error
+            numStudentsRegistered = 1
+        }
+        
+        
+        //description = jsonCourse["desc"].string!
+        //course_links = jsonCourse["tdesc"].string!
     }
 }
