@@ -14,6 +14,7 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
     var alphabet_dict = Dictionary<String, Int>()
     var alphabet_count = [Int](count: 26, repeatedValue: 0);
     var courseList = [Course]();
+    var courseDetails = JSON("")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +29,7 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
             alphabet_dict[letter] = 0
         }
         
+        alphabetizeCourses()
         countSections()
     }
 
@@ -57,34 +59,32 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
+        let cell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "Cell")
         
         var row_increment = 0
         if (indexPath.section != 0){
             row_increment = alphabet_count[indexPath.section - 1]
         }
         
-        cell.textLabel?.text = courseList[row_increment + indexPath.row].title;
-        
-//        var title_label = UILabel(frame: CGRectMake(105, 0, 210, 40))
-//        title_label.text = dep_list[indexPath.row].name;
-//        cell.contentView.addSubview(title_label)
-        
+        var subjectParts = courseList[row_increment + indexPath.row].subjectc.componentsSeparatedByString(" ")
+        var meetingParts = courseList[row_increment + indexPath.row].meeting_time.componentsSeparatedByString(" ")
+        var meetingTime = meetingParts[3] + " " + meetingParts[4];
+        cell.textLabel?.text = subjectParts[1] + " " + subjectParts[2] + " " + meetingTime;
+        cell.detailTextLabel?.text = courseList[row_increment + indexPath.row].title;
+        cell.detailTextLabel?.lineBreakMode = NSLineBreakMode.ByWordWrapping;
+        cell.detailTextLabel?.numberOfLines = 0;
         
         return cell
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        var selectedCourse = CourseDetailViewController();
-        
         var row_increment = 0
         if (indexPath.section != 0){
             row_increment = alphabet_count[indexPath.section - 1]
         }
         
-        selectedCourse.course = courseList[indexPath.row + row_increment];
-        selectedCourse.navigationItem.title = selectedCourse.course?.title
-        navigationController?.pushViewController(selectedCourse, animated: true);
+        var course  = courseList[indexPath.row + row_increment];
+        getCourse(course.title, crn: course.crn)
     }
     
     
@@ -99,62 +99,6 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return alphabet[section]
     }
-
-
-    /*
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) as UITableViewCell
-
-        // Configure the cell...
-
-        return cell
-    }
-    */
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return NO if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return NO if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
-    }
-    */
     
     func countSections () {
         
@@ -178,20 +122,123 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
     }
     
     override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if (section == 0) {
-            return 0
-        } else {
-            if (alphabet_count[section] == 0) {
-                return 0
-            }
-            else if (section > 1) {
-                if (alphabet_count[section] == alphabet_count[section - 1]) {
-                    return 0
+        return 0;
+    }
+    
+    func alphabetizeCourses() {
+        self.courseList.sort({ $0.title < $1.title })
+    }
+    
+    //THIS WILL BE THE API CALL
+    func getCourse(title: String, crn: String) {
+        
+        //Something like this will be useful eventually
+        //let searchTerm = searchTerm.stringByReplacingOccurrencesOfString(" ", withString: "+", options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil)
+        
+        // Now escape anything else that isn't URL-friendly
+        //This will also be useful eventually
+        //if let escapedSearchTerm = itunesSearchTerm.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding) {
+        
+        
+        let urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/courses?term=201420&crn=" + crn
+        let url = NSURL(string: urlPath)
+        let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: nil, delegateQueue: NSOperationQueue.mainQueue())
+        let task = session.dataTaskWithURL(url!, completionHandler: {data, response, error -> Void in
+            if(error != nil) {
+                // If there is an error in the web request, print it to the console
+                println(error.localizedDescription)
+                return;
+            } else {
+                var err: NSError?
+                
+                var jsonResult = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: &err) as NSDictionary
+                if(err != nil) {
+                    // If there is an error parsing JSON, print it to the console
+                    println("JSON Error \(err!.localizedDescription)")
                 }
+                self.courseDetails = JSON(jsonResult)
+                let count: Int? = self.courseDetails["items"].array?.count
+                
+                var detailsCourse = CourseDetailViewController();
+                var courseRequest = Course(jsonCourse: self.courseDetails["items"][0])
+                detailsCourse.course = courseRequest;
+                self.navigationController?.pushViewController(detailsCourse, animated: true);
+                return;
             }
-            return 20
+            
+        })
+        
+        task.resume()
+    }
+    
+    
+    /* This function is a workaround for CIS's bad SSL*/
+    func URLSession(session: NSURLSession!, didReceiveChallenge challenge: NSURLAuthenticationChallenge!, completionHandler: ((NSURLSessionAuthChallengeDisposition, NSURLCredential!) -> Void)!) {
+        if challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust && challenge.protectionSpace.host == "ords-dev.brown.edu" {
+            let credential = NSURLCredential(forTrust: challenge.protectionSpace.serverTrust)
+            challenge.sender.useCredential(credential, forAuthenticationChallenge: challenge)
+            completionHandler(.UseCredential, NSURLCredential(forTrust: challenge.protectionSpace.serverTrust))
+        } else {
+            challenge.sender.performDefaultHandlingForAuthenticationChallenge!(challenge)
         }
         
+        
     }
-
+    
+    
+    
+    /*
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) as UITableViewCell
+    
+    // Configure the cell...
+    
+    return cell
+    }
+    */
+    
+    /*
+    // Override to support conditional editing of the table view.
+    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    // Return NO if you do not want the specified item to be editable.
+    return true
+    }
+    */
+    
+    /*
+    // Override to support editing the table view.
+    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+    if editingStyle == .Delete {
+    // Delete the row from the data source
+    tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+    } else if editingStyle == .Insert {
+    // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+    }
+    }
+    */
+    
+    /*
+    // Override to support rearranging the table view.
+    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
+    
+    }
+    */
+    
+    /*
+    // Override to support conditional rearranging of the table view.
+    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    // Return NO if you do not want the item to be re-orderable.
+    return true
+    }
+    */
+    
+    /*
+    // MARK: - Navigation
+    
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+    }
+    */
 }

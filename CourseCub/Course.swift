@@ -11,11 +11,12 @@ import Foundation
 class Course {
     var crn: NSString;
     var title: String;
+    var subjectc: String;
     var term_desc: NSString;
     var term: NSString;
     var dept: NSString;
     var location: NSString;
-    var meeting_time: NSString;
+    var meeting_time: String;
     //var description: NSString;
     var instructor: NSString;
     var booklist: NSString;
@@ -58,6 +59,13 @@ class Course {
         } else {
             //log some error
             title = "error"
+        }
+        
+        if jsonCourse["subjectc"] != nil {
+            subjectc = jsonCourse["subjectc"].string!
+        } else {
+            //log some error
+            subjectc = "error"
         }
         
         if jsonCourse["meetinglocation"] != nil {

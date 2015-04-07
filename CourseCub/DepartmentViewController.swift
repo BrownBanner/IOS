@@ -33,7 +33,6 @@ class DepartmentViewController: UITableViewController, UITableViewDataSource, UI
             alphabet_dict[letter] = 0
         }
         
-        
         countSections()
         
     }
@@ -65,7 +64,7 @@ class DepartmentViewController: UITableViewController, UITableViewDataSource, UI
 
     
     //THIS WILL BE THE API CALL
-    func getClassesByDepartment(depAbbrev: String?) {
+    func getClassesByDepartment(depAbbrev: String?, department: String) {
         
         //Something like this will be useful eventually
         //let searchTerm = searchTerm.stringByReplacingOccurrencesOfString(" ", withString: "+", options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil)
@@ -73,46 +72,50 @@ class DepartmentViewController: UITableViewController, UITableViewDataSource, UI
         // Now escape anything else that isn't URL-friendly
         //This will also be useful eventually
         //if let escapedSearchTerm = itunesSearchTerm.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding) {
-            let urlPath = "https://ords-dev.brown.edu/dprd/banner/mobile/courses?term=201420"
-            let depURLPath = urlPath + "&dept=" + depAbbrev!
-            let url = NSURL(string: depURLPath)
-            //let session = NSURLSession.sharedSession()
-            let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: self, delegateQueue: nil)
+        
+        
+//            let urlPath = "http://blooming-bastion-7117.herokuapp.com/courses?term=201420"
+            let urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/courses?term=201420&dept=" + depAbbrev!
+            let url = NSURL(string: urlPath)
+            let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: nil, delegateQueue: NSOperationQueue.mainQueue())
             let task = session.dataTaskWithURL(url!, completionHandler: {data, response, error -> Void in
-                println("Task completed")
                 if(error != nil) {
                     // If there is an error in the web request, print it to the console
                     println(error.localizedDescription)
                     return;
-                }
-                var err: NSError?
-                
-                var jsonResult = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: &err) as NSDictionary
-                if(err != nil) {
-                    // If there is an error parsing JSON, print it to the console
-                    println("JSON Error \(err!.localizedDescription)")
-                }
-                self.courseList = JSON(jsonResult)
-                let count: Int? = self.courseList["items"].array?.count
-                println("found \(count!) challenges")
-                
-                if let ct = count {
-                    for index in 0...ct-1 {
-                        // println(json["data"][index]["challengeName"].string!)
-                        if let name = self.courseList["data"][index]["challengeName"].string {
-                            println(name)
-                        }
-                        
+                } else {
+                    var err: NSError?
+                    
+                    var jsonResult = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: &err) as NSDictionary
+                    if(err != nil) {
+                        // If there is an error parsing JSON, print it to the console
+                        println("JSON Error \(err!.localizedDescription)")
                     }
+                    self.courseList = JSON(jsonResult)
+                    let count: Int? = self.courseList["items"].array?.count
+                
+                    /*let results: NSArray = jsonResult["results"] as NSArray
+                    dispatch_async(dispatch_get_main_queue(), {
+                        self.tableData = results
+                        self.tableView!.reloadData()
+                    })*/
+                    
+                    var selectedCourses = CoursesViewController();
+                    var selected_course_list = [Course]();
+                    
+                    for (index: String, courseJson: JSON) in self.courseList["items"] {
+                        var new_course = Course(jsonCourse: courseJson)
+                        selected_course_list.append(new_course)
+                    }
+                    selectedCourses.courseList = selected_course_list;
+                    selectedCourses.navigationItem.title = department;
+                    self.navigationController?.pushViewController(selectedCourses, animated: true);
+                    return;
                 }
-                /*let results: NSArray = jsonResult["results"] as NSArray
-                dispatch_async(dispatch_get_main_queue(), {
-                    self.tableData = results
-                    self.tableView!.reloadData()
-                })*/
+
             })
+        
             task.resume()
-        //}
     }
     
     
@@ -140,8 +143,7 @@ class DepartmentViewController: UITableViewController, UITableViewDataSource, UI
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
-
+        let cell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "Cell")
         
         var row_increment = 0
         if (indexPath.section != 0){
@@ -149,95 +151,27 @@ class DepartmentViewController: UITableViewController, UITableViewDataSource, UI
         }
         
         cell.textLabel?.text = dep_list[row_increment + indexPath.row].abbrev;
-        
-        var title_label = UILabel(frame: CGRectMake(105, 0, 210, 40))
-        title_label.text = dep_list[row_increment + indexPath.row].name;
-
-        cell.contentView.addSubview(title_label)
-        
-
+        cell.detailTextLabel?.text = dep_list[row_increment + indexPath.row].name;
         return cell
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let cell = tableView.cellForRowAtIndexPath(indexPath)
         let abbrev = cell?.textLabel?.text!
-        var selected_course_list = [Course]()
         var department = "Test Department";
-        getClassesByDepartment(abbrev)
+        
         for item in dep_list {
             if (item.abbrev == abbrev!) {
                 department = item.name;
-                for jsonobj in self.courseList["items"] {
-                    //var new_course = Course(jsonCourse: jsonobj)
-                }
-                
-                for letter in alphabet {
-                    let fake_data = NSData()
-                    let fake_json = JSON(fake_data);
-                    var temp_course = Course(jsonCourse: fake_json)
-                    temp_course.title = letter
-                    selected_course_list.append(temp_course)
-                }
             }
         }
-        var selectedCourses = CoursesViewController();
-        selectedCourses.courseList = selected_course_list;
-        selectedCourses.navigationItem.title = department;
-        navigationController?.pushViewController(selectedCourses, animated: true);
-    }
 
+        getClassesByDepartment(abbrev, department: department);
+    }
+    
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return alphabet[section]
     }
-
-
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return NO if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return NO if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
-    }
-    */
-    
     
     //Check the first letters of each item in the departmentAbbrevArray, change the letter to a number corresponding to the section numbers, and then use those numbers to count the number of items in each alphabetical section. UGH.
     func countSections () {
@@ -260,6 +194,7 @@ class DepartmentViewController: UITableViewController, UITableViewDataSource, UI
         }
     }
     
+    
     override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if (section == 0) {
             return 0
@@ -272,11 +207,8 @@ class DepartmentViewController: UITableViewController, UITableViewDataSource, UI
                     return 0
                 }
             }
-           return 20
+            return 20
         }
         
     }
-    
-    
-
 }
