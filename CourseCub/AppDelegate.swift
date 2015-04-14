@@ -115,6 +115,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         
+        var cache: LocalSubstitutionCache = LocalSubstitutionCache()
+        NSURLCache.setSharedURLCache(cache)
+        
         return true
     }
 

@@ -9,8 +9,8 @@
 import UIKit
 
 class CourseDetailViewController: UIViewController  {
-    
-    var course: Course?
+
+    var course = Course(jsonCourse: JSON(""));
     
     @IBOutlet weak var className: UILabel!
     @IBOutlet weak var classTime: UILabel!
@@ -24,18 +24,18 @@ class CourseDetailViewController: UIViewController  {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         //Populates all UILabels with data
-        className.text = course?.title
-        classTime.text = course?.meeting_time
-        classRoom.text = course?.location
-        professor.text = course?.instructor
-        //courseDetails.text = course?.description
-        crn.text = course?.crn
-        //TODO: seats avilable and seats registered (not sure how we want to display yet)
-        //TODO: Registered or not for each user (need to model user first)
-        
-        
+//        self.className.text = course.title
+//        self.classTime.text = course.meeting_time
+//        self.classRoom.text = course.location
+//        self.professor.text = course.instructor
+//        //courseDetails.text = course?.description
+//        self.crn.text = course.crn
+//        
+        var titleLabel = UILabel(frame: CGRectMake(10, 40, 200, 100))
+        titleLabel.text = course.instructor
+        self.view.addSubview(titleLabel)
+        self.view.backgroundColor = UIColor.whiteColor()
 
         // Do any additional setup after loading the view.
     }
