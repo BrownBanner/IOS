@@ -17,6 +17,7 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
     var abbrev = ""
     var jsonCourseList = JSON("")
     var courseList = [Course]();
+    var spinner = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +32,10 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
             alphabet_dict[letter] = 0
         }
         
+        self.spinner.center = CGPointMake(self.view.frame.width / 2, 20)
+        self.spinner.hidesWhenStopped = true;
+        self.view.addSubview(spinner)
+        spinner.startAnimating()
         getClassesByDepartment(self.abbrev, department: self.department)
     
     }
@@ -151,6 +156,7 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
                 
                 self.sortCourses()
                 self.countSections()
+                self.spinner.stopAnimating()
                 self.tableView.reloadData()
                 return;
             }
