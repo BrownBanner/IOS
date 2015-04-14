@@ -7,3 +7,16 @@
 //
 
 import Foundation
+import UIKit
+
+class WebViewController: UIViewController, UIWebViewDelegate {
+    
+    var URL: String = "";
+    override func viewDidLoad() {
+        let requestURL = NSURL(string: URL)
+        let request = NSURLRequest(URL: requestURL!)
+//        Webview?.delegate = self
+//        Webview?.loadRequest(request)
+    }
+    
+}

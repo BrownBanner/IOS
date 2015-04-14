@@ -11,6 +11,9 @@ import Foundation
 class Course {
     var crn: NSString;
     var title: String;
+    var description: String;
+    var course_preview: String;
+    var critical_review: String;
     var subjectc: String;
     var term_desc: NSString;
     var term: NSString;
@@ -22,8 +25,8 @@ class Course {
     var booklist: NSString;
     //var course_links: [String: String];
     
-    var numStudentsRegistered: NSInteger; //number of students registered
-    var numStudentsAllowed: NSInteger; //number of students allowed
+    var numStudentsRegistered: Int; //number of students registered
+    var numStudentsAllowed: Int; //number of students allowed
     
     init (jsonCourse: JSON) {
         if jsonCourse["crn"] != nil {
@@ -31,6 +34,29 @@ class Course {
         } else {
             //log some error
             crn = "error"
+        }
+        
+        if jsonCourse["course_preview"] != nil {
+            course_preview = jsonCourse["course_preview"].string!
+        } else {
+            //log some error
+            course_preview = "error"
+        }
+        
+        if jsonCourse["critical_review"] != nil {
+            critical_review = jsonCourse["critical_review"].string!
+        } else {
+            //log some error
+            critical_review = "error"
+        }
+        
+        
+        
+        if jsonCourse["description"] != nil {
+            description = jsonCourse["description"].string!
+        } else {
+            //log some error
+            description = "error"
         }
         
         if jsonCourse["term_desc"] != nil {

@@ -29,7 +29,7 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
             alphabet_dict[letter] = 0
         }
         
-        alphabetizeCourses()
+        sortCourses()
         countSections()
     }
 
@@ -84,7 +84,11 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
         }
         
         var course  = courseList[indexPath.row + row_increment];
-        getCourse(course.title, crn: course.crn)
+//        getCourse(course.title, crn: course.crn as String)
+         var detailsCourse = CourseDetailViewController();
+        detailsCourse.course = course;
+        detailsCourse.navigationItem.title = course.subjectc
+        self.navigationController?.pushViewController(detailsCourse, animated: true);
     }
     
     
@@ -125,8 +129,12 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
         return 0;
     }
     
-    func alphabetizeCourses() {
-        self.courseList.sort({ $0.title < $1.title })
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath  indexPath: NSIndexPath) -> CGFloat {
+        return 60;
+    }
+    
+    func sortCourses() {
+        self.courseList.sort({ $0.subjectc < $1.subjectc })
     }
     
     //THIS WILL BE THE API CALL
@@ -151,7 +159,7 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
             } else {
                 var err: NSError?
                 
-                var jsonResult = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: &err) as NSDictionary
+                var jsonResult = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: &err) as! NSDictionary
                 if(err != nil) {
                     // If there is an error parsing JSON, print it to the console
                     println("JSON Error \(err!.localizedDescription)")
@@ -162,6 +170,7 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
                 var detailsCourse = CourseDetailViewController();
                 var courseRequest = Course(jsonCourse: self.courseDetails["items"][0])
                 detailsCourse.course = courseRequest;
+//                detailsCourse.navigationItem.title = detailsCourse
                 self.navigationController?.pushViewController(detailsCourse, animated: true);
                 return;
             }

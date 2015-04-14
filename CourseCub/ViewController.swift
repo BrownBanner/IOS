@@ -50,7 +50,6 @@ class ViewController: UIViewController, UIWebViewDelegate {
     }
    
     func webViewDidStartLoad(webView : UIWebView) {
-
     }
     
     func webViewDidFinishLoad(webView : UIWebView) {
