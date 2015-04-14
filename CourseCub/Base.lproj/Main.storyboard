@@ -91,7 +91,6 @@
         <!--Details-->
         <scene sceneID="YFp-QU-cQm">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="TZS-AG-jKK" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController title="Details" id="7BW-KW-d66" customClass="CourseDetailViewController" customModule="CourseCub" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="0ua-gF-PLk"/>
@@ -106,6 +105,7 @@
                         <outlet property="detailsView" destination="26b-dH-zop" id="b8r-Ps-9C0"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TZS-AG-jKK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2155" y="421"/>
         </scene>
