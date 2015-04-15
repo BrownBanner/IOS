@@ -84,7 +84,7 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
         }
         
         var course  = courseList[indexPath.row + row_increment];
-        getCourse(course.title, crn: course.crn)
+        getCourse(course.title, crn: course.crn as String)
     }
     
     
@@ -151,7 +151,7 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
             } else {
                 var err: NSError?
                 
-                var jsonResult = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: &err) as NSDictionary
+                var jsonResult = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: &err) as! NSDictionary
                 if(err != nil) {
                     // If there is an error parsing JSON, print it to the console
                     println("JSON Error \(err!.localizedDescription)")

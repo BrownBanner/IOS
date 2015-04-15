@@ -23,14 +23,14 @@ class LocalSubstitutionCache: NSURLCache {
     override func cachedResponseForRequest(request: NSURLRequest) -> NSCachedURLResponse? {
         
         let subs = ["https://sso.cis-qas.brown.edu/idp/css/shib.css":"shib.css"]
-        var pathString: NSString = request.URL.absoluteString!
+        var pathString: NSString = request.URL!.absoluteString!
         
         
         if pathString != "https://sso.cis-qas.brown.edu/idp/css/shib.css" {
             return super.cachedResponseForRequest(request)
         }
         
-        let substitutionFileName: NSString = subs[pathString]!
+        let substitutionFileName: NSString = subs[pathString as String]!
         
         if substitutionFileName.length == 0 {
             return super.cachedResponseForRequest(request)
@@ -54,13 +54,13 @@ class LocalSubstitutionCache: NSURLCache {
         
         assert(substitutionFilePath.length != 0, "File path Doesn't Exist")
         
-        let data: NSData = (NSData.dataWithContentsOfMappedFile(substitutionFilePath) as NSData)
+        let data: NSData = (NSData.dataWithContentsOfMappedFile(substitutionFilePath as String) as! NSData)
         
-        let response: NSURLResponse = NSURLResponse.self.init(URL: request.URL,MIMEType: mimeTypeForPath(pathString),expectedContentLength: data.length,textEncodingName: nil)
+        let response: NSURLResponse = NSURLResponse.self.init(URL: request.URL!,MIMEType: mimeTypeForPath(pathString) as String,expectedContentLength: data.length,textEncodingName: nil)
         cachedResponse = NSCachedURLResponse.self.init(response: response,data: data)
         
         if (cachedResponses.count == 0) {
-            cachedResponses.setValue(cachedResponse, forKey: pathString)
+            cachedResponses.setValue(cachedResponse, forKey: pathString as String)
         }
         
         return cachedResponse

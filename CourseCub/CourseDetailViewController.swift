@@ -33,7 +33,7 @@ class CourseDetailViewController: UIViewController  {
 //        self.crn.text = course.crn
 //        
         var titleLabel = UILabel(frame: CGRectMake(10, 40, 200, 100))
-        titleLabel.text = course.instructor
+        titleLabel.text = course.instructor as String
         self.view.addSubview(titleLabel)
         self.view.backgroundColor = UIColor.whiteColor()
 

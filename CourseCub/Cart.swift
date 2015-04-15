@@ -15,12 +15,12 @@ class Cart {
     
     init (cartDict: NSDictionary) {
         if(cartDict.objectForKey("title") != nil){
-            title = cartDict.objectForKey("title")! as String
+            title = cartDict.objectForKey("title")! as! String
         }else{
             title = "Noah's Awesome Cart"
         }
         synced = true;
-        courseArray = cartDict.objectForKey("courses")! as [Course]
+        courseArray = cartDict.objectForKey("courses")as! [Course]
     }
     
     /**
