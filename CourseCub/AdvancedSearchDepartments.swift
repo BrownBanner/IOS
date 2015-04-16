@@ -8,9 +8,7 @@
 
 import UIKit
 
-var dep_list = appDelegate.department_list
-
-class DepartmentViewController: UITableViewController, UITableViewDataSource, UITableViewDelegate, NSURLSessionDelegate {
+class AdvancedSearchDepartments: UITableViewController, UITableViewDataSource, UITableViewDelegate {
     var alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
     var alphabet_dict = Dictionary<String, Int>()
     var alphabet_count = [Int](count: 26, repeatedValue: 0);
@@ -22,10 +20,6 @@ class DepartmentViewController: UITableViewController, UITableViewDataSource, UI
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "department")
-        // Uncomment the following line to preserve selection between presentations
-        self.clearsSelectionOnViewWillAppear = false
-
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         
@@ -36,20 +30,20 @@ class DepartmentViewController: UITableViewController, UITableViewDataSource, UI
         countSections()
         
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
     // MARK: - Table view data source
-
+    
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
         return alphabet.count
     }
-
+    
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
@@ -63,19 +57,6 @@ class DepartmentViewController: UITableViewController, UITableViewDataSource, UI
     }
     
     
-    /* This function is a workaround for CIS's bad SSL*/
-    func URLSession(session: NSURLSession!, didReceiveChallenge challenge: NSURLAuthenticationChallenge!, completionHandler: ((NSURLSessionAuthChallengeDisposition, NSURLCredential!) -> Void)!) {
-        if challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust && challenge.protectionSpace.host == "ords-dev.brown.edu" {
-            let credential = NSURLCredential(forTrust: challenge.protectionSpace.serverTrust)
-            challenge.sender.useCredential(credential, forAuthenticationChallenge: challenge)
-            completionHandler(.UseCredential, NSURLCredential(forTrust: challenge.protectionSpace.serverTrust))
-        } else {
-            challenge.sender.performDefaultHandlingForAuthenticationChallenge!(challenge)
-        }
-        
-        
-    }
-    
     
     override func sectionIndexTitlesForTableView(tableView: UITableView) -> [AnyObject]! {
         return self.alphabet
@@ -84,11 +65,12 @@ class DepartmentViewController: UITableViewController, UITableViewDataSource, UI
     override func tableView(tableView: UITableView, sectionForSectionIndexTitle title: String, atIndex index: Int) -> Int {
         return index
     }
-
+    
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "Cell")
         
+        cell.selectionStyle = UITableViewCellSelectionStyle.None;
         var row_increment = 0
         if (indexPath.section != 0){
             row_increment = alphabet_count[indexPath.section - 1]
@@ -96,27 +78,16 @@ class DepartmentViewController: UITableViewController, UITableViewDataSource, UI
         
         cell.textLabel?.text = dep_list[row_increment + indexPath.row].abbrev;
         cell.detailTextLabel?.text = dep_list[row_increment + indexPath.row].name;
+        
+        var searchSwitch = UISwitch(frame: CGRectMake(self.view.frame.width - 80, 5, 30, 20))
+        
+        cell.contentView.addSubview(searchSwitch);
+        
         return cell
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let cell = tableView.cellForRowAtIndexPath(indexPath)
-        let abbrev = cell?.textLabel?.text!
-        var department = "Test Department";
-        
-        for item in dep_list {
-            if (item.abbrev == abbrev!) {
-                department = item.name;
-            }
-        }
-
-        let sb = UIStoryboard(name: "Main", bundle:nil)
-        let selectedCourses = sb.instantiateViewControllerWithIdentifier("coursesViewController") as! CoursesViewController
-        selectedCourses.department = department;
-        selectedCourses.abbrev = abbrev!;
-        selectedCourses.navigationItem.title = abbrev!;
-        self.navigationController?.pushViewController(selectedCourses, animated: true);
-
+    
     }
     
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {

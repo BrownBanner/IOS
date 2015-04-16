@@ -19,6 +19,8 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
     var courseList = [Course]();
     var spinner = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
     
+    @IBOutlet var advancedSearchCourse: UIBarButtonItem!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -91,7 +93,7 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
         }
         
         var course  = courseList[indexPath.row + row_increment];
-         var detailsCourse = CourseDetailViewController();
+        var detailsCourse = CourseDetailViewController();
         detailsCourse.course = course;
         detailsCourse.navigationItem.title = course.subjectc
         self.navigationController?.pushViewController(detailsCourse, animated: true);
