@@ -36,7 +36,7 @@ class ViewController: UIViewController, UIWebViewDelegate {
     }
     
     @IBAction func nextPage(sender: AnyObject) {
-        self.performSegueWithIdentifier("CalToDep", sender: nil)
+        self.performSegueWithIdentifier("loginToCal", sender: nil)
     }
     override func viewDidLoad() {
         super.viewDidLoad()
