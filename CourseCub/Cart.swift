@@ -20,7 +20,7 @@ class Cart {
             title = "Noah's Awesome Cart"
         }
         synced = true;
-        courseArray = cartDict.objectForKey("courses")as! [Course]
+        courseArray = cartDict.objectForKey("courses")! as! [Course]
     }
     
     /**

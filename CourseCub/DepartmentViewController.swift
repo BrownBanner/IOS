@@ -11,7 +11,6 @@ import UIKit
 var dep_list = appDelegate.department_list
 
 class DepartmentViewController: UITableViewController, UITableViewDataSource, UITableViewDelegate, NSURLSessionDelegate {
-    var courseList = JSON("")
     var alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
     var alphabet_dict = Dictionary<String, Int>()
     var alphabet_count = [Int](count: 26, repeatedValue: 0);
@@ -32,6 +31,22 @@ class DepartmentViewController: UITableViewController, UITableViewDataSource, UI
         for letter in alphabet {
             alphabet_dict[letter] = 0
         }
+        
+        self.navigationController?.navigationBar.backgroundColor = UIColor(red: 0.9411, green: 0.3254, blue: 0.3254, alpha: 1)
+        self.navigationController?.navigationBar.barTintColor = UIColor(red: 0.9411, green: 0.3254, blue: 0.3254, alpha: 1)
+        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
+        self.navigationController!.navigationBar.translucent = false;
+        
+        self.view.backgroundColor = UIColor(red: 0.976, green: 0.972, blue: 0.956, alpha: 1)
+        tableView.sectionIndexBackgroundColor = UIColor(red: 0.976, green: 0.972, blue: 0.956, alpha: 1)
+        tableView.sectionIndexColor = UIColor(red: 0.2235, green: 0.1176, blue: 0.1058, alpha: 1);
+        
+        var backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
+        self.navigationItem.backBarButtonItem = backButton;
+    
+        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor(),
+            NSFontAttributeName: UIFont(name: "Avenir-Roman", size: 20)!]
+    
         
         countSections()
         
@@ -61,63 +76,6 @@ class DepartmentViewController: UITableViewController, UITableViewDataSource, UI
         }
         return alphabet_dict[letter]!
     }
-
-    
-    //THIS WILL BE THE API CALL
-    func getClassesByDepartment(depAbbrev: String?, department: String) {
-        
-        //Something like this will be useful eventually
-        //let searchTerm = searchTerm.stringByReplacingOccurrencesOfString(" ", withString: "+", options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil)
-        
-        // Now escape anything else that isn't URL-friendly
-        //This will also be useful eventually
-        //if let escapedSearchTerm = itunesSearchTerm.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding) {
-        
-        
-//            let urlPath = "http://blooming-bastion-7117.herokuapp.com/courses?term=201420"
-            let urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/courses?term=201420&dept=" + depAbbrev!
-            let url = NSURL(string: urlPath)
-            let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: nil, delegateQueue: NSOperationQueue.mainQueue())
-            let task = session.dataTaskWithURL(url!, completionHandler: {data, response, error -> Void in
-                if(error != nil) {
-                    // If there is an error in the web request, print it to the console
-                    println(error.localizedDescription)
-                    return;
-                } else {
-                    var err: NSError?
-                    
-                    var jsonResult = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: &err) as! NSDictionary
-                    if(err != nil) {
-                        // If there is an error parsing JSON, print it to the console
-                        println("JSON Error \(err!.localizedDescription)")
-                    }
-                    self.courseList = JSON(jsonResult)
-                    let count: Int? = self.courseList["items"].array?.count
-                
-                    /*let results: NSArray = jsonResult["results"] as NSArray
-                    dispatch_async(dispatch_get_main_queue(), {
-                        self.tableData = results
-                        self.tableView!.reloadData()
-                    })*/
-                    
-                    var selectedCourses = CoursesViewController();
-                    var selected_course_list = [Course]();
-                    
-                    for (index: String, courseJson: JSON) in self.courseList["items"] {
-                        var new_course = Course(jsonCourse: courseJson)
-                        selected_course_list.append(new_course)
-                    }
-                    selectedCourses.courseList = selected_course_list;
-                    selectedCourses.navigationItem.title = department;
-                    self.navigationController?.pushViewController(selectedCourses, animated: true);
-                    return;
-                }
-
-            })
-        
-            task.resume()
-    }
-    
     
     /* This function is a workaround for CIS's bad SSL*/
     func URLSession(session: NSURLSession!, didReceiveChallenge challenge: NSURLAuthenticationChallenge!, completionHandler: ((NSURLSessionAuthChallengeDisposition, NSURLCredential!) -> Void)!) {
@@ -151,7 +109,12 @@ class DepartmentViewController: UITableViewController, UITableViewDataSource, UI
         }
         
         cell.textLabel?.text = dep_list[row_increment + indexPath.row].abbrev;
+        cell.textLabel?.textColor = UIColor(red: 0.2235, green: 0.1176, blue: 0.1058, alpha: 1);
         cell.detailTextLabel?.text = dep_list[row_increment + indexPath.row].name;
+        cell.detailTextLabel?.textColor = UIColor(red: 0.2235, green: 0.1176, blue: 0.1058, alpha: 0.6);
+        cell.backgroundColor = UIColor(red: 0.976, green: 0.972, blue: 0.956, alpha: 1);
+        cell.textLabel?.font = UIFont(name: "Avenir-Roman", size: 18)
+        cell.detailTextLabel?.font = UIFont(name: "Avenir-Roman", size: 14)
         return cell
     }
     
@@ -166,12 +129,18 @@ class DepartmentViewController: UITableViewController, UITableViewDataSource, UI
             }
         }
 
-        getClassesByDepartment(abbrev, department: department);
+        var selectedCourses = CoursesViewController();
+        selectedCourses.department = department;
+        selectedCourses.abbrev = abbrev!;
+        selectedCourses.navigationItem.title = department;
+        self.navigationController?.pushViewController(selectedCourses, animated: true);
+
     }
     
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return alphabet[section]
     }
+    
     
     //Check the first letters of each item in the departmentAbbrevArray, change the letter to a number corresponding to the section numbers, and then use those numbers to count the number of items in each alphabetical section. UGH.
     func countSections () {

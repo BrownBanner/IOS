@@ -12,32 +12,176 @@ class CourseDetailViewController: UIViewController  {
 
     var course = Course(jsonCourse: JSON(""));
     
-    @IBOutlet weak var className: UILabel!
-    @IBOutlet weak var classTime: UILabel!
-    @IBOutlet weak var classRoom: UILabel!
-    @IBOutlet weak var professor: UILabel!
-    @IBOutlet weak var seatNum: UILabel!
-    @IBOutlet weak var availableLabel: UILabel!
-    @IBOutlet weak var courseDetails: UILabel!
-    @IBOutlet weak var crn: UILabel!
+    @IBOutlet var scrollView: UIView!
+    @IBOutlet var trueScrollView: UIScrollView!
+    @IBOutlet var seatsImage: UIImageView!
+    @IBOutlet var instructorImage: UIImageView!
+    @IBOutlet var locationImage: UIImageView!
+    @IBOutlet var meetingLabel: UILabel!
+    @IBOutlet var titleLabel: UILabel!
+    @IBOutlet var seatsLabel: UILabel!
+    @IBOutlet var instructorLabel: UILabel!
+    @IBOutlet var locationLabel: UILabel!
+    @IBOutlet var moreInfoImage: UIImageView!
     
+    @IBOutlet var lineOne: UIImageView!
+    @IBOutlet var lineTwo: UIImageView!
+    @IBOutlet var lineThree: UIImageView!
+    @IBOutlet var lineFour: UIImageView!
+    @IBOutlet var lineFive: UIImageView!
+    @IBOutlet var lineSix: UIImageView!
+    @IBOutlet var moreInfoText: UILabel!
+    @IBOutlet var descriptionLabel: UILabel!
+    
+    @IBOutlet var addToCartImage: UIBarButtonItem!
+
+    @IBAction func addToCart(sender: AnyObject) {
+    }
+    @IBOutlet var locationButton: UIButton!
+    @IBAction func locationClicked(sender: AnyObject) {
+    }
+    @IBOutlet var moreInfoButton: UIButton!
+    @IBAction func moreInfoClicked(sender: AnyObject) {
+    }
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        self.view.addSubview(trueScrollView)
+        self.trueScrollView.addSubview(self.scrollView)
+        self.scrollView.addSubview(seatsImage)
+        self.scrollView.addSubview(instructorImage)
+        self.scrollView.addSubview(locationImage)
+        self.scrollView.addSubview(meetingLabel)
+        self.scrollView.addSubview(titleLabel)
+        self.scrollView.addSubview(seatsLabel)
+        self.scrollView.addSubview(instructorLabel)
+        self.scrollView.addSubview(locationLabel)
+        self.scrollView.addSubview(moreInfoImage)
+        self.scrollView.addSubview(lineOne)
+        self.scrollView.addSubview(lineTwo)
+        self.scrollView.addSubview(lineThree)
+        self.scrollView.addSubview(lineFour)
+        self.scrollView.addSubview(lineFive)
+        self.scrollView.addSubview(lineSix)
+        self.scrollView.addSubview(moreInfoText)
+        self.scrollView.addSubview(descriptionLabel)
+        var leftConstraint = NSLayoutConstraint(item: self.scrollView, attribute: NSLayoutAttribute.Leading, relatedBy: NSLayoutRelation.Equal, toItem: self.view, attribute: NSLayoutAttribute.Left, multiplier: 1.0, constant: 0)
+        var rightConstraint = NSLayoutConstraint(item: self.scrollView, attribute: NSLayoutAttribute.Trailing, relatedBy: NSLayoutRelation.Equal, toItem: self.view, attribute: NSLayoutAttribute.Right, multiplier: 1.0, constant: 0)
+        self.view.addConstraint(leftConstraint)
+        self.view.addConstraint(rightConstraint)
+        self.navigationController?.navigationBar.backgroundColor = UIColor(red: 0.9411, green: 0.3254, blue: 0.3254, alpha: 1)
+        self.navigationController?.navigationBar.barTintColor = UIColor(red: 0.9411, green: 0.3254, blue: 0.3254, alpha: 1)
+        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
+        self.navigationController!.navigationBar.translucent = false;
+        
+        var backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
+        self.navigationItem.backBarButtonItem = backButton;
+        
+        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor(),
+            NSFontAttributeName: UIFont(name: "Avenir-Roman", size: 20)!]
+        
         //Populates all UILabels with data
-//        self.className.text = course.title
-//        self.classTime.text = course.meeting_time
-//        self.classRoom.text = course.location
-//        self.professor.text = course.instructor
-//        //courseDetails.text = course?.description
-//        self.crn.text = course.crn
-//        
-        var titleLabel = UILabel(frame: CGRectMake(10, 40, 200, 100))
-        titleLabel.text = course.instructor as String
-        self.view.addSubview(titleLabel)
-        self.view.backgroundColor = UIColor.whiteColor()
+        var meetingParts = course.meeting_time.componentsSeparatedByString(" ")
+        
 
-        // Do any additional setup after loading the view.
+
+        meetingLabel.text = meetingParts[3] + " " + meetingParts[4]
+    
+        instructorLabel.text = course.instructor as String
+        
+        seatsLabel.text = String(course.numStudentsRegistered) + " / " + String(course.numStudentsAllowed);
+        
+        locationLabel.text = course.location as String
+        
+        /*var coursePreviewLink = UIButton()
+        
+        var coursePreview = UIButton(frame: CGRectMake(10, 180, self.view.frame.size.width - 20, 40))
+        coursePreview.setTitle("Course Preview", forState: UIControlState.Normal)
+        coursePreview.addTarget(self, action: "viewCoursePreview:", forControlEvents: UIControlEvents.TouchUpInside)
+        coursePreview.backgroundColor = UIColor.blueColor()
+        self.view.addSubview(coursePreview)
+        
+        var criticalReview = UIButton(frame: CGRectMake(10, 220, self.view.frame.size.width - 20, 40))
+        criticalReview.setTitle("Critical Review", forState: UIControlState.Normal)
+        criticalReview.addTarget(self, action: "viewCriticalReview:", forControlEvents: UIControlEvents.TouchUpInside)
+        criticalReview.backgroundColor = UIColor.redColor()
+        self.view.addSubview(criticalReview)
+        
+        var bookList = UIButton(frame: CGRectMake(10, 260, self.view.frame.size.width - 20, 40))
+        bookList.setTitle("Book List", forState: UIControlState.Normal)
+        bookList.addTarget(self, action: "viewBookList:", forControlEvents: UIControlEvents.TouchUpInside)
+        bookList.backgroundColor = UIColor.greenColor()
+        self.view.addSubview(bookList)*/
+        
+
+        
+        //self.view.addSubview(descriptionLabel)
+        self.view.backgroundColor = UIColor(red: 0.976, green: 0.972, blue: 0.956, alpha: 1)
+        self.scrollView.backgroundColor = UIColor(red: 0.976, green: 0.972, blue: 0.956, alpha: 1)
+        
+        titleLabel.text = course.title as String
+        titleLabel.numberOfLines = 0;
+        titleLabel.preferredMaxLayoutWidth = titleLabel.frame.width
+        titleLabel.sizeToFit()
+        
+        
+        descriptionLabel.text = course.description as String
+        descriptionLabel.numberOfLines = 0;
+        descriptionLabel.preferredMaxLayoutWidth = descriptionLabel.frame.width
+        descriptionLabel.sizeToFit()
+        //self.scrollView.setNeedsUpdateConstraints()
+        
+        /*let screenSize: CGRect = UIScreen.mainScreen().bounds
+        let screenWidth = screenSize.width
+        let screenHeight = screenSize.height
+        self.trueScrollView.contentSize.width = screenWidth;
+        var frm = self.scrollView.frame
+        frm.size.width = screenWidth;
+        self.scrollView.frame = frm;*/
+
+        
+        
+
+    }
+    
+   override func viewWillLayoutSubviews()
+    {
+        super.viewWillLayoutSubviews();
+        titleLabel.preferredMaxLayoutWidth = titleLabel.frame.width
+        descriptionLabel.preferredMaxLayoutWidth = descriptionLabel.frame.width
+        super.viewWillLayoutSubviews()
+        
+        
+        /*titleLabel.text = course.title as String
+        titleLabel.numberOfLines = 0;
+        titleLabel.sizeToFit()
+        titleLabel.setNeedsDisplay()
+        titleLabel.setNeedsUpdateConstraints()
+        
+        descriptionLabel.text = course.description as String
+        descriptionLabel.numberOfLines = 0;
+        descriptionLabel.sizeToFit()
+        descriptionLabel.setNeedsDisplay()
+        descriptionLabel.setNeedsUpdateConstraints()
+        
+        self.scrollView.setNeedsDisplay()
+        self.scrollView.setNeedsUpdateConstraints()
+        self.trueScrollView.setNeedsDisplay()*/
+    }
+    
+    func viewCoursePreview(sender:UIButton!) {
+        
+    }
+    
+    func viewCriticalReview(sender:UIButton!) {
+        
+    }
+    
+    func viewBookList(sender:UIButton!) {
+        
     }
 
     override func didReceiveMemoryWarning() {

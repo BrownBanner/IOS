@@ -13,8 +13,11 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
     var alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
     var alphabet_dict = Dictionary<String, Int>()
     var alphabet_count = [Int](count: 26, repeatedValue: 0);
+    var department = ""
+    var abbrev = ""
+    var jsonCourseList = JSON("")
     var courseList = [Course]();
-    var courseDetails = JSON("")
+    var spinner = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,8 +32,25 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
             alphabet_dict[letter] = 0
         }
         
-        alphabetizeCourses()
-        countSections()
+        self.spinner.center = CGPointMake(self.view.frame.width / 2, 20)
+        self.spinner.hidesWhenStopped = true;
+        self.view.addSubview(spinner)
+        spinner.startAnimating()
+        getClassesByDepartment(self.abbrev, department: self.department)
+        
+        
+        self.view.backgroundColor = UIColor(red: 0.976, green: 0.972, blue: 0.956, alpha: 1)
+        tableView.sectionIndexBackgroundColor = UIColor(red: 0.976, green: 0.972, blue: 0.956, alpha: 1)
+        tableView.sectionIndexColor = UIColor(red: 0.2235, green: 0.1176, blue: 0.1058, alpha: 1);
+        
+        var backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
+        self.navigationItem.backBarButtonItem = backButton;
+        
+        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor(),
+            NSFontAttributeName: UIFont(name: "Avenir-Roman", size: 20)!]
+
+
+    
     }
 
     override func didReceiveMemoryWarning() {
@@ -65,7 +85,7 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
         if (indexPath.section != 0){
             row_increment = alphabet_count[indexPath.section - 1]
         }
-        
+
         var subjectParts = courseList[row_increment + indexPath.row].subjectc.componentsSeparatedByString(" ")
         var meetingParts = courseList[row_increment + indexPath.row].meeting_time.componentsSeparatedByString(" ")
         var meetingTime = meetingParts[3] + " " + meetingParts[4];
@@ -73,6 +93,12 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
         cell.detailTextLabel?.text = courseList[row_increment + indexPath.row].title;
         cell.detailTextLabel?.lineBreakMode = NSLineBreakMode.ByWordWrapping;
         cell.detailTextLabel?.numberOfLines = 0;
+        cell.backgroundColor = UIColor(red: 0.976, green: 0.972, blue: 0.956, alpha: 1);
+        cell.textLabel?.textColor = UIColor(red: 0.2235, green: 0.1176, blue: 0.1058, alpha: 1);
+        cell.detailTextLabel?.textColor = UIColor(red: 0.2235, green: 0.1176, blue: 0.1058, alpha: 0.6);
+        
+        cell.textLabel?.font = UIFont(name: "Avenir-Roman", size: 18)
+        cell.detailTextLabel?.font = UIFont(name: "Avenir-Roman", size: 14)
         
         return cell
     }
@@ -84,7 +110,12 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
         }
         
         var course  = courseList[indexPath.row + row_increment];
-        getCourse(course.title, crn: course.crn as String)
+        
+        let sb = UIStoryboard(name: "Main", bundle: nil)
+        let detailsCourse = sb.instantiateViewControllerWithIdentifier("courseDetail") as! CourseDetailViewController
+        detailsCourse.course = course;
+        detailsCourse.navigationItem.title = course.subjectc
+        self.navigationController?.pushViewController(detailsCourse, animated: true)
     }
     
     
@@ -99,6 +130,63 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return alphabet[section]
     }
+    
+    //THIS WILL BE THE API CALL
+    func getClassesByDepartment(depAbbrev: String?, department: String) {
+        
+        //Something like this will be useful eventually
+        //let searchTerm = searchTerm.stringByReplacingOccurrencesOfString(" ", withString: "+", options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil)
+        
+        // Now escape anything else that isn't URL-friendly
+        //This will also be useful eventually
+        //if let escapedSearchTerm = itunesSearchTerm.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding) {
+        
+        
+        //            let urlPath = "http://blooming-bastion-7117.herokuapp.com/courses?term=201420"
+        let urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/courses?term=201420&dept=" + depAbbrev!
+        let url = NSURL(string: urlPath)
+        let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: nil, delegateQueue: NSOperationQueue.mainQueue())
+        let task = session.dataTaskWithURL(url!, completionHandler: {data, response, error -> Void in
+            if(error != nil) {
+                // If there is an error in the web request, print it to the console
+                println(error.localizedDescription)
+                return;
+            } else {
+                var err: NSError?
+                
+                var jsonResult = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: &err) as! NSDictionary
+                if(err != nil) {
+                    // If there is an error parsing JSON, print it to the console
+                    println("JSON Error \(err!.localizedDescription)")
+                }
+                self.jsonCourseList = JSON(jsonResult)
+                let count: Int? = self.jsonCourseList["items"].array?.count
+                
+                /*let results: NSArray = jsonResult["results"] as NSArray
+                dispatch_async(dispatch_get_main_queue(), {
+                self.tableData = results
+                self.tableView!.reloadData()
+                })*/
+                
+                var selectedCourses = CoursesViewController();
+
+                for (index: String, courseJson: JSON) in self.jsonCourseList["items"] {
+                    var new_course = Course(jsonCourse: courseJson)
+                    self.courseList.append(new_course)
+                }
+                
+                self.sortCourses()
+                self.countSections()
+                self.spinner.stopAnimating()
+                self.tableView.reloadData()
+                return;
+            }
+            
+        })
+        
+        task.resume()
+    }
+    
     
     func countSections () {
         
@@ -125,51 +213,15 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
         return 0;
     }
     
-    func alphabetizeCourses() {
-        self.courseList.sort({ $0.title < $1.title })
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath  indexPath: NSIndexPath) -> CGFloat {
+        return 60;
     }
     
-    //THIS WILL BE THE API CALL
-    func getCourse(title: String, crn: String) {
-        
-        //Something like this will be useful eventually
-        //let searchTerm = searchTerm.stringByReplacingOccurrencesOfString(" ", withString: "+", options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil)
-        
-        // Now escape anything else that isn't URL-friendly
-        //This will also be useful eventually
-        //if let escapedSearchTerm = itunesSearchTerm.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding) {
-        
-        
-        let urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/courses?term=201420&crn=" + crn
-        let url = NSURL(string: urlPath)
-        let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: nil, delegateQueue: NSOperationQueue.mainQueue())
-        let task = session.dataTaskWithURL(url!, completionHandler: {data, response, error -> Void in
-            if(error != nil) {
-                // If there is an error in the web request, print it to the console
-                println(error.localizedDescription)
-                return;
-            } else {
-                var err: NSError?
-                
-                var jsonResult = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: &err) as! NSDictionary
-                if(err != nil) {
-                    // If there is an error parsing JSON, print it to the console
-                    println("JSON Error \(err!.localizedDescription)")
-                }
-                self.courseDetails = JSON(jsonResult)
-                let count: Int? = self.courseDetails["items"].array?.count
-                
-                var detailsCourse = CourseDetailViewController();
-                var courseRequest = Course(jsonCourse: self.courseDetails["items"][0])
-                detailsCourse.course = courseRequest;
-                self.navigationController?.pushViewController(detailsCourse, animated: true);
-                return;
-            }
-            
-        })
-        
-        task.resume()
+    func sortCourses() {
+        self.courseList.sort({ $0.subjectc < $1.subjectc })
     }
+    
+
     
     
     /* This function is a workaround for CIS's bad SSL*/
