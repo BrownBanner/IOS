@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>35BEEF4E-D830-4D0A-99FF-9BB559B5617E</string>
 	<key>IDESourceControlProjectName</key>
-	<string>project</string>
+	<string>CourseCub</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>B04D2FDD99E1840A8772DB178B334770160E09B9</key>
 		<string>https://github.com/BrownBanner/IOS.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>CourseCub.xcodeproj/project.xcworkspace</string>
+	<string>CourseCub.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>B04D2FDD99E1840A8772DB178B334770160E09B9</key>
@@ -34,7 +34,7 @@
 			<key>IDESourceControlWCCIdentifierKey</key>
 			<string>B04D2FDD99E1840A8772DB178B334770160E09B9</string>
 			<key>IDESourceControlWCCName</key>
-			<string>CourseCub</string>
+			<string>IOS</string>
 		</dict>
 	</array>
 </dict>
