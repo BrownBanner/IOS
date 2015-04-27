@@ -29,6 +29,7 @@ class CalendarViewController: UIViewController {
             menuButton.target = self.revealViewController()
             menuButton.action = "revealToggle:"
             self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+            self.revealViewController().rearViewRevealOverdraw = 0;
         }
     }
     
@@ -39,7 +40,6 @@ class CalendarViewController: UIViewController {
         
         for cookie in cookies {
             if (cookie.name == "IDMSESSID") {
-                print(cookie.value)
                 return cookie.value!
             }
         }

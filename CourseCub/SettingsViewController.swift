@@ -12,7 +12,7 @@ class SettingsViewController: UIViewController, UIPickerViewDataSource, UIPicker
     
     @IBOutlet weak var menuButton: UIBarButtonItem!
     @IBOutlet weak var termPicker: UIPickerView!
-    @IBOutlet weak var Logout: UIButton!
+    @IBOutlet weak var logoutButton: UIButton!
     
     var termArray = ["Spring 2014", "Fall 2014", "Spring 2015", "Fall 2015"]
     var termCode = ["201420", "201410", "201520", "201510"]
@@ -37,16 +37,34 @@ class SettingsViewController: UIViewController, UIPickerViewDataSource, UIPicker
         self.termPicker.selectRow(tempIndex as! Int, inComponent: 0, animated: true)
 
         if self.revealViewController() != nil {
+            self.revealViewController().rearViewRevealOverdraw = 0;
             menuButton.target = self.revealViewController()
             menuButton.action = "revealToggle:"
             self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
         }
+        
+        self.logoutButton.addTarget(self, action: Selector("logout:"), forControlEvents: UIControlEvents.TouchUpInside)
         
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func logout(sender: UIButton!) {
+        let sb = UIStoryboard(name: "Main", bundle: nil)
+        let loginVC = sb.instantiateViewControllerWithIdentifier("loginView") as! ViewController
+        
+        var cookie : NSHTTPCookie = NSHTTPCookie()
+        var cookieJar : NSHTTPCookieStorage = NSHTTPCookieStorage.sharedHTTPCookieStorage()
+        var cookies = cookieJar.cookies
+        
+        for cookie in cookies as! [NSHTTPCookie] {
+            cookieJar.deleteCookie(cookie)
+        }
+        
+        self.presentViewController(loginVC, animated: true, completion: nil)
     }
     
     

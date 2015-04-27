@@ -77,7 +77,7 @@ class MenuViewController: UITableViewController {
             let calVC = sb.instantiateViewControllerWithIdentifier("cal") as! CalendarViewController
             let calNAV = sb.instantiateViewControllerWithIdentifier("calNav") as! UINavigationController
             calNAV.setViewControllers([calVC], animated: false)
-            
+            self.revealViewController().rearViewRevealOverdraw = 0;
             var rvc = self.revealViewController()
             rvc.setFrontViewController(calNAV, animated: true)
             rvc.pushFrontViewController(calNAV, animated: true)

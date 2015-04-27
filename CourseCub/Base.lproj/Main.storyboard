@@ -8,7 +8,7 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="CourseCub" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="loginView" id="BYZ-38-t0r" customClass="ViewController" customModule="CourseCub" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -42,7 +42,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1318" y="421"/>
+            <point key="canvasLocation" x="-1354" y="421"/>
         </scene>
         <!--Advanced Search View Controller-->
         <scene sceneID="n1M-wh-M1s">
@@ -787,14 +787,20 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="E1K-9d-wxz">
-                                <rect key="frame" x="16" y="185" width="568" height="162"/>
+                                <rect key="frame" x="198" y="51" width="204" height="162"/>
                                 <connections>
                                     <outlet property="dataSource" destination="LUl-ra-xEk" id="by5-yz-0B0"/>
                                     <outlet property="delegate" destination="LUl-ra-xEk" id="Gzd-ar-KkU"/>
                                 </connections>
                             </pickerView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vjO-jT-2NV">
-                                <rect key="frame" x="277" y="409" width="82" height="30"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Select Course Term:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8HK-JC-546">
+                                <rect key="frame" x="16" y="121" width="162" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tk2-DW-hMb">
+                                <rect key="frame" x="16" y="230" width="117" height="30"/>
                                 <state key="normal" title="Logout">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -806,7 +812,7 @@
                         <barButtonItem key="leftBarButtonItem" image="Menu" id="fwA-HJ-GUg"/>
                     </navigationItem>
                     <connections>
-                        <outlet property="Logout" destination="vjO-jT-2NV" id="log-An-yqq"/>
+                        <outlet property="logoutButton" destination="Tk2-DW-hMb" id="iIA-nU-rhi"/>
                         <outlet property="menuButton" destination="fwA-HJ-GUg" id="wHV-tn-WlN"/>
                         <outlet property="termPicker" destination="E1K-9d-wxz" id="GXM-vs-4Y2"/>
                     </connections>
