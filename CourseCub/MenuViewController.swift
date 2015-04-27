@@ -83,7 +83,7 @@ class MenuViewController: UITableViewController {
             rvc.pushFrontViewController(calNAV, animated: true)
         }
         else if (indexPath.row == carts.count + 1) {
-         
+            addCart()
         }
         else {
             let sb = UIStoryboard(name: "Main", bundle: nil)
@@ -95,6 +95,31 @@ class MenuViewController: UITableViewController {
             rvc.setFrontViewController(settingsNAV, animated: true)
             rvc.pushFrontViewController(settingsNAV, animated: true)
         }
+    }
+    
+    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        if (indexPath.row > 0 && indexPath.row <= carts.count) {
+            return true
+        }
+        else {
+            return false
+        }
+    }
+    
+    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if (editingStyle == UITableViewCellEditingStyle.Delete) {
+            // Delete the row from the data source
+            carts.removeAtIndex(indexPath.row - 1)
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
+        }
+        else if (editingStyle == UITableViewCellEditingStyle.Insert) {
+            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+        }
+    }
+    
+    func addCart() {
+        self.carts.append(Cart(cartTitle:"New Cart", cartCourseArray: []))
+        self.tableView.reloadData()
     }
     
     func switchCart() {
