@@ -13,14 +13,19 @@ class Cart {
     var synced: Bool;//Set to true when any changes on the device side cart have been passed up to banner
     var courseArray: [Course];
     
-    init (cartDict: NSDictionary) {
-        if(cartDict.objectForKey("title") != nil){
-            title = cartDict.objectForKey("title")! as! String
+    init (cartTitle: String, cartCourseArray: [Course]) {
+        if(cartTitle != NSNull()){
+            self.title = cartTitle
         }else{
-            title = "Noah's Awesome Cart"
+            self.title = "Default Cart"
+        }
+        if(cartCourseArray != NSNull()) {
+            self.courseArray = cartCourseArray
+        } else {
+            self.courseArray = [Course]()
         }
         synced = true;
-        courseArray = cartDict.objectForKey("courses")! as! [Course]
+        
     }
     
     /**

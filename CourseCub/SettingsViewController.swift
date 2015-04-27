@@ -12,6 +12,7 @@ class SettingsViewController: UIViewController, UIPickerViewDataSource, UIPicker
     
     @IBOutlet weak var menuButton: UIBarButtonItem!
     @IBOutlet weak var termPicker: UIPickerView!
+    @IBOutlet weak var Logout: UIButton!
     
     var termArray = ["Spring 2014", "Fall 2014", "Spring 2015", "Fall 2015"]
     var termCode = ["201420", "201410", "201520", "201510"]
@@ -34,7 +35,7 @@ class SettingsViewController: UIViewController, UIPickerViewDataSource, UIPicker
         self.termPicker.dataSource = self
         self.termPicker.delegate = self
         self.termPicker.selectRow(tempIndex as! Int, inComponent: 0, animated: true)
-    
+
         if self.revealViewController() != nil {
             menuButton.target = self.revealViewController()
             menuButton.action = "revealToggle:"

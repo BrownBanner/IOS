@@ -222,7 +222,7 @@
         <!--Calendar-->
         <scene sceneID="8Je-Xs-ZjM">
             <objects>
-                <viewController id="IBx-Hu-bR6" customClass="CalendarViewController" customModule="CourseCub" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="cal" id="IBx-Hu-bR6" customClass="CalendarViewController" customModule="CourseCub" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="dSy-nb-23G"/>
                         <viewControllerLayoutGuide type="bottom" id="gLl-c2-eHf"/>
@@ -759,79 +759,11 @@
         <scene sceneID="fFT-xI-IE9">
             <objects>
                 <tableViewController id="5zS-RY-Qvx" customClass="MenuViewController" customModule="CourseCub" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="zCu-1B-iLZ">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="zCu-1B-iLZ">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <sections>
-                            <tableViewSection id="svP-G4-NlV">
-                                <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="Nei-M2-Bfx">
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Nei-M2-Bfx" id="5dg-jO-aeJ">
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="COURSE CUB" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lha-fU-0yT">
-                                                    <rect key="frame" x="8" y="11" width="124" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="qYS-Y9-Js3">
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qYS-Y9-Js3" id="hfg-eg-xWZ">
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Calendar" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tgC-hh-LM5">
-                                                    <rect key="frame" x="16" y="11" width="79" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="Eay-Pc-Jl9" kind="custom" customClass="SWRevealViewControllerSeguePushController" id="jkH-KT-ZW2"/>
-                                        </connections>
-                                    </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="yla-2n-E33">
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="yla-2n-E33" id="7Sr-0l-x0b">
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Term" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Zt-PZ-jGB">
-                                                    <rect key="frame" x="17" y="11" width="109" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="ReR-pQ-ICY" kind="custom" customClass="SWRevealViewControllerSeguePushController" id="3dZ-HF-Pjd"/>
-                                        </connections>
-                                    </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="Rcy-u9-HiH">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Rcy-u9-HiH" id="HYH-ir-AAF">
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Logout" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IK1-tv-2UO">
-                                                    <rect key="frame" x="18" y="11" width="66" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
-                        </sections>
+                        <sections/>
                         <connections>
                             <outlet property="dataSource" destination="5zS-RY-Qvx" id="MWt-5x-uTu"/>
                             <outlet property="delegate" destination="5zS-RY-Qvx" id="4jf-On-Dje"/>
@@ -842,10 +774,10 @@
             </objects>
             <point key="canvasLocation" x="-582" y="1173"/>
         </scene>
-        <!--Course Term-->
+        <!--Settings-->
         <scene sceneID="d2a-9x-zy8">
             <objects>
-                <viewController id="Ld4-sK-fwb" customClass="SettingsViewController" customModule="CourseCub" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="settings" id="Ld4-sK-fwb" customClass="SettingsViewController" customModule="CourseCub" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="LEU-Pn-BPO"/>
                         <viewControllerLayoutGuide type="bottom" id="xsI-z0-To6"/>
@@ -861,25 +793,32 @@
                                     <outlet property="delegate" destination="LUl-ra-xEk" id="Gzd-ar-KkU"/>
                                 </connections>
                             </pickerView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vjO-jT-2NV">
+                                <rect key="frame" x="277" y="409" width="82" height="30"/>
+                                <state key="normal" title="Logout">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Course Term" id="L2O-fs-YX9">
+                    <navigationItem key="navigationItem" title="Settings" id="L2O-fs-YX9">
                         <barButtonItem key="leftBarButtonItem" image="Menu" id="fwA-HJ-GUg"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="Logout" destination="vjO-jT-2NV" id="log-An-yqq"/>
                         <outlet property="menuButton" destination="fwA-HJ-GUg" id="wHV-tn-WlN"/>
                         <outlet property="termPicker" destination="E1K-9d-wxz" id="GXM-vs-4Y2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1xv-Gr-aYk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1020" y="1173"/>
+            <point key="canvasLocation" x="954" y="1173"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="VmN-xJ-ahy">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Eay-Pc-Jl9" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="calNav" automaticallyAdjustsScrollViewInsets="NO" id="Eay-Pc-Jl9" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="0oJ-Hx-Trb">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -897,7 +836,7 @@
         <!--Navigation Controller-->
         <scene sceneID="XfE-op-cJj">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ReR-pQ-ICY" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="settingsNav" automaticallyAdjustsScrollViewInsets="NO" id="ReR-pQ-ICY" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="0t8-Vh-bG6">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -910,7 +849,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="frs-xW-b5l" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="254" y="1173"/>
+            <point key="canvasLocation" x="138" y="1173"/>
         </scene>
     </scenes>
     <resources>
@@ -923,8 +862,6 @@
         <image name="Seats" width="98" height="98"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="dDp-xi-8ra"/>
-        <segue reference="wzy-MC-Dnz"/>
         <segue reference="WHa-jI-y8w"/>
     </inferredMetricsTieBreakers>
 </document>

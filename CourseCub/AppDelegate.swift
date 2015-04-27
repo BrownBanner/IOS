@@ -23,6 +23,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var storedTerm = "Spring 2015"
     var storedCode = "201520"
     
+    let CART_ARRAY = "CART_ARRAY"
+    
     let hardcoded_department_abrv = ["AFRI", "AMST", "ANTH", "APMA", "ARAB", "ARCH", "AWAS", "BEO", "BIOL", "CATL", "CHEM", "CHIN", "CLAS", "CLPS", "COLT", "CROL", "CSCI", "CZCH", "DEVL", "EAST", "ECON", "EDUC", "EGYT", "EINT", "ENGL", "ENGN", "ENVS", "ERLY", "ETHN", "FREN", "GEOL", "GISP", "GNSS", "GREK", "GRMN", "HIAA", "HISP", "HIST", "HMAN", "HNDI", "INDP", "INTL", "ITAL", "JAPN", "JUDS","KREA", "LANG", "LAST", "LATN", "LING", "LITR", "MATH", "MCM", "MDVL", "MES", "MGRK", "MUSC", "NEUR", "PHIL", "PHP", "PHYS", "PLME", "PLSH", "POBS", "POLS", "PPAI", "PRSN", "RELS", "REMS", "RUSS", "SANS", "SCSO", "SIGN", "SLAV", "SOC",  "SWED", "TAPS", "TKSH", "UNIV", "URBN", "VISA"]
     
     let hardcoded_department_title = ["Africana Studies",
@@ -146,6 +148,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             defaults.setObject(storedIndex, forKey: COURSE_TERM_INDEX)
             defaults.setObject(storedCode, forKey: COURSE_TERM_CODE)
             defaults.synchronize()
+        }
+        
+        if defaults.objectForKey(CART_ARRAY) == nil {
+//            defaults.setObject(Cart(), forKey: CART_ARRAY)
         }
     }
 
