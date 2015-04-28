@@ -9,7 +9,7 @@
 import Foundation
 
 class Course {
-    var crn: NSString;
+    var crn: String;
     var title: String;
     var description: String;
     var course_preview: String;

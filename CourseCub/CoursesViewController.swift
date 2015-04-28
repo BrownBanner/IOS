@@ -135,8 +135,10 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
 
     func getClassesByDepartment(depAbbrev: String?, department: String) {
         
-
-        let urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/courses?term=201420&dept=" + depAbbrev!
+        
+        var defaults = NSUserDefaults.standardUserDefaults()
+        var termCode = defaults.objectForKey(appDelegate.COURSE_TERM_CODE) as! String
+        let urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/courses?term=" + termCode + "&dept=" + depAbbrev!
         let url = NSURL(string: urlPath)
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: nil, delegateQueue: NSOperationQueue.mainQueue())
         let task = session.dataTaskWithURL(url!, completionHandler: {data, response, error -> Void in

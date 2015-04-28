@@ -165,8 +165,7 @@ class DepartmentViewController: UITableViewController, UITableViewDataSource, UI
             
         }
     }
-    
-    
+
     override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if (section == 0) {
             return 0

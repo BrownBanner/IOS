@@ -11,12 +11,26 @@ import UIKit
 
 class CalendarViewController: UIViewController {
     
-    @IBOutlet var carts: UIBarButtonItem!
+    
+    @IBOutlet weak var menuButton: UIBarButtonItem!
     @IBOutlet var browseDepartments: UIBarButtonItem!
+    
+    var cartCRNs = JSON("")
+    var cartCourses = JSON("")
+    
     override func viewDidLoad() {
         getCart()
+        
+        
         var backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
         self.navigationItem.backBarButtonItem = backButton;
+        
+        if self.revealViewController() != nil {
+            menuButton.target = self.revealViewController()
+            menuButton.action = "revealToggle:"
+            self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+            self.revealViewController().rearViewRevealOverdraw = 0;
+        }
     }
     
     func getSessionCookie() -> String {
@@ -26,7 +40,6 @@ class CalendarViewController: UIViewController {
         
         for cookie in cookies {
             if (cookie.name == "IDMSESSID") {
-                print(cookie.value)
                 return cookie.value!
             }
         }
@@ -34,8 +47,10 @@ class CalendarViewController: UIViewController {
     }
     
     func getCart() {
-
-        let urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/cartbyid?term=201420&in_id=" + getSessionCookie()
+        var defaults = NSUserDefaults.standardUserDefaults()
+        var termCode = defaults.objectForKey(appDelegate.COURSE_TERM_CODE) as! String
+        
+        let urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/cartbyid?term=" + termCode + "&in_id=" + getSessionCookie()
         let url = NSURL(string: urlPath)
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: nil, delegateQueue: NSOperationQueue.mainQueue())
         let task = session.dataTaskWithURL(url!, completionHandler: {data, response, error -> Void in
@@ -51,7 +66,45 @@ class CalendarViewController: UIViewController {
                     // If there is an error parsing JSON, print it to the console
                     println("JSON Error \(err!.localizedDescription)")
                 }
-                print(JSON(jsonResult))
+                
+                self.cartCRNs = JSON(jsonResult);
+                for (index: String, cartItem: JSON) in self.cartCRNs["items"] {
+                    print(cartItem)
+                    self.getCourse(cartItem)
+                }
+                return;
+            }
+            
+        })
+        
+        task.resume()
+    }
+    
+    func getCourse(courseCRN: JSON) {
+        let cartCourse = Course(jsonCourse: courseCRN)
+        
+        
+        var defaults = NSUserDefaults.standardUserDefaults()
+        var termCode = defaults.objectForKey(appDelegate.COURSE_TERM_CODE) as! String
+        let urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/courses?term=" + termCode + "&crn=" + cartCourse.crn
+        let url = NSURL(string: urlPath)
+        let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: nil, delegateQueue: NSOperationQueue.mainQueue())
+        let task = session.dataTaskWithURL(url!, completionHandler: {data, response, error -> Void in
+            if(error != nil) {
+                // If there is an error in the web request, print it to the console
+                println(error.localizedDescription)
+                return;
+            } else {
+                var err: NSError?
+                
+                var jsonResult = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: &err) as! NSDictionary
+                if(err != nil) {
+                    // If there is an error parsing JSON, print it to the console
+                    println("JSON Error \(err!.localizedDescription)")
+                }
+                
+                print(JSON(jsonResult));
+              
                 return;
             }
             

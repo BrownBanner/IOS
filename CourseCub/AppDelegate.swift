@@ -15,6 +15,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     
+    //These constants pertain to setting the term for the courses
+    let COURSE_TERM_KEY = "COURSE_TERM"
+    let COURSE_TERM_INDEX = "COURSE_INDEX"
+    let COURSE_TERM_CODE = "COURSE_CODE"
+    var storedIndex = 2
+    var storedTerm = "Spring 2015"
+    var storedCode = "201520"
+    
+    let CART_ARRAY = "CART_ARRAY"
+    
     let hardcoded_department_abrv = ["AFRI", "AMST", "ANTH", "APMA", "ARAB", "ARCH", "AWAS", "BEO", "BIOL", "CATL", "CHEM", "CHIN", "CLAS", "CLPS", "COLT", "CROL", "CSCI", "CZCH", "DEVL", "EAST", "ECON", "EDUC", "EGYT", "EINT", "ENGL", "ENGN", "ENVS", "ERLY", "ETHN", "FREN", "GEOL", "GISP", "GNSS", "GREK", "GRMN", "HIAA", "HISP", "HIST", "HMAN", "HNDI", "INDP", "INTL", "ITAL", "JAPN", "JUDS","KREA", "LANG", "LAST", "LATN", "LING", "LITR", "MATH", "MCM", "MDVL", "MES", "MGRK", "MUSC", "NEUR", "PHIL", "PHP", "PHYS", "PLME", "PLSH", "POBS", "POLS", "PPAI", "PRSN", "RELS", "REMS", "RUSS", "SANS", "SCSO", "SIGN", "SLAV", "SOC",  "SWED", "TAPS", "TKSH", "UNIV", "URBN", "VISA"]
     
     let hardcoded_department_title = ["Africana Studies",
@@ -117,6 +127,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         
+        setDefaults()
+        
         var cache: LocalSubstitutionCache = LocalSubstitutionCache()
         NSURLCache.setSharedURLCache(cache)
         
@@ -126,6 +138,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
         return true
+    }
+    
+    func setDefaults() {
+        
+        var defaults = NSUserDefaults.standardUserDefaults()
+        if defaults.objectForKey(COURSE_TERM_KEY) == nil {
+            defaults.setObject(storedTerm, forKey: COURSE_TERM_KEY)
+            defaults.setObject(storedIndex, forKey: COURSE_TERM_INDEX)
+            defaults.setObject(storedCode, forKey: COURSE_TERM_CODE)
+            defaults.synchronize()
+        }
+        
+        if defaults.objectForKey(CART_ARRAY) == nil {
+//            defaults.setObject(Cart(), forKey: CART_ARRAY)
+        }
     }
 
     func applicationWillResignActive(application: UIApplication) {
