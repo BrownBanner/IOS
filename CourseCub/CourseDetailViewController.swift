@@ -124,14 +124,14 @@ class CourseDetailViewController: UIViewController  {
         
         titleLabel.text = course.title as String
         titleLabel.numberOfLines = 0;
-        titleLabel.preferredMaxLayoutWidth = titleLabel.frame.width
-        titleLabel.sizeToFit()
+        titleLabel.preferredMaxLayoutWidth = 539
+        //titleLabel.sizeToFit()
         
         
         descriptionLabel.text = course.description as String
         descriptionLabel.numberOfLines = 0;
-        descriptionLabel.preferredMaxLayoutWidth = descriptionLabel.frame.width
-        descriptionLabel.sizeToFit()
+        descriptionLabel.preferredMaxLayoutWidth = 536
+        //descriptionLabel.sizeToFit()
         //self.scrollView.setNeedsUpdateConstraints()
         
         /*let screenSize: CGRect = UIScreen.mainScreen().bounds
@@ -147,12 +147,13 @@ class CourseDetailViewController: UIViewController  {
 
     }
     
+
+    
    override func viewWillLayoutSubviews()
     {
         super.viewWillLayoutSubviews();
-        titleLabel.preferredMaxLayoutWidth = titleLabel.frame.width
-        descriptionLabel.preferredMaxLayoutWidth = descriptionLabel.frame.width
-        super.viewWillLayoutSubviews()
+        //titleLabel.preferredMaxLayoutWidth = self.titleLabel.bounds.size.width;
+        //descriptionLabel.preferredMaxLayoutWidth = self.descriptionLabel.bounds.size.width;
         
         
         /*titleLabel.text = course.title as String
