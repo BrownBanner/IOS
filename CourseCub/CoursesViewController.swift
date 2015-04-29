@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CoursesViewController: UITableViewController, UITableViewDataSource, UITableViewDelegate  {
+class CoursesViewController: UITableViewController, UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating  {
     
     var alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
     var alphabet_dict = Dictionary<String, Int>()
@@ -18,8 +18,9 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
     var jsonCourseList = JSON("")
     var courseList = [Course]();
     var spinner = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
-    
-    @IBOutlet var advancedSearchCourse: UIBarButtonItem!
+    var searchResults = [String]()
+    var resultSearchController = UISearchController()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +34,7 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
         for letter in alphabet {
             alphabet_dict[letter] = 0
         }
+        
         
         self.spinner.center = CGPointMake(self.view.frame.width / 2, 20)
         self.spinner.hidesWhenStopped = true;
@@ -50,9 +52,47 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
         
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor(),
             NSFontAttributeName: UIFont(name: "Avenir-Roman", size: 20)!]
+        
 
+        self.resultSearchController = ({
+            let controller = UISearchController(searchResultsController: nil)
+            controller.searchResultsUpdater = self
+            controller.dimsBackgroundDuringPresentation = false
+            controller.searchBar.sizeToFit()
+            controller.hidesNavigationBarDuringPresentation = false
+            
+            self.tableView.tableHeaderView = controller.searchBar
+            
+            return controller
+        })()
+
+        // Reload the table
+        //self.tableView.reloadData()
 
     
+    }
+    
+    /*override func viewWillAppear(animated: Bool) {
+        self.resultSearchController = ({
+            let controller = UISearchController(searchResultsController: nil)
+            controller.searchResultsUpdater = self
+            controller.dimsBackgroundDuringPresentation = false
+            controller.searchBar.sizeToFit()
+            controller.hidesNavigationBarDuringPresentation = false
+            
+            self.tableView.tableHeaderView = controller.searchBar
+            
+            return controller
+        })()
+        self.tableView.reloadData()
+        self.tableView.becomeFirstResponder()
+    }*/
+    
+    
+    override func viewWillDisappear(animated: Bool) {
+        self.resultSearchController.resignFirstResponder()
+        self.resultSearchController.searchBar.resignFirstResponder()
+        self.resultSearchController.active = false
     }
 
     override func didReceiveMemoryWarning() {
@@ -60,24 +100,38 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
         // Dispose of any resources that can be recreated.
     }
 
+    
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
-        return alphabet.count
+        //if (self.resultSearchController.active) {
+        //    return 1
+        //}
+        //else {
+            return alphabet.count
+        //}
+        
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
-        var letter = ""
-        for var i = 0 ; i < alphabet.count; i++ {
-            if i == section {
-                letter = alphabet[i]
+        
+        //if (self.resultSearchController.active) {
+        //    return self.searchResults.count
+        //}
+        //else {
+            var letter = ""
+            for var i = 0 ; i < alphabet.count; i++ {
+                if i == section {
+                    letter = alphabet[i]
+                }
             }
-        }
-        return alphabet_dict[letter]!
+            return alphabet_dict[letter]!
+        //}
+        
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -102,6 +156,11 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
         cell.textLabel?.font = UIFont(name: "Avenir-Roman", size: 18)
         cell.detailTextLabel?.font = UIFont(name: "Avenir-Roman", size: 14)
         
+        //Fill this in for searching
+        if (self.resultSearchController.active) {
+           // cell.textLabel?.text = ""
+        }
+        
         return cell
     }
     
@@ -120,6 +179,15 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
         self.navigationController?.pushViewController(detailsCourse, animated: true)
     }
     
+    
+    func updateSearchResultsForSearchController(searchController: UISearchController)
+    {
+        //searchResults.removeAll(keepCapacity: false)
+        
+        //Fill this in for searching
+        
+        self.tableView.reloadData()
+    }
     
     override func sectionIndexTitlesForTableView(tableView: UITableView) -> [AnyObject]! {
         return self.alphabet

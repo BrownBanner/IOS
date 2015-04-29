@@ -10,12 +10,153 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CourseCub/DepartmentViewController.swift"
-            timestampString = "451520170.396482"
+            timestampString = "451941143.552149"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "67"
-            endingLineNumber = "67"
+            startingLineNumber = "114"
+            endingLineNumber = "114"
             landmarkName = "numberOfSectionsInTableView(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CourseCub/DepartmentViewController.swift"
+            timestampString = "451937120.137215"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "16"
+            endingLineNumber = "16"
+            landmarkName = "DepartmentViewController"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CourseCub.DepartmentViewController.alphabet_count.setter : Swift.Array&lt;Swift.Int&gt;"
+                  moduleName = "CourseCub"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/codypsa/Documents/CourseCub/CourseCub/DepartmentViewController.swift"
+                  timestampString = "451937219.24215"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "16">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CourseCub.DepartmentViewController.alphabet_count.materializeForSet : Swift.Array&lt;Swift.Int&gt;"
+                  moduleName = "CourseCub"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/codypsa/Documents/CourseCub/CourseCub/DepartmentViewController.swift"
+                  timestampString = "451937219.242435"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "16">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CourseCub.DepartmentViewController.init (CourseCub.DepartmentViewController.Type)(style : C.UITableViewStyle) -&gt; CourseCub.DepartmentViewController"
+                  moduleName = "CourseCub"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/codypsa/Documents/CourseCub/CourseCub/DepartmentViewController.swift"
+                  timestampString = "451937219.242725"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "16"
+                  endingLineNumber = "16"
+                  offsetFromSymbolStart = "1568">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CourseCub.DepartmentViewController.init (CourseCub.DepartmentViewController.Type)(nibName : Swift.ImplicitlyUnwrappedOptional&lt;Swift.String&gt;, bundle : Swift.ImplicitlyUnwrappedOptional&lt;ObjectiveC.NSBundle&gt;) -&gt; Swift.ImplicitlyUnwrappedOptional&lt;CourseCub.DepartmentViewController&gt;"
+                  moduleName = "CourseCub"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/codypsa/Documents/CourseCub/CourseCub/DepartmentViewController.swift"
+                  timestampString = "451937219.243006"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "16"
+                  endingLineNumber = "16"
+                  offsetFromSymbolStart = "1588">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CourseCub.DepartmentViewController.init (CourseCub.DepartmentViewController.Type)(coder : Swift.ImplicitlyUnwrappedOptional&lt;ObjectiveC.NSCoder&gt;) -&gt; Swift.ImplicitlyUnwrappedOptional&lt;CourseCub.DepartmentViewController&gt;"
+                  moduleName = "CourseCub"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/codypsa/Documents/CourseCub/CourseCub/DepartmentViewController.swift"
+                  timestampString = "451937219.243329"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "16"
+                  endingLineNumber = "16"
+                  offsetFromSymbolStart = "1571">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CourseCub/CoursesViewController.swift"
+            timestampString = "451940100.820853"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "43"
+            endingLineNumber = "43"
+            landmarkName = "viewDidLoad()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CourseCub/CoursesViewController.swift"
+            timestampString = "452012728.31329"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "236"
+            endingLineNumber = "236"
+            landmarkName = "getClassesByDepartment(_:department:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CourseCub/CoursesViewController.swift"
+            timestampString = "452012730.497283"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "212"
+            endingLineNumber = "212"
+            landmarkName = "getClassesByDepartment(_:department:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

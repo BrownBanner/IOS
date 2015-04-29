@@ -57,8 +57,11 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Calendar" id="Uim-Na-3Lg">
-                        <barButtonItem key="leftBarButtonItem" image="Menu" id="yNs-BU-riT"/>
+                        <barButtonItem key="leftBarButtonItem" image="Menu" id="yNs-BU-riT">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Browse" id="qEz-k1-b7g">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <segue destination="HzI-vy-b8N" kind="show" id="tiT-DA-Ymh"/>
                             </connections>
@@ -77,26 +80,21 @@
         <scene sceneID="dZe-aG-H7v">
             <objects>
                 <tableViewController clearsSelectionOnViewWillAppear="NO" id="HzI-vy-b8N" customClass="DepartmentViewController" customModule="CourseCub" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Wa6-dV-2hO">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.97647058823529409" green="0.97254901960784312" blue="0.95294117647058818" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <color key="sectionIndexBackgroundColor" red="0.97647058823529409" green="0.97254901960784312" blue="0.95294117647058818" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <connections>
-                            <outlet property="dataSource" destination="HzI-vy-b8N" id="Z3J-gP-CaX"/>
-                            <outlet property="delegate" destination="HzI-vy-b8N" id="pfd-4D-KZv"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="Departments" id="ck1-BQ-I9l">
-                        <barButtonItem key="rightBarButtonItem" title="Search" id="H2P-ld-KLF"/>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Departments" id="ck1-BQ-I9l"/>
                     <connections>
-                        <outlet property="advancedSearch" destination="H2P-ld-KLF" id="dFf-PK-MIO"/>
-                        <outlet property="tView" destination="Wa6-dV-2hO" id="GJF-PB-Cup"/>
+                        <outlet property="searchDisplayController" destination="ZBV-0d-r5a" id="Tzr-AC-LsY"/>
                         <segue destination="yIv-NI-gDE" kind="show" id="ij6-yN-hRX"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8Ow-DE-Ayr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="ZBV-0d-r5a">
+                    <connections>
+                        <outlet property="delegate" destination="HzI-vy-b8N" id="rt5-NB-h6y"/>
+                        <outlet property="searchContentsController" destination="HzI-vy-b8N" id="9lG-uE-O6u"/>
+                        <outlet property="searchResultsDataSource" destination="HzI-vy-b8N" id="8FV-Nv-2dN"/>
+                        <outlet property="searchResultsDelegate" destination="HzI-vy-b8N" id="C0a-s5-EHF"/>
+                    </connections>
+                </searchDisplayController>
             </objects>
             <point key="canvasLocation" x="1480" y="421"/>
         </scene>
@@ -114,15 +112,21 @@
                             <outlet property="delegate" destination="yIv-NI-gDE" id="eVf-a6-cOH"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Courses" id="Hph-ab-bBd">
-                        <barButtonItem key="rightBarButtonItem" title="Search" id="6m7-nL-FmY"/>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Courses" id="Hph-ab-bBd"/>
                     <connections>
-                        <outlet property="advancedSearchCourse" destination="6m7-nL-FmY" id="VJY-9C-BOW"/>
+                        <outlet property="searchDisplayController" destination="g27-Fk-wRu" id="yCk-mb-06k"/>
                         <segue destination="8iH-3F-6f7" kind="show" identifier="sandwich" id="bhQ-Pj-VF1"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fI9-0r-6MG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="g27-Fk-wRu">
+                    <connections>
+                        <outlet property="delegate" destination="yIv-NI-gDE" id="QN5-Pl-mth"/>
+                        <outlet property="searchContentsController" destination="yIv-NI-gDE" id="X80-aB-GDq"/>
+                        <outlet property="searchResultsDataSource" destination="yIv-NI-gDE" id="xwX-NI-fPn"/>
+                        <outlet property="searchResultsDelegate" destination="yIv-NI-gDE" id="ju1-x5-NRd"/>
+                    </connections>
+                </searchDisplayController>
             </objects>
             <point key="canvasLocation" x="2714" y="421"/>
         </scene>
@@ -610,33 +614,64 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="E1K-9d-wxz">
-                                <rect key="frame" x="198" y="51" width="204" height="162"/>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="E1K-9d-wxz">
+                                <rect key="frame" x="198" y="150" width="204" height="162"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="204" id="s2P-tO-p5g"/>
+                                </constraints>
                                 <connections>
                                     <outlet property="dataSource" destination="LUl-ra-xEk" id="by5-yz-0B0"/>
                                     <outlet property="delegate" destination="LUl-ra-xEk" id="Gzd-ar-KkU"/>
                                 </connections>
                             </pickerView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Select Course Term:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8HK-JC-546">
-                                <rect key="frame" x="16" y="121" width="162" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Term:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8HK-JC-546">
+                                <rect key="frame" x="219" y="121" width="162" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="KV7-MN-fFc"/>
+                                    <constraint firstAttribute="width" constant="162" id="oSa-Jd-SPd"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="24"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tk2-DW-hMb">
-                                <rect key="frame" x="16" y="230" width="117" height="30"/>
-                                <state key="normal" title="Logout">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Logout" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Joe-t9-HSc">
+                                <rect key="frame" x="219" y="386" width="162" height="33"/>
+                                <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="24"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tk2-DW-hMb">
+                                <rect key="frame" x="250" y="427" width="100" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="ed6-nH-T8l"/>
+                                    <constraint firstAttribute="width" constant="100" id="zKH-2c-Gl5"/>
+                                </constraints>
+                                <state key="normal" image="Logout">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="E1K-9d-wxz" firstAttribute="top" secondItem="8HK-JC-546" secondAttribute="bottom" constant="8" symbolic="YES" id="0YF-T8-i4N"/>
+                            <constraint firstItem="8HK-JC-546" firstAttribute="trailing" secondItem="Joe-t9-HSc" secondAttribute="trailing" id="GO5-Fc-zu9"/>
+                            <constraint firstItem="xsI-z0-To6" firstAttribute="top" secondItem="Tk2-DW-hMb" secondAttribute="bottom" constant="73" id="JKQ-02-pJp"/>
+                            <constraint firstItem="8HK-JC-546" firstAttribute="leading" secondItem="Joe-t9-HSc" secondAttribute="leading" id="exF-5l-Rhq"/>
+                            <constraint firstItem="E1K-9d-wxz" firstAttribute="centerX" secondItem="8HK-JC-546" secondAttribute="centerX" id="fi7-IU-OfH"/>
+                            <constraint firstItem="8HK-JC-546" firstAttribute="top" secondItem="LEU-Pn-BPO" secondAttribute="bottom" constant="57" id="k4k-z3-Luv"/>
+                            <constraint firstItem="8HK-JC-546" firstAttribute="centerX" secondItem="LUl-ra-xEk" secondAttribute="centerX" id="sHN-vS-fEn"/>
+                            <constraint firstItem="Tk2-DW-hMb" firstAttribute="top" secondItem="Joe-t9-HSc" secondAttribute="bottom" constant="8" symbolic="YES" id="uKn-dL-2td"/>
+                            <constraint firstItem="Joe-t9-HSc" firstAttribute="centerX" secondItem="Tk2-DW-hMb" secondAttribute="centerX" id="zuz-f2-9BW"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Settings" id="L2O-fs-YX9">
-                        <barButtonItem key="leftBarButtonItem" image="Menu" id="fwA-HJ-GUg"/>
+                        <barButtonItem key="leftBarButtonItem" image="Menu" id="fwA-HJ-GUg">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="logoutButton" destination="Tk2-DW-hMb" id="iIA-nU-rhi"/>
+                        <outlet property="logoutLabel" destination="Joe-t9-HSc" id="GIQ-vm-zNV"/>
                         <outlet property="menuButton" destination="fwA-HJ-GUg" id="wHV-tn-WlN"/>
                         <outlet property="termPicker" destination="E1K-9d-wxz" id="GXM-vs-4Y2"/>
                     </connections>
@@ -688,6 +723,7 @@
         <image name="Info" width="98" height="98"/>
         <image name="Instructor" width="98" height="98"/>
         <image name="Location" width="250" height="133"/>
+        <image name="Logout" width="196" height="196"/>
         <image name="Menu" width="22" height="22"/>
         <image name="Seats" width="98" height="98"/>
     </resources>
