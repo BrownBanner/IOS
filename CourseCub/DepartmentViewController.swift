@@ -10,17 +10,20 @@ import UIKit
 
 var dep_list = appDelegate.department_list
 
-class DepartmentViewController: UITableViewController, UITableViewDataSource, UITableViewDelegate, NSURLSessionDelegate {
+class DepartmentViewController: UITableViewController, UITableViewDataSource, UITableViewDelegate, NSURLSessionDelegate, UISearchResultsUpdating {
     var alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
     var alphabet_dict = Dictionary<String, Int>()
     var alphabet_count = [Int](count: 26, repeatedValue: 0);
     
+    var searchResults = [String]()
+    var resultSearchController = UISearchController()
+    
     
     @IBOutlet var tView: UITableView!
-    @IBOutlet var advancedSearch: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         
         self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "department")
         // Uncomment the following line to preserve selection between presentations
@@ -47,10 +50,49 @@ class DepartmentViewController: UITableViewController, UITableViewDataSource, UI
     
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor(),
             NSFontAttributeName: UIFont(name: "Avenir-Roman", size: 20)!]
+        
+        
     
         
         countSections()
         
+        self.resultSearchController = ({
+            let controller = UISearchController(searchResultsController: nil)
+            controller.searchResultsUpdater = self
+            controller.dimsBackgroundDuringPresentation = false
+            controller.searchBar.sizeToFit()
+            controller.hidesNavigationBarDuringPresentation = false
+            
+            self.tableView.tableHeaderView = controller.searchBar
+            
+            return controller
+        })()
+        
+        // Reload the table
+        self.tableView.reloadData()
+        
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        self.resultSearchController = ({
+            let controller = UISearchController(searchResultsController: nil)
+            controller.searchResultsUpdater = self
+            controller.dimsBackgroundDuringPresentation = false
+            controller.searchBar.sizeToFit()
+            controller.hidesNavigationBarDuringPresentation = false
+            
+            self.tableView.tableHeaderView = controller.searchBar
+            
+            return controller
+        })()
+        self.tableView.reloadData()
+        self.tableView.becomeFirstResponder()
+    }
+  
+    override func viewWillDisappear(animated: Bool) {
+        self.resultSearchController.resignFirstResponder()
+                self.resultSearchController.searchBar.resignFirstResponder()
+                self.resultSearchController.active = false
     }
 
     override func didReceiveMemoryWarning() {
@@ -63,19 +105,29 @@ class DepartmentViewController: UITableViewController, UITableViewDataSource, UI
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
-        return alphabet.count
+        //if (self.resultSearchController.active) {
+        //    return 1
+        //}
+        //else {
+            return alphabet.count
+        //}
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
-        var letter = ""
-        for var i = 0 ; i < alphabet.count; i++ {
-            if i == section {
-                letter = alphabet[i]
+        //if (self.resultSearchController.active) {
+        //    return self.searchResults.count
+        //}
+        //else {
+            var letter = ""
+            for var i = 0 ; i < alphabet.count; i++ {
+                if i == section {
+                    letter = alphabet[i]
+                }
             }
-        }
-        return alphabet_dict[letter]!
+            return alphabet_dict[letter]!
+       // }
     }
     
     
@@ -117,6 +169,12 @@ class DepartmentViewController: UITableViewController, UITableViewDataSource, UI
         cell.backgroundColor = UIColor(red: 0.976, green: 0.972, blue: 0.956, alpha: 1);
         cell.textLabel?.font = UIFont(name: "Avenir-Roman", size: 18)
         cell.detailTextLabel?.font = UIFont(name: "Avenir-Roman", size: 14)
+        
+        //Fill this in for searching
+        if (self.resultSearchController.active) {
+            //cell.textLabel?.text = ""
+        }
+        
         return cell
     }
     
@@ -142,6 +200,15 @@ class DepartmentViewController: UITableViewController, UITableViewDataSource, UI
     
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return alphabet[section]
+    }
+    
+    func updateSearchResultsForSearchController(searchController: UISearchController)
+    {
+        //searchResults.removeAll(keepCapacity: false)
+        
+        //Fill this in for searching
+        
+        self.tableView.reloadData()
     }
     
     

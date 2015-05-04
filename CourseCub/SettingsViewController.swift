@@ -14,6 +14,7 @@ class SettingsViewController: UIViewController, UIPickerViewDataSource, UIPicker
     @IBOutlet weak var termPicker: UIPickerView!
     @IBOutlet weak var logoutButton: UIButton!
     
+    @IBOutlet var logoutLabel: UILabel!
     var termArray = ["Spring 2014", "Fall 2014", "Spring 2015", "Fall 2015"]
     var termCode = ["201420", "201410", "201520", "201510"]
     
@@ -44,6 +45,19 @@ class SettingsViewController: UIViewController, UIPickerViewDataSource, UIPicker
         }
         
         self.logoutButton.addTarget(self, action: Selector("logout:"), forControlEvents: UIControlEvents.TouchUpInside)
+        
+        self.view.backgroundColor = UIColor(red: 0.976, green: 0.972, blue: 0.956, alpha: 1)
+        
+        var backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
+        self.navigationItem.backBarButtonItem = backButton;
+        
+        self.navigationController?.navigationBar.backgroundColor = UIColor(red: 0.9411, green: 0.3254, blue: 0.3254, alpha: 1)
+        self.navigationController?.navigationBar.barTintColor = UIColor(red: 0.9411, green: 0.3254, blue: 0.3254, alpha: 1)
+        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
+        self.navigationController!.navigationBar.translucent = false;
+        
+        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor(),
+            NSFontAttributeName: UIFont(name: "Avenir-Roman", size: 20)!]
         
     }
     
