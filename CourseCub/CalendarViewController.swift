@@ -14,12 +14,12 @@ class CalendarViewController: UIViewController {
     
     @IBOutlet weak var menuButton: UIBarButtonItem!
     @IBOutlet var browseDepartments: UIBarButtonItem!
+    @IBOutlet weak var cartTextField: UITextView!
     
     var cartCRNs = JSON("")
     var cartCourses = JSON("")
     
     override func viewDidLoad() {
-        getCart()
         
         
         var backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
@@ -31,6 +31,12 @@ class CalendarViewController: UIViewController {
             self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
             self.revealViewController().rearViewRevealOverdraw = 0;
         }
+    }
+
+    override func viewDidAppear(animated: Bool) {
+        print("ALEC")
+        getCart()
+
     }
     
     func getSessionCookie() -> String {
@@ -69,9 +75,11 @@ class CalendarViewController: UIViewController {
                 
                 self.cartCRNs = JSON(jsonResult);
                 for (index: String, cartItem: JSON) in self.cartCRNs["items"] {
-                    print(cartItem)
-                    self.getCourse(cartItem)
+                    var tempCourse = Course(jsonCourse: cartItem)
+                    self.cartTextField.text =  self.cartTextField.text + "\n" + "CRN: " + tempCourse.crn as String + " Registered: " + tempCourse.reg_indicator
+//                    self.getCourse(cartItem)
                 }
+                self.cartTextField.reloadInputViews()
                 return;
             }
             

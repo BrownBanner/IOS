@@ -15,8 +15,7 @@ class MenuViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        carts.append(Cart(cartTitle: "Cart 1", cartCourseArray: []))
-        carts.append(Cart(cartTitle: "Cart 2", cartCourseArray: []))
+        carts.append(Cart(cartTitle: "Current Cart", cartCourseArray: []))
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
         
@@ -98,7 +97,7 @@ class MenuViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        if (indexPath.row > 0 && indexPath.row <= carts.count) {
+        if (indexPath.row > 1 && indexPath.row <= carts.count) {
             return true
         }
         else {

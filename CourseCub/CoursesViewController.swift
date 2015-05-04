@@ -139,6 +139,7 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
         var defaults = NSUserDefaults.standardUserDefaults()
         var termCode = defaults.objectForKey(appDelegate.COURSE_TERM_CODE) as! String
         let urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/courses?term=" + termCode + "&dept=" + depAbbrev!
+        print(urlPath)
         let url = NSURL(string: urlPath)
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: nil, delegateQueue: NSOperationQueue.mainQueue())
         let task = session.dataTaskWithURL(url!, completionHandler: {data, response, error -> Void in
@@ -157,11 +158,12 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
                 self.jsonCourseList = JSON(jsonResult)
                 let count: Int? = self.jsonCourseList["items"].array?.count
                 
-                
+                print(self.jsonCourseList)
                 var selectedCourses = CoursesViewController();
 
                 for (index: String, courseJson: JSON) in self.jsonCourseList["items"] {
                     var new_course = Course(jsonCourse: courseJson)
+                    print (new_course)
                     self.courseList.append(new_course)
                 }
                 

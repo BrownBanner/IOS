@@ -2,7 +2,6 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -44,181 +43,6 @@
             </objects>
             <point key="canvasLocation" x="-1354" y="421"/>
         </scene>
-        <!--Advanced Search View Controller-->
-        <scene sceneID="n1M-wh-M1s">
-            <objects>
-                <viewController id="juk-cP-BIA" customClass="AdvancedSearchViewController" customModule="CourseCub" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="FP3-4S-RRW"/>
-                        <viewControllerLayoutGuide type="bottom" id="uhQ-oe-gLF"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="w3Z-P0-gtt">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="IJr-cM-k4d">
-                                <rect key="frame" x="0.0" y="64" width="600" height="44"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </searchBar>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bKa-Qw-zmQ">
-                                <rect key="frame" x="16" y="528" width="568" height="52"/>
-                                <color key="backgroundColor" red="1" green="0.29607751831852636" blue="0.24188478398058588" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="52" id="ypd-VZ-9dw"/>
-                                </constraints>
-                                <state key="normal" title="Search">
-                                    <color key="titleColor" red="0.9495201083" green="1" blue="0.96949850329999998" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="swS-hq-NL8">
-                                <rect key="frame" x="203" y="261" width="194" height="30"/>
-                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="194" id="4Ef-Yn-bHH"/>
-                                </constraints>
-                                <state key="normal" title="Departments">
-                                    <color key="titleColor" red="0.9495201083" green="1" blue="0.96949850329999998" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" red="1" green="0.29607751830000001" blue="0.24188478399999999" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <connections>
-                                    <segue destination="CQC-sg-oyT" kind="push" id="ZFU-Sj-YFH"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pg2-W1-xId">
-                                <rect key="frame" x="203" y="311" width="194" height="30"/>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Hours">
-                                    <color key="titleColor" red="0.9495201083" green="1" blue="0.96949850329999998" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <segue destination="oOn-9x-sfL" kind="push" id="jyP-J9-C21"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zF7-Au-e3h">
-                                <rect key="frame" x="203" y="362" width="194" height="30"/>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Course Designation">
-                                    <color key="titleColor" red="1" green="0.9929918890477758" blue="0.98660976764606922" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <segue destination="L6n-kn-5B2" kind="push" id="o6e-83-1xz"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="swS-hq-NL8" firstAttribute="top" secondItem="w3Z-P0-gtt" secondAttribute="top" constant="261" id="01b-Vi-ZYW"/>
-                            <constraint firstItem="zF7-Au-e3h" firstAttribute="trailing" secondItem="pg2-W1-xId" secondAttribute="trailing" id="1jZ-qI-R9g"/>
-                            <constraint firstAttribute="bottom" secondItem="bKa-Qw-zmQ" secondAttribute="bottom" constant="20" symbolic="YES" id="Cd3-tx-q9O"/>
-                            <constraint firstItem="bKa-Qw-zmQ" firstAttribute="leading" secondItem="w3Z-P0-gtt" secondAttribute="leadingMargin" id="KA6-uv-bH8"/>
-                            <constraint firstItem="swS-hq-NL8" firstAttribute="trailing" secondItem="pg2-W1-xId" secondAttribute="trailing" id="N2K-n0-Beq"/>
-                            <constraint firstItem="swS-hq-NL8" firstAttribute="centerX" secondItem="IJr-cM-k4d" secondAttribute="centerX" id="NSq-9J-bYW"/>
-                            <constraint firstAttribute="trailing" secondItem="IJr-cM-k4d" secondAttribute="trailing" id="VuE-P9-703"/>
-                            <constraint firstItem="zF7-Au-e3h" firstAttribute="leading" secondItem="pg2-W1-xId" secondAttribute="leading" id="Xy5-e1-9R4"/>
-                            <constraint firstItem="zF7-Au-e3h" firstAttribute="top" secondItem="pg2-W1-xId" secondAttribute="bottom" constant="21" id="YXQ-bc-f3P"/>
-                            <constraint firstItem="zF7-Au-e3h" firstAttribute="centerX" secondItem="bKa-Qw-zmQ" secondAttribute="centerX" id="afG-A4-dga"/>
-                            <constraint firstItem="IJr-cM-k4d" firstAttribute="leading" secondItem="w3Z-P0-gtt" secondAttribute="leading" id="bC6-1O-Jrb"/>
-                            <constraint firstItem="pg2-W1-xId" firstAttribute="top" secondItem="swS-hq-NL8" secondAttribute="bottom" constant="20" id="ksh-4h-X5P"/>
-                            <constraint firstItem="IJr-cM-k4d" firstAttribute="top" secondItem="FP3-4S-RRW" secondAttribute="bottom" id="wtb-QP-ypj"/>
-                            <constraint firstItem="pg2-W1-xId" firstAttribute="leading" secondItem="swS-hq-NL8" secondAttribute="leading" id="yb5-vy-SWy"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="courseDesignation" destination="zF7-Au-e3h" id="9CI-mt-iuO"/>
-                        <outlet property="departments" destination="swS-hq-NL8" id="9v9-5J-maj"/>
-                        <outlet property="hours" destination="pg2-W1-xId" id="S2M-Ba-lK0"/>
-                        <outlet property="searchButton" destination="bKa-Qw-zmQ" id="uH0-xm-jEm"/>
-                        <outlet property="searchField" destination="IJr-cM-k4d" id="JVZ-wJ-pCb"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="EfM-OC-78X" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3457" y="-1271"/>
-        </scene>
-        <!--Table View Controller-->
-        <scene sceneID="Clm-kK-PC7">
-            <objects>
-                <tableViewController id="L6n-kn-5B2" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="kG3-bT-1Yc">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="bvY-pg-BQG">
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bvY-pg-BQG" id="l1Y-DN-nO3">
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="L6n-kn-5B2" id="laD-rU-PVz"/>
-                            <outlet property="delegate" destination="L6n-kn-5B2" id="7Os-g1-Fe1"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" id="imQ-k9-4yS"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="7Ea-zT-qiy" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="4254" y="-1271"/>
-        </scene>
-        <!--Advanced Search Departments-->
-        <scene sceneID="kHu-L5-SQl">
-            <objects>
-                <tableViewController id="CQC-sg-oyT" customClass="AdvancedSearchDepartments" customModule="CourseCub" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="nFk-rv-Rho">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="wa2-vO-U74">
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wa2-vO-U74" id="Vdv-eD-bym">
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="CQC-sg-oyT" id="EA2-bI-LUh"/>
-                            <outlet property="delegate" destination="CQC-sg-oyT" id="Kuf-tz-Fdk"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" id="CrY-fR-5pn"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="NFJ-yD-X3p" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3457" y="-513"/>
-        </scene>
-        <!--Table View Controller-->
-        <scene sceneID="Hhv-ul-BQZ">
-            <objects>
-                <tableViewController id="oOn-9x-sfL" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="3cH-S7-ZXR">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="GKI-8k-yDt">
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="GKI-8k-yDt" id="0A2-8S-5Ik">
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="oOn-9x-sfL" id="5DO-Ku-LqV"/>
-                            <outlet property="delegate" destination="oOn-9x-sfL" id="p5l-Rn-UT3"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" id="c4U-g2-95m"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Cv1-df-L4f" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="4254" y="-523"/>
-        </scene>
         <!--Calendar-->
         <scene sceneID="8Je-Xs-ZjM">
             <objects>
@@ -230,6 +54,14 @@
                     <view key="view" contentMode="scaleToFill" id="HDE-ok-prL">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Cart Courses" translatesAutoresizingMaskIntoConstraints="NO" id="eFw-8e-65T">
+                                <rect key="frame" x="0.0" y="64" width="600" height="522"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Calendar" id="Uim-Na-3Lg">
@@ -242,6 +74,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="browseDepartments" destination="qEz-k1-b7g" id="O3X-98-yQw"/>
+                        <outlet property="cartTextField" destination="eFw-8e-65T" id="ccJ-O6-WHV"/>
                         <outlet property="menuButton" destination="yNs-BU-riT" id="s6A-s8-jpL"/>
                     </connections>
                 </viewController>
@@ -263,15 +96,8 @@
                             <outlet property="delegate" destination="HzI-vy-b8N" id="pfd-4D-KZv"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Departments" id="ck1-BQ-I9l">
-                        <barButtonItem key="rightBarButtonItem" title="Search" id="H2P-ld-KLF">
-                            <connections>
-                                <segue destination="juk-cP-BIA" kind="show" identifier="advancedSearchDepartments" id="4eJ-Y3-sIl"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Departments" id="ck1-BQ-I9l"/>
                     <connections>
-                        <outlet property="advancedSearch" destination="H2P-ld-KLF" id="dFf-PK-MIO"/>
                         <outlet property="tView" destination="Wa6-dV-2hO" id="GJF-PB-Cup"/>
                         <segue destination="yIv-NI-gDE" kind="show" id="ij6-yN-hRX"/>
                     </connections>
@@ -294,15 +120,8 @@
                             <outlet property="delegate" destination="yIv-NI-gDE" id="eVf-a6-cOH"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Courses" id="Hph-ab-bBd">
-                        <barButtonItem key="rightBarButtonItem" title="Search" id="6m7-nL-FmY">
-                            <connections>
-                                <segue destination="juk-cP-BIA" kind="show" identifier="advancedSearchCourses" id="WHa-jI-y8w"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Courses" id="Hph-ab-bBd"/>
                     <connections>
-                        <outlet property="advancedSearchCourse" destination="6m7-nL-FmY" id="VJY-9C-BOW"/>
                         <segue destination="8iH-3F-6f7" kind="show" identifier="sandwich" id="bhQ-Pj-VF1"/>
                     </connections>
                 </tableViewController>
@@ -867,7 +686,4 @@
         <image name="Menu" width="22" height="22"/>
         <image name="Seats" width="98" height="98"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="WHa-jI-y8w"/>
-    </inferredMetricsTieBreakers>
 </document>

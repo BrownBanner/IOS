@@ -14,6 +14,7 @@ class Course {
     var description: String;
     var course_preview: String;
     var critical_review: String;
+    var reg_indicator: String;
     var subjectc: String;
     var term_desc: NSString;
     var term: NSString;
@@ -64,6 +65,13 @@ class Course {
         } else {
             //log some error
             term_desc = "error"
+        }
+        
+        if jsonCourse["reg_indicator"] != nil {
+            reg_indicator = jsonCourse["reg_indicator"].string!
+        } else {
+            //log some error
+            reg_indicator = "error"
         }
         
         if jsonCourse["dept"] != nil {
