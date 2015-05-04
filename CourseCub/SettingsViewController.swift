@@ -15,8 +15,8 @@ class SettingsViewController: UIViewController, UIPickerViewDataSource, UIPicker
     @IBOutlet weak var logoutButton: UIButton!
     
     @IBOutlet var logoutLabel: UILabel!
-    var termArray = ["Spring 2014", "Fall 2014", "Spring 2015", "Fall 2015"]
-    var termCode = ["201420", "201410", "201520", "201510"]
+    var termArray = ["Fall 2013", "Spring 2014", "Fall 2014", "Spring 2015"]
+    var termCode = ["201310", "201320", "201410", "201420"]
     
     
     override func viewDidLoad() {

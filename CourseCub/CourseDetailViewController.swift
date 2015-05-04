@@ -34,8 +34,35 @@ class CourseDetailViewController: UIViewController  {
     @IBOutlet var descriptionLabel: UILabel!
     
     @IBOutlet var addToCartImage: UIBarButtonItem!
-
+    
     @IBAction func addToCart(sender: AnyObject) {
+        var defaults = NSUserDefaults.standardUserDefaults()
+        var termCode = defaults.objectForKey(appDelegate.COURSE_TERM_CODE) as! String
+        let urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/cart?term=201420&in_id=" + appDelegate.getSessionCookie() + "&crn=" + course.crn + "&in_type=I"
+        print (urlPath)
+        print(course.crn)
+        let url = NSURL(string: urlPath)
+        let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: nil, delegateQueue: NSOperationQueue.mainQueue())
+        let task = session.dataTaskWithURL(url!, completionHandler: {data, response, error -> Void in
+            if(error != nil) {
+                // If there is an error in the web request, print it to the console
+                println(error.localizedDescription)
+                return;
+            } else {
+                let sb = UIStoryboard(name: "Main", bundle: nil)
+                let calVC = sb.instantiateViewControllerWithIdentifier("cal") as! CalendarViewController
+                let calNAV = sb.instantiateViewControllerWithIdentifier("calNav") as! UINavigationController
+                calNAV.setViewControllers([calVC], animated: false)
+                self.revealViewController().rearViewRevealOverdraw = 0;
+                var rvc = self.revealViewController()
+                rvc.setFrontViewController(calNAV, animated: true)
+                rvc.pushFrontViewController(calNAV, animated: true)
+                return;
+            }
+            
+        })
+        
+        task.resume()
     }
     @IBOutlet var locationButton: UIButton!
     @IBAction func locationClicked(sender: AnyObject) {
@@ -143,8 +170,9 @@ class CourseDetailViewController: UIViewController  {
         self.scrollView.frame = frm;*/
 
         
-        
-
+        if appDelegate.currentCart.cartContains(course) {
+            print("CODY HELP ME!")
+        }
     }
     
 

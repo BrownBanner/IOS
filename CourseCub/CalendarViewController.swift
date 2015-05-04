@@ -41,29 +41,16 @@ class CalendarViewController: UIViewController {
     }
 
     override func viewDidAppear(animated: Bool) {
-        print("ALEC")
         getCart()
 
     }
     
-    func getSessionCookie() -> String {
-        var cookie : NSHTTPCookie = NSHTTPCookie()
-        var cookieJar : NSHTTPCookieStorage = NSHTTPCookieStorage.sharedHTTPCookieStorage()
-        var cookies = cookieJar.cookiesForURL(NSURL(string: "https://bannersso.cis-qas.brown.edu/SSB_PPRD")!) as! [NSHTTPCookie]
-        
-        for cookie in cookies {
-            if (cookie.name == "IDMSESSID") {
-                return cookie.value!
-            }
-        }
-        return "null"
-    }
     
     func getCart() {
         var defaults = NSUserDefaults.standardUserDefaults()
         var termCode = defaults.objectForKey(appDelegate.COURSE_TERM_CODE) as! String
         
-        let urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/cartbyid?term=" + termCode + "&in_id=" + getSessionCookie()
+        let urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/cartbyid?term=" + termCode + "&in_id=" + appDelegate.getSessionCookie()
         let url = NSURL(string: urlPath)
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: nil, delegateQueue: NSOperationQueue.mainQueue())
         let task = session.dataTaskWithURL(url!, completionHandler: {data, response, error -> Void in
@@ -81,18 +68,28 @@ class CalendarViewController: UIViewController {
                 }
                 
                 self.cartCRNs = JSON(jsonResult);
+                var tempCart = [Course]()
                 for (index: String, cartItem: JSON) in self.cartCRNs["items"] {
                     var tempCourse = Course(jsonCourse: cartItem)
-                    self.cartTextField.text =  self.cartTextField.text + "\n" + "CRN: " + tempCourse.crn as String + " Registered: " + tempCourse.reg_indicator
-//                    self.getCourse(cartItem)
+                    tempCart.append(tempCourse)
                 }
-                self.cartTextField.reloadInputViews()
+                appDelegate.currentCart.setCourses(tempCart)
+                self.refreshCalendar()
                 return;
             }
             
         })
         
         task.resume()
+    }
+    
+    func refreshCalendar() {
+        self.cartTextField.text = ""
+        for (course: Course) in appDelegate.currentCart.getCourses() {
+            self.cartTextField.text =  self.cartTextField.text + "\n" + course.title + " Registered: " + course.reg_indicator + "\n"
+        }
+        self.cartTextField.reloadInputViews()
+
     }
     
     func getCourse(courseCRN: JSON) {

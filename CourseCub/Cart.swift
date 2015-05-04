@@ -38,14 +38,31 @@ class Cart {
     }
     
     /**
-        Adds course to cart's course list
+        Adds courses to cart's course list
     
         :param: Array of courses to add to cart
     */
     func setCourses(courses: [Course]){
         for course in courses{
-            courseArray.append(course);
+            addCourse(course)
         }
+    }
+    
+    func addCourse(course: Course) -> Bool{
+        if cartContains(course) != true {
+            courseArray.append(course)
+            return true
+        }
+        return false
+    }
+    
+    func cartContains(course: Course) -> Bool {
+        for cartCourse in courseArray {
+            if cartCourse.crn == course.crn {
+                return true
+            }
+        }
+        return false
     }
     
     /**
@@ -90,7 +107,12 @@ class Cart {
     */
     func underSeatLimit(course: Course)->Bool{
         //TODO: Return true if registered students +  is under number
-        return true
+        if (course.numStudentsAllowed > course.numStudentsRegistered) {
+            return true
+        }
+        else {
+            return false
+        }
     }
     
 }
