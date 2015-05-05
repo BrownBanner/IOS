@@ -11,6 +11,12 @@ import UIKit
 
 class CalendarViewController: UIViewController {
     
+    let blue = appDelegate.colorWithHexString("#3498db")//#3498db
+    let grey = appDelegate.colorWithHexString("#ecf0f1")//#bdc3c7
+    let text_color = appDelegate.colorWithHexString("#666666")//#666666
+    let background_color = appDelegate.colorWithHexString("#F9F8F4")//#F9F8F4
+    let background_color_dos = appDelegate.colorWithHexString("#FCFBF7")//#FCFBF7
+    
     
     @IBOutlet weak var menuButton: UIBarButtonItem!
     @IBOutlet var browseDepartments: UIBarButtonItem!
@@ -40,14 +46,10 @@ class CalendarViewController: UIViewController {
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
         self.navigationController!.navigationBar.translucent = false;
         
-        self.view.backgroundColor = UIColor(red: 0.976, green: 0.972, blue: 0.956, alpha: 1)
+//        self.view.backgroundColor = UIColor(red: 0.976, green: 0.972, blue: 0.956, alpha: 1)
         
         //#######Calendar Body
-        addCourseBlocks();
-    }
-    
-    func addCourseBlocks(){
-//        
+        addDayColumns();
     }
     
     func getCart() {
@@ -94,8 +96,7 @@ class CalendarViewController: UIViewController {
         let screenHeight = screenSize.height
         let minHeight = screenHeight/(1800-800)
         
-        let blue = appDelegate.colorWithHexString("#3498db")//#3498db
-        let grey = appDelegate.colorWithHexString("#bdc3c7")//#bdc3c7
+        
         
         var day_width = screenWidth/5
         
@@ -139,6 +140,7 @@ class CalendarViewController: UIViewController {
                     //Create Courselabel
                     let label_height = CGFloat(20)
                     var course_label = UILabel(frame: CGRectMake(2, cb_height, day_width, label_height))
+                    course_label.textColor = text_color
                     course_label.font = UIFont(name: "Avenir-Roman", size: 13)
                     course_label.text = course_code
                     courseBlock.addSubview(course_label);
@@ -197,5 +199,37 @@ class CalendarViewController: UIViewController {
         }
         
         
+    }
+    
+    func addDayColumns(){
+        let screenSize: CGRect = UIScreen.mainScreen().bounds
+        let screenWidth = screenSize.width
+        let screenHeight = screenSize.height
+        var day_width = screenWidth/5
+        
+        for var i = 0; i < 5; i++
+        {
+            var day_column = UIView(frame: CGRectMake(CGFloat(i)*day_width, 0, day_width, screenHeight))
+            if isEven(i){
+                day_column.backgroundColor = background_color
+            }else{
+                day_column.backgroundColor = background_color_dos
+            }
+            self.view .addSubview(day_column);
+        }
+    }
+    
+    func isEven(n:Int) -> Bool {
+        
+        // Bitwise check
+        if (n & 1 != 0) {
+            return false
+        }
+        
+        // Mod check
+        if (n % 2 != 0) {
+            return false
+        }
+        return true
     }
 }
