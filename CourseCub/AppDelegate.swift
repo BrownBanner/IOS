@@ -110,7 +110,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     
     var department_list = [Department]()
-    var backbutton = UIImage(named: "whitearrow")
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
@@ -132,7 +131,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
 
         
-        UIBarButtonItem.appearance().setBackButtonBackgroundImage(self.backbutton!.resizableImageWithCapInsets(UIEdgeInsetsMake(5, 0, 0, 5)), forState: UIControlState.Normal, barMetrics: UIBarMetrics.Default)
+        //UIBarButtonItem.appearance().setBackButtonBackgroundImage(self.backbutton!.resizableImageWithCapInsets(UIEdgeInsetsMake(5, 0, 0, 5)), forState: UIControlState.Normal, barMetrics: UIBarMetrics.Default)
+        
         
         
         return true

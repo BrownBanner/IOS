@@ -29,7 +29,6 @@ class LocationViewController: UIViewController, UIWebViewDelegate {
     var cookieJar : NSHTTPCookieStorage = NSHTTPCookieStorage.sharedHTTPCookieStorage()
     
     func loadAddressURL() {
-        print(URLPath as String!)
         let requestURL = NSURL(string:URLPath)
         let request = NSURLRequest(URL:requestURL!)
         Webview?.delegate = self
@@ -38,8 +37,10 @@ class LocationViewController: UIViewController, UIWebViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        URLPath = "http://www.brown.edu/Facilities/Facilities_Management/maps/#building/" //+ location
+        URLPath = "http://www.brown.edu/Facilities/Facilities_Management/m/index.php" //+ location
         loadAddressURL()
+
+
         // Do any additional setup after loading the view, typically from a nib.
     }
     
@@ -52,6 +53,10 @@ class LocationViewController: UIViewController, UIWebViewDelegate {
     }
     
     func webViewDidFinishLoad(webView : UIWebView) {
+        let a = Webview.stringByEvaluatingJavaScriptFromString("document.getElementById('searchbtn').childNodes[0].click();")
+        let b = Webview.stringByEvaluatingJavaScriptFromString("document.getElementById('btnsearch').click();")
+        let c = Webview.stringByEvaluatingJavaScriptFromString("document.getElementById('txtsearch').value = '" + location + "';")
+        let d = Webview.stringByEvaluatingJavaScriptFromString("window.searchlist();")
         /*var loggedIn = webView.stringByEvaluatingJavaScriptFromString("window.location.href")
         if (loggedIn! == "https://selfservice-qas.brown.edu/ssPPRD/twbkwbis.P_GenMenu?name=bmenu.P_MainMnu") {
             webView.hidden = true;

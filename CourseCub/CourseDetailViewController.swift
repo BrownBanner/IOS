@@ -111,6 +111,7 @@ class CourseDetailViewController: UIViewController  {
         
         var backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
         self.navigationItem.backBarButtonItem = backButton;
+        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
         
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor(),
             NSFontAttributeName: UIFont(name: "Avenir-Roman", size: 20)!]

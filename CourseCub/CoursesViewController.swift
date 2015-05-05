@@ -49,6 +49,7 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
         
         var backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
         self.navigationItem.backBarButtonItem = backButton;
+        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
         
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor(),
             NSFontAttributeName: UIFont(name: "Avenir-Roman", size: 20)!]
@@ -59,6 +60,10 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
             controller.searchResultsUpdater = self
             controller.dimsBackgroundDuringPresentation = false
             controller.searchBar.sizeToFit()
+            controller.searchBar.barTintColor = UIColor(red: 0.976, green: 0.972, blue: 0.956, alpha: 1)
+            controller.searchBar.layer.borderWidth = 1
+            controller.searchBar.layer.borderColor = UIColor(red: 0.976, green: 0.972, blue: 0.956, alpha: 1).CGColor
+            controller.searchBar.layer.shadowColor = UIColor(red: 0.976, green: 0.972, blue: 0.956, alpha: 1).CGColor
             controller.hidesNavigationBarDuringPresentation = false
             
             self.tableView.tableHeaderView = controller.searchBar
