@@ -109,13 +109,16 @@ class CalendarViewController: UIViewController {
             var stop_time = start_stop_array[1].toInt()!
             //Day
             var days_array = Array(meetingParts[3])
+            //Course Code
+            var subjectc_array = course.subjectc.componentsSeparatedByString(" ")
+            var course_code = subjectc_array[0]+subjectc_array[1]
+            println(course_code)
             
             
             //Course time info to pixel data
             var start_point = CGFloat(start_time-800)
             var duration = minHeight*CGFloat(stop_time-start_time)
             var min_offset = minHeight*start_point
-            
             //Day to pixels
             var day_num = CGFloat(0);
             for day in days_array{
@@ -129,9 +132,17 @@ class CalendarViewController: UIViewController {
                     var courseBlock = UIView(frame: CGRectMake(day_offset, min_offset, day_width, duration))
                     courseBlock.backgroundColor=grey
                     //Create color bumbper
-                    var color_bumper = UIView(frame: CGRectMake(0, 0, day_width, 10))
+                    let cb_height = CGFloat(10)
+                    var color_bumper = UIView(frame: CGRectMake(0, 0, day_width, cb_height))
                     color_bumper.backgroundColor=blue
                     courseBlock.addSubview(color_bumper);
+                    //Create Courselabel
+                    let label_height = CGFloat(20)
+                    var course_label = UILabel(frame: CGRectMake(2, cb_height, day_width, label_height))
+                    course_label.font = UIFont(name: "Avenir-Roman", size: 13)
+                    course_label.text = course_code
+                    courseBlock.addSubview(course_label);
+                    
                     //Add to view
                     self.view.addSubview(courseBlock)
                     
