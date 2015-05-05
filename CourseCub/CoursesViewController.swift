@@ -225,7 +225,6 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
                 self.jsonCourseList = JSON(jsonResult)
                 let count: Int? = self.jsonCourseList["items"].array?.count
                 
-                
                 var selectedCourses = CoursesViewController();
 
                 for (index: String, courseJson: JSON) in self.jsonCourseList["items"] {

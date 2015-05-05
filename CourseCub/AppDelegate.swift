@@ -21,9 +21,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let COURSE_TERM_CODE = "COURSE_CODE"
     var storedIndex = 2
     var storedTerm = "Spring 2015"
-    var storedCode = "201520"
-    
-    let CART_ARRAY = "CART_ARRAY"
+    var storedCode = "201420"
+    var currentCart = Cart(cartTitle: "", cartCourseArray: [Course]())
     
     let hardcoded_department_abrv = ["AFRI", "AMST", "ANTH", "APMA", "ARAB", "ARCH", "AWAS", "BEO", "BIOL", "CATL", "CHEM", "CHIN", "CLAS", "CLPS", "COLT", "CROL", "CSCI", "CZCH", "DEVL", "EAST", "ECON", "EDUC", "EGYT", "EINT", "ENGL", "ENGN", "ENVS", "ERLY", "ETHN", "FREN", "GEOL", "GISP", "GNSS", "GREK", "GRMN", "HIAA", "HISP", "HIST", "HMAN", "HNDI", "INDP", "INTL", "ITAL", "JAPN", "JUDS","KREA", "LANG", "LAST", "LATN", "LING", "LITR", "MATH", "MCM", "MDVL", "MES", "MGRK", "MUSC", "NEUR", "PHIL", "PHP", "PHYS", "PLME", "PLSH", "POBS", "POLS", "PPAI", "PRSN", "RELS", "REMS", "RUSS", "SANS", "SCSO", "SIGN", "SLAV", "SOC",  "SWED", "TAPS", "TKSH", "UNIV", "URBN", "VISA"]
     
@@ -111,7 +110,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     
     var department_list = [Department]()
-    
     var backbutton = UIImage(named: "whitearrow")
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
@@ -140,6 +138,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
+    func getSessionCookie() -> String {
+        var cookie : NSHTTPCookie = NSHTTPCookie()
+        var cookieJar : NSHTTPCookieStorage = NSHTTPCookieStorage.sharedHTTPCookieStorage()
+        var cookies = cookieJar.cookiesForURL(NSURL(string: "https://bannersso.cis-qas.brown.edu/SSB_PPRD")!) as! [NSHTTPCookie]
+        
+        for cookie in cookies {
+            if (cookie.name == "IDMSESSID") {
+                return cookie.value!
+            }
+        }
+        return "null"
+    }
+    
     func setDefaults() {
         
         var defaults = NSUserDefaults.standardUserDefaults()
@@ -148,10 +159,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             defaults.setObject(storedIndex, forKey: COURSE_TERM_INDEX)
             defaults.setObject(storedCode, forKey: COURSE_TERM_CODE)
             defaults.synchronize()
-        }
-        
-        if defaults.objectForKey(CART_ARRAY) == nil {
-//            defaults.setObject(Cart(), forKey: CART_ARRAY)
         }
     }
 

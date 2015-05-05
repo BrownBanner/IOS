@@ -14,12 +14,12 @@ class CalendarViewController: UIViewController {
     
     @IBOutlet weak var menuButton: UIBarButtonItem!
     @IBOutlet var browseDepartments: UIBarButtonItem!
+    @IBOutlet weak var cartTextField: UITextView!
     
     var cartCRNs = JSON("")
     var cartCourses = JSON("")
     
     override func viewDidLoad() {
-        getCart()
         
         
         var backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
@@ -39,25 +39,18 @@ class CalendarViewController: UIViewController {
         
         self.view.backgroundColor = UIColor(red: 0.976, green: 0.972, blue: 0.956, alpha: 1)
     }
-    
-    func getSessionCookie() -> String {
-        var cookie : NSHTTPCookie = NSHTTPCookie()
-        var cookieJar : NSHTTPCookieStorage = NSHTTPCookieStorage.sharedHTTPCookieStorage()
-        var cookies = cookieJar.cookiesForURL(NSURL(string: "https://bannersso.cis-qas.brown.edu/SSB_PPRD")!) as! [NSHTTPCookie]
-        
-        for cookie in cookies {
-            if (cookie.name == "IDMSESSID") {
-                return cookie.value!
-            }
-        }
-        return "null"
+
+    override func viewDidAppear(animated: Bool) {
+        getCart()
+
     }
+    
     
     func getCart() {
         var defaults = NSUserDefaults.standardUserDefaults()
         var termCode = defaults.objectForKey(appDelegate.COURSE_TERM_CODE) as! String
         
-        let urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/cartbyid?term=" + termCode + "&in_id=" + getSessionCookie()
+        let urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/cartbyid?term=" + termCode + "&in_id=" + appDelegate.getSessionCookie()
         let url = NSURL(string: urlPath)
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: nil, delegateQueue: NSOperationQueue.mainQueue())
         let task = session.dataTaskWithURL(url!, completionHandler: {data, response, error -> Void in
@@ -75,16 +68,28 @@ class CalendarViewController: UIViewController {
                 }
                 
                 self.cartCRNs = JSON(jsonResult);
+                var tempCart = [Course]()
                 for (index: String, cartItem: JSON) in self.cartCRNs["items"] {
-                    print(cartItem)
-                    self.getCourse(cartItem)
+                    var tempCourse = Course(jsonCourse: cartItem)
+                    tempCart.append(tempCourse)
                 }
+                appDelegate.currentCart.setCourses(tempCart)
+                self.refreshCalendar()
                 return;
             }
             
         })
         
         task.resume()
+    }
+    
+    func refreshCalendar() {
+        self.cartTextField.text = ""
+        for (course: Course) in appDelegate.currentCart.getCourses() {
+            self.cartTextField.text =  self.cartTextField.text + "\n" + course.title + " Registered: " + course.reg_indicator + "\n"
+        }
+        self.cartTextField.reloadInputViews()
+
     }
     
     func getCourse(courseCRN: JSON) {
