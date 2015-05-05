@@ -6,6 +6,10 @@
 //  Copyright (c) 2015 Cody R Fitzgerald. All rights reserved.
 //
 
+
+//TODO:
+//Pull to refresh
+
 import UIKit
 
 let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
@@ -145,10 +149,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         for cookie in cookies {
             if (cookie.name == "IDMSESSID") {
-                return cookie.value!
+//                return cookie.value!
+                return "100463816"
             }
         }
-        return "null"
+//        return "null"
+        return "100463816"
     }
     
     func setDefaults() {
@@ -182,6 +188,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    }
+    
+    func colorWithHexString (hex:String) -> UIColor {
+        var cString:String = hex.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet() as NSCharacterSet).uppercaseString
+        
+        if (cString.hasPrefix("#")) {
+            cString = cString.substringFromIndex(advance(cString.startIndex, 1))
+        }
+        
+        if (count(cString) != 6) {
+            return UIColor.grayColor()
+        }
+        
+        var rgbValue:UInt32 = 0
+        NSScanner(string: cString).scanHexInt(&rgbValue)
+        
+        return UIColor(
+            red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+            green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+            blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+            alpha: CGFloat(1.0)
+        )
     }
 
 

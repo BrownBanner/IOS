@@ -19,8 +19,11 @@ class CalendarViewController: UIViewController {
     var cartCRNs = JSON("")
     var cartCourses = JSON("")
     
-    override func viewDidLoad() {
+    override func viewDidAppear(animated: Bool) {
+        getCart()
         
+    }
+    override func viewDidLoad() {
         
         var backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
         self.navigationItem.backBarButtonItem = backButton;
@@ -38,13 +41,14 @@ class CalendarViewController: UIViewController {
         self.navigationController!.navigationBar.translucent = false;
         
         self.view.backgroundColor = UIColor(red: 0.976, green: 0.972, blue: 0.956, alpha: 1)
-    }
-
-    override func viewDidAppear(animated: Bool) {
-        getCart()
-
+        
+        //#######Calendar Body
+        addCourseBlocks();
     }
     
+    func addCourseBlocks(){
+//        
+    }
     
     func getCart() {
         var defaults = NSUserDefaults.standardUserDefaults()
@@ -84,11 +88,56 @@ class CalendarViewController: UIViewController {
     }
     
     func refreshCalendar() {
-        self.cartTextField.text = ""
+        var day_letters = ["M","T","W","R","F"]
+        let screenSize: CGRect = UIScreen.mainScreen().bounds
+        let screenWidth = screenSize.width
+        let screenHeight = screenSize.height
+        let minHeight = screenHeight/(1800-800)
+        
+        let blue = appDelegate.colorWithHexString("#3498db")//#3498db
+        let grey = appDelegate.colorWithHexString("#bdc3c7")//#bdc3c7
+        
+        var day_width = screenWidth/5
+        
         for (course: Course) in appDelegate.currentCart.getCourses() {
-            self.cartTextField.text =  self.cartTextField.text + "\n" + course.title + " Registered: " + course.reg_indicator + "\n"
+            //Get Course Info
+            var meetingParts = course.meeting_time.componentsSeparatedByString(" ")
+            println(meetingParts)
+            //Time
+            var start_stop_array = meetingParts[4].componentsSeparatedByString("-")
+            var start_time = start_stop_array[0].toInt()!
+            var stop_time = start_stop_array[1].toInt()!
+            //Day
+            var days_array = Array(meetingParts[3])
+            
+            
+            //Course time info to pixel data
+            var start_point = CGFloat(start_time-800)
+            var duration = minHeight*CGFloat(stop_time-start_time)
+            var min_offset = minHeight*start_point
+            
+            //Day to pixels
+            var day_num = CGFloat(0);
+            for day in days_array{
+                if let d = find(day_letters, String(day))
+                {
+                    println(d)
+                    var day_num = CGFloat(d)
+                    var day_offset = day_width * day_num
+                    
+                    //Create courseBlock
+                    var courseBlock = UIView(frame: CGRectMake(day_offset, min_offset, day_width, duration))
+                    courseBlock.backgroundColor=grey
+                    //Create color bumbper
+                    var color_bumper = UIView(frame: CGRectMake(0, 0, day_width, 10))
+                    color_bumper.backgroundColor=blue
+                    courseBlock.addSubview(color_bumper);
+                    //Add to view
+                    self.view.addSubview(courseBlock)
+                    
+                }
+            }
         }
-        self.cartTextField.reloadInputViews()
 
     }
     
