@@ -23,6 +23,7 @@ class DepartmentViewController: UITableViewController, UITableViewDataSource, UI
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
         
         
         self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "department")
