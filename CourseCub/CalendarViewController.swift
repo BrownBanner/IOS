@@ -12,7 +12,7 @@ import UIKit
 class CalendarViewController: UIViewController {
     
     let blue = appDelegate.colorWithHexString("#3498db")//#3498db
-    let grey = appDelegate.colorWithHexString("#ecf0f1")//#bdc3c7
+    let grey = appDelegate.colorWithHexString("#DEE1E2")//#bdc3c7
     let text_color = appDelegate.colorWithHexString("#666666")//#666666
     let background_color = appDelegate.colorWithHexString("#F9F8F4")//#F9F8F4
     let background_color_dos = appDelegate.colorWithHexString("#FCFBF7")//#FCFBF7
