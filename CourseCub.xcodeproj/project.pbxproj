@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1714C5EC1A950CEF00B74BAC /* Department(List).swift in Sources */ = {isa = PBXBuildFile; fileRef = 1714C5EB1A950CEF00B74BAC /* Department(List).swift */; };
+		173D2C581AF8241B00E53DA7 /* LocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173D2C571AF8241B00E53DA7 /* LocationViewController.swift */; };
 		1748F2671A929496000ACBCF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1748F2661A929496000ACBCF /* AppDelegate.swift */; };
 		1748F2691A929496000ACBCF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1748F2681A929496000ACBCF /* ViewController.swift */; };
 		1748F26C1A929496000ACBCF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1748F26A1A929496000ACBCF /* Main.storyboard */; };
@@ -43,6 +44,7 @@
 
 /* Begin PBXFileReference section */
 		1714C5EB1A950CEF00B74BAC /* Department(List).swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Department(List).swift"; sourceTree = "<group>"; };
+		173D2C571AF8241B00E53DA7 /* LocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationViewController.swift; sourceTree = "<group>"; };
 		1748F2611A929496000ACBCF /* CourseCub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CourseCub.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1748F2651A929496000ACBCF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1748F2661A929496000ACBCF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 				1748F26D1A929496000ACBCF /* Images.xcassets */,
 				1748F26F1A929496000ACBCF /* LaunchScreen.xib */,
 				1748F2641A929496000ACBCF /* Supporting Files */,
+				173D2C571AF8241B00E53DA7 /* LocationViewController.swift */,
 			);
 			path = CourseCub;
 			sourceTree = "<group>";
@@ -278,6 +281,7 @@
 				1748F28F1A929B1F000ACBCF /* CourseDetailViewController.swift in Sources */,
 				1748F28B1A9299EE000ACBCF /* DepartmentViewController.swift in Sources */,
 				178A96E11A9E53DD000E74A9 /* SwiftyJSON.swift in Sources */,
+				173D2C581AF8241B00E53DA7 /* LocationViewController.swift in Sources */,
 				1748F28D1A929ABC000ACBCF /* CoursesViewController.swift in Sources */,
 				9C0AA2C31ADF00C600A968DA /* AdvancedSearchViewController.swift in Sources */,
 				9C2B4CEC1AD1E73C002FD17F /* LocalSubstitutionCache.swift in Sources */,

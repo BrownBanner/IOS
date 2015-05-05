@@ -39,6 +39,11 @@ class CourseDetailViewController: UIViewController  {
     }
     @IBOutlet var locationButton: UIButton!
     @IBAction func locationClicked(sender: AnyObject) {
+        let sb = UIStoryboard(name: "Main", bundle:nil)
+        let locationController = sb.instantiateViewControllerWithIdentifier("locationViewController") as! LocationViewController
+        locationController.location = locationLabel.text!
+        self.navigationController?.pushViewController(locationController, animated: true);
+
     }
     @IBOutlet var moreInfoButton: UIButton!
     @IBAction func moreInfoClicked(sender: AnyObject) {

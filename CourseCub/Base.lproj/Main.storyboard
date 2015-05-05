@@ -280,23 +280,12 @@
                                                 <color key="textColor" red="0.22352941179999999" green="0.1176470588" blue="0.1058823529" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="Description:" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dXL-Xq-qXX">
-                                                <rect key="frame" x="45" y="293" width="536" height="112"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" priority="250" constant="119" id="Tig-OZ-sUE"/>
-                                                    <constraint firstAttribute="width" constant="536" id="ooo-YB-2MP"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
-                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
                                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cYU-ef-K1N">
                                                 <rect key="frame" x="19" y="420" width="557" height="65"/>
                                                 <state key="normal">
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="locationClicked:" destination="8iH-3F-6f7" eventType="touchUpInside" id="HEv-18-LnZ"/>
                                                     <action selector="moreInfoClicked:" destination="8iH-3F-6f7" eventType="touchUpInside" id="Vc3-wJ-1W0"/>
                                                 </connections>
                                             </button>
@@ -316,6 +305,16 @@
                                                 </constraints>
                                                 <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="16"/>
                                                 <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" misplaced="YES" text="Description:" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dXL-Xq-qXX">
+                                                <rect key="frame" x="45" y="295" width="536" height="112"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" priority="250" constant="119" id="Tig-OZ-sUE"/>
+                                                    <constraint firstAttribute="width" constant="536" id="ooo-YB-2MP"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
@@ -554,11 +553,45 @@
                         <outlet property="seatsLabel" destination="yay-v0-fEn" id="Bk3-jn-9HV"/>
                         <outlet property="titleLabel" destination="Qcb-RH-ITn" id="NiY-AS-rRF"/>
                         <outlet property="trueScrollView" destination="co9-6j-34I" id="UBz-MP-IUf"/>
+                        <segue destination="1JN-4x-91B" kind="show" identifier="toLocation" id="DX7-qZ-l2l"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2Lx-qf-W1w" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3584" y="427"/>
+            <point key="canvasLocation" x="3585" y="427"/>
+        </scene>
+        <!--Location View Controller-->
+        <scene sceneID="Xl7-Hs-sdy">
+            <objects>
+                <viewController storyboardIdentifier="locationViewController" id="1JN-4x-91B" customClass="LocationViewController" customModule="CourseCub" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="zWt-59-Elj"/>
+                        <viewControllerLayoutGuide type="bottom" id="oBS-gK-iye"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="7aR-Uc-lds">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qgh-B8-yUC">
+                                <rect key="frame" x="0.0" y="66" width="600" height="534"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </webView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Qgh-B8-yUC" firstAttribute="leading" secondItem="7aR-Uc-lds" secondAttribute="leading" id="59n-tf-KcF"/>
+                            <constraint firstAttribute="trailing" secondItem="Qgh-B8-yUC" secondAttribute="trailing" id="Emt-L2-lfO"/>
+                            <constraint firstItem="Qgh-B8-yUC" firstAttribute="bottom" secondItem="oBS-gK-iye" secondAttribute="top" id="Ryf-83-n1d"/>
+                            <constraint firstItem="Qgh-B8-yUC" firstAttribute="top" secondItem="zWt-59-Elj" secondAttribute="bottom" constant="2" id="ceW-Lv-aFK"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="Webview" destination="Qgh-B8-yUC" id="5RB-gp-FBk"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="L6j-m6-2Lv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4241" y="427"/>
         </scene>
         <!--Reveal View Controller-->
         <scene sceneID="OzL-7F-KLR">
