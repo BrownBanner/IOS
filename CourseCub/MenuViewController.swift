@@ -114,7 +114,7 @@ class MenuViewController: UITableViewController {
     }
     
     func addCart() {
-        self.carts.append("New Cart")
+        appDelegate.namedCarts.append("New Cart")
         self.tableView.reloadData()
     }
     
