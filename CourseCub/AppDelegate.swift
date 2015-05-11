@@ -27,6 +27,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var storedTerm = "Spring 2015"
     var storedCode = "201420"
     var currentCart = Cart(cartTitle: "", cartCourseArray: [Course]())
+    var namedCarts = [String]()
+    var cartsLoaded = false
 
     let hardcoded_department_abrv = [
         "AFRI",
