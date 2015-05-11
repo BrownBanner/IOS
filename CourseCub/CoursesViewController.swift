@@ -10,15 +10,13 @@ import UIKit
 
 class CoursesViewController: UITableViewController, UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating  {
     
-    var alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
-    var alphabet_dict = Dictionary<String, Int>()
-    var alphabet_count = [Int](count: 26, repeatedValue: 0);
+
     var department = ""
     var abbrev = ""
     var jsonCourseList = JSON("")
     var courseList = [Course]();
     var spinner = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
-    var searchResults = [String]()
+    var searchResults = [Course]()
     var resultSearchController = UISearchController()
 
     
@@ -31,9 +29,6 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         
-        for letter in alphabet {
-            alphabet_dict[letter] = 0
-        }
         
         
         self.spinner.center = CGPointMake(self.view.frame.width / 2, 60)
@@ -115,8 +110,8 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
         //    return 1
         //}
         //else {
-            return alphabet.count
-        //}
+        
+        return 1
         
     }
 
@@ -124,38 +119,35 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
         
-        //if (self.resultSearchController.active) {
-        //    return self.searchResults.count
-        //}
-        //else {
-            var letter = ""
-            for var i = 0 ; i < alphabet.count; i++ {
-                if i == section {
-                    letter = alphabet[i]
-                }
-            }
-            return alphabet_dict[letter]!
-        //}
-        
+        if (self.resultSearchController.active) {
+            return self.searchResults.count
+        }
+        else {
+            return courseList.count
+        }
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "Cell")
         
-        var row_increment = 0
-        if (indexPath.section != 0){
-            row_increment = alphabet_count[indexPath.section - 1]
+        var course: Course
+        if (self.resultSearchController.active) {
+            course =  searchResults[indexPath.row]
         }
-
-        var subjectParts = courseList[row_increment + indexPath.row].subjectc.componentsSeparatedByString(" ")
-        var meetingParts = courseList[row_increment + indexPath.row].meeting_time.componentsSeparatedByString(" ")
+        else {
+            course = courseList[indexPath.row]
+        }
+        
+        var subjectParts = course.subjectc.componentsSeparatedByString(" ")
+        var meetingParts = course.meeting_time.componentsSeparatedByString(" ")
         var meetingTime = meetingParts[3] + " " + meetingParts[4];
-        cell.detailTextLabel?.text = subjectParts[1] + " " + subjectParts[2] + " " + meetingTime;
-        cell.textLabel?.text = courseList[row_increment + indexPath.row].title;
+         cell.detailTextLabel?.text = subjectParts[1] + " " + subjectParts[2] + " " + meetingTime;
+        cell.textLabel?.text = course.title;
+
         cell.detailTextLabel?.lineBreakMode = NSLineBreakMode.ByWordWrapping;
         cell.detailTextLabel?.numberOfLines = 0;
-        print(appDelegate.currentCart.cartContains(courseList[row_increment + indexPath.row]))
-        if (appDelegate.currentCart.cartContains(courseList[row_increment + indexPath.row])) {
+
+        if (appDelegate.currentCart.cartContains(course)) {
             cell.backgroundColor = UIColor(red: 0.9411, green: 0.3254, blue: 0.3254, alpha: 0.8)
             cell.textLabel?.textColor = UIColor.whiteColor()
             cell.detailTextLabel?.textColor = UIColor.whiteColor()
@@ -178,13 +170,44 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
         return cell
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        var row_increment = 0
-        if (indexPath.section != 0){
-            row_increment = alphabet_count[indexPath.section - 1]
+    func updateSearchResultsForSearchController(searchController: UISearchController)
+    {
+        searchResults.removeAll(keepCapacity: false)
+        
+        let charset = NSCharacterSet(charactersInString: " ")
+        let array = resultSearchController.searchBar.text.componentsSeparatedByCharactersInSet(charset) as NSArray
+        
+        for course in courseList {
+            var wordInFilter = true
+            for word in array {
+                var containsPart = false
+                if (course.title.rangeOfString(word as! String, options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil, locale: nil) != nil) {
+                    containsPart = true
+                }
+                if (course.subjectc.rangeOfString(word as! String, options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil, locale: nil) != nil)  {
+                    containsPart = true
+                }
+                if (course.meeting_time.rangeOfString(word as! String, options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil, locale: nil) != nil)  {
+                    containsPart = true
+                }
+                
+                wordInFilter = containsPart
+                if wordInFilter == false {
+                    break;
+                }
+            }
+            if wordInFilter {
+                searchResults.append(course)
+            }
         }
         
-        var course  = courseList[indexPath.row + row_increment];
+        self.tableView.reloadData()
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+
+        
+        var course  = courseList[indexPath.row];
         
         let sb = UIStoryboard(name: "Main", bundle: nil)
         let detailsCourse = sb.instantiateViewControllerWithIdentifier("courseDetail") as! CourseDetailViewController
@@ -194,26 +217,7 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
     }
     
     
-    func updateSearchResultsForSearchController(searchController: UISearchController)
-    {
-        //searchResults.removeAll(keepCapacity: false)
-        
-        //Fill this in for searching
-        
-        self.tableView.reloadData()
-    }
-    
-//    override func sectionIndexTitlesForTableView(tableView: UITableView) -> [AnyObject]! {
-//        return self.alphabet
-//    }
-//    
-//    override func tableView(tableView: UITableView, sectionForSectionIndexTitle title: String, atIndex index: Int) -> Int {
-//        return index
-//    }
-//    
-//    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//        return alphabet[section]
-//    }
+
 
     func getClassesByDepartment(depAbbrev: String?, department: String) {
         
@@ -247,7 +251,6 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
                 }
                 
                 self.sortCourses()
-                self.countSections()
                 self.spinner.stopAnimating()
                 self.tableView.reloadData()
                 return;
@@ -258,27 +261,6 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
         task.resume()
     }
     
-    
-    func countSections () {
-        
-        for course in courseList {
-            var firstLetter = course.title.substringToIndex(advance(course.title.startIndex, 1))
-            if alphabet_dict[firstLetter] == nil {
-                alphabet_dict[firstLetter] = 0
-            } else {
-                alphabet_dict[firstLetter] = 1 + alphabet_dict[firstLetter]!
-            }
-        }
-        
-        for var i = 0 ; i < alphabet.count; i++ {
-            var previous = 0
-            if (i != 0) {
-                previous = alphabet_count[i - 1]
-            }
-            alphabet_count[i] = alphabet_dict[alphabet[i]]! + previous
-            
-        }
-    }
     
 //    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
 //        return 0;

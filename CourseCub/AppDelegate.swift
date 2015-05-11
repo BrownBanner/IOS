@@ -31,6 +31,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var currentCart = Cart(cartTitle: "", cartCourseArray: [Course]())
     var clickedSearchCourse = false
     var searchTextSave = ""
+    var namedCarts = [String]()
+    var cartsLoaded = false
+
 
     let hardcoded_department_abrv = [
         "AFRI",

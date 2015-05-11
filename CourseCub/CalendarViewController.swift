@@ -27,8 +27,8 @@ class CalendarViewController: UIViewController {
     
     override func viewDidAppear(animated: Bool) {
         getCart()
-        
     }
+    
     override func viewDidLoad() {
         
         var backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
@@ -50,19 +50,11 @@ class CalendarViewController: UIViewController {
         
         //#######Calendar Body
         addDayColumns();
-        print ("ALEC")
-        for (course: Course) in appDelegate.currentCart.getCourses() {
-            print (course.title)
-            print("\n")
-        }
     }
     
     func getCart() {
         var defaults = NSUserDefaults.standardUserDefaults()
         var termCode = defaults.objectForKey(appDelegate.COURSE_TERM_CODE) as! String
-        print ("TERMCODE")
-        print (termCode)
-        print("\n")
         let urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/cartbyid?term=" + termCode + "&in_id=" + appDelegate.getSessionCookie()
         let url = NSURL(string: urlPath)
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: nil, delegateQueue: NSOperationQueue.mainQueue())
@@ -110,7 +102,7 @@ class CalendarViewController: UIViewController {
         for (course: Course) in appDelegate.currentCart.getCourses() {
             //Get Course Info
             var meetingParts = course.meeting_time.componentsSeparatedByString(" ")
-            println(meetingParts)
+//            println(meetingParts)
             //Time
             var start_stop_array = meetingParts[4].componentsSeparatedByString("-")
             var start_time = start_stop_array[0].toInt()!
@@ -120,7 +112,7 @@ class CalendarViewController: UIViewController {
             //Course Code
             var subjectc_array = course.subjectc.componentsSeparatedByString(" ")
             var course_code = subjectc_array[0]+subjectc_array[1]
-            println(course_code)
+//            println(course_code)
             
             
             //Course time info to pixel data
@@ -132,7 +124,7 @@ class CalendarViewController: UIViewController {
             for day in days_array{
                 if let d = find(day_letters, String(day))
                 {
-                    println(d)
+//                    println(d)
                     var day_num = CGFloat(d)
                     var day_offset = day_width * day_num
                     
@@ -161,38 +153,38 @@ class CalendarViewController: UIViewController {
 
     }
     
-    func getCourse(courseCRN: JSON) {
-        let cartCourse = Course(jsonCourse: courseCRN)
-        
-        
-        var defaults = NSUserDefaults.standardUserDefaults()
-        var termCode = defaults.objectForKey(appDelegate.COURSE_TERM_CODE) as! String
-        let urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/courses?term=" + termCode + "&crn=" + cartCourse.crn
-        let url = NSURL(string: urlPath)
-        let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: nil, delegateQueue: NSOperationQueue.mainQueue())
-        let task = session.dataTaskWithURL(url!, completionHandler: {data, response, error -> Void in
-            if(error != nil) {
-                // If there is an error in the web request, print it to the console
-                println(error.localizedDescription)
-                return;
-            } else {
-                var err: NSError?
-                
-                var jsonResult = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: &err) as! NSDictionary
-                if(err != nil) {
-                    // If there is an error parsing JSON, print it to the console
-                    println("JSON Error \(err!.localizedDescription)")
-                }
-                
-                print(JSON(jsonResult));
-              
-                return;
-            }
-            
-        })
-        
-        task.resume()
-    }
+//    func getCourse(courseCRN: JSON) {
+//        let cartCourse = Course(jsonCourse: courseCRN)
+//        
+//        
+//        var defaults = NSUserDefaults.standardUserDefaults()
+//        var termCode = defaults.objectForKey(appDelegate.COURSE_TERM_CODE) as! String
+//        let urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/courses?term=" + termCode + "&crn=" + cartCourse.crn
+//        let url = NSURL(string: urlPath)
+//        let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: nil, delegateQueue: NSOperationQueue.mainQueue())
+//        let task = session.dataTaskWithURL(url!, completionHandler: {data, response, error -> Void in
+//            if(error != nil) {
+//                // If there is an error in the web request, print it to the console
+//                println(error.localizedDescription)
+//                return;
+//            } else {
+//                var err: NSError?
+//                
+//                var jsonResult = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: &err) as! NSDictionary
+//                if(err != nil) {
+//                    // If there is an error parsing JSON, print it to the console
+//                    println("JSON Error \(err!.localizedDescription)")
+//                }
+//                
+//                print(JSON(jsonResult));
+//              
+//                return;
+//            }
+//            
+//        })
+//        
+//        task.resume()
+//    }
     
     
     /* This function is a workaround for CIS's bad SSL*/

@@ -42,10 +42,10 @@ class CourseDetailViewController: UIViewController  {
         var termCode = defaults.objectForKey(appDelegate.COURSE_TERM_CODE) as! String
         var urlPath = ""
         if (inCart) {
-            urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/cart?term=201420&in_id=" + appDelegate.getSessionCookie() + "&crn=" + course.crn + "&in_type=D"
+            urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/cart?term=" + termCode + "&in_id=" + appDelegate.getSessionCookie() + "&crn=" + course.crn + "&in_type=D"
         }
         else {
-            urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/cart?term=201420&in_id=" + appDelegate.getSessionCookie() + "&crn=" + course.crn + "&in_type=I"
+            urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/cart?term=" + termCode + "&in_id=" + appDelegate.getSessionCookie() + "&crn=" + course.crn + "&in_type=I"
         }
         print (urlPath)
         let url = NSURL(string: urlPath)
