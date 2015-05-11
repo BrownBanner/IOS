@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="n6J-Ix-nFj">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
     </dependencies>
@@ -151,7 +151,6 @@
         <!--Title-->
         <scene sceneID="cau-Uz-YKG">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="2Lx-qf-W1w" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="courseDetail" id="8iH-3F-6f7" customClass="CourseDetailViewController" customModule="CourseCub" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Bvk-Ec-AK0"/>
@@ -333,9 +332,9 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vdD-Vx-u8f">
-                                                <rect key="frame" x="373" y="95" width="171" height="36"/>
+                                                <rect key="frame" x="531" y="88" width="50" height="50"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="171" id="l8g-ZF-ikb"/>
+                                                    <constraint firstAttribute="width" constant="50" id="udp-13-714"/>
                                                 </constraints>
                                             </imageView>
                                         </subviews>
@@ -362,6 +361,7 @@
                                             <constraint firstItem="OV2-mD-HM7" firstAttribute="trailing" secondItem="S8u-bA-Lnw" secondAttribute="trailing" id="9pR-Fg-aPj"/>
                                             <constraint firstItem="dXL-Xq-qXX" firstAttribute="leading" secondItem="S8u-bA-Lnw" secondAttribute="leading" id="A7D-M0-4As"/>
                                             <constraint firstItem="S8u-bA-Lnw" firstAttribute="top" secondItem="BXH-QL-Tb1" secondAttribute="bottom" constant="23" id="Aab-Iy-lZE"/>
+                                            <constraint firstItem="5Ed-9e-SfJ" firstAttribute="top" secondItem="vdD-Vx-u8f" secondAttribute="bottom" constant="8" symbolic="YES" id="Awx-s7-mJA"/>
                                             <constraint firstItem="i3j-79-lqD" firstAttribute="leading" secondItem="wdJ-Cx-3wl" secondAttribute="leading" constant="24" id="B4O-gA-uOP"/>
                                             <constraint firstItem="i3j-79-lqD" firstAttribute="centerX" secondItem="rdT-De-7Fv" secondAttribute="centerX" id="BrS-xt-iZQ"/>
                                             <constraint firstAttribute="trailing" secondItem="Qcb-RH-ITn" secondAttribute="trailing" constant="30" id="CDp-tM-qns"/>
@@ -380,7 +380,6 @@
                                             <constraint firstItem="5Ed-9e-SfJ" firstAttribute="top" secondItem="efR-dv-2d7" secondAttribute="bottom" constant="8" symbolic="YES" id="GMb-qY-TAp"/>
                                             <constraint firstItem="Qcb-RH-ITn" firstAttribute="leading" secondItem="wdJ-Cx-3wl" secondAttribute="leading" constant="30" id="IEg-O6-Hqg"/>
                                             <constraint firstItem="OV2-mD-HM7" firstAttribute="leading" secondItem="jgy-jj-o0K" secondAttribute="trailing" constant="21" id="IVD-01-ZiF"/>
-                                            <constraint firstItem="vdD-Vx-u8f" firstAttribute="trailing" secondItem="qSM-ge-bhd" secondAttribute="trailing" id="Imo-Gy-XTP"/>
                                             <constraint firstItem="S8u-bA-Lnw" firstAttribute="trailing" secondItem="rdT-De-7Fv" secondAttribute="trailing" id="Ir3-5a-Amz"/>
                                             <constraint firstAttribute="trailing" secondItem="aj3-TE-DcU" secondAttribute="trailing" id="JFc-dp-xSO"/>
                                             <constraint firstItem="efR-dv-2d7" firstAttribute="leading" secondItem="wdJ-Cx-3wl" secondAttribute="leading" constant="27" id="KIC-dq-OeY"/>
@@ -421,7 +420,6 @@
                                             <constraint firstItem="ldZ-pU-pqO" firstAttribute="leading" secondItem="qSM-ge-bhd" secondAttribute="leading" id="ah8-ZM-CVz"/>
                                             <constraint firstAttribute="trailing" secondItem="OV2-mD-HM7" secondAttribute="trailing" constant="34" id="chf-CC-S78"/>
                                             <constraint firstItem="qSM-ge-bhd" firstAttribute="leading" secondItem="BXH-QL-Tb1" secondAttribute="trailing" constant="6" id="dOv-50-cg3"/>
-                                            <constraint firstItem="vdD-Vx-u8f" firstAttribute="centerY" secondItem="yay-v0-fEn" secondAttribute="centerY" id="dWU-q0-s1H"/>
                                             <constraint firstItem="jgy-jj-o0K" firstAttribute="trailing" secondItem="ghe-EA-nRa" secondAttribute="trailing" id="dlf-Rc-djc"/>
                                             <constraint firstItem="aj3-TE-DcU" firstAttribute="leading" secondItem="wdJ-Cx-3wl" secondAttribute="leading" constant="-7" id="edQ-VU-CqQ"/>
                                             <constraint firstItem="S8u-bA-Lnw" firstAttribute="top" secondItem="329-Zt-jqd" secondAttribute="bottom" constant="8" symbolic="YES" id="fQN-jS-LAd"/>
@@ -434,7 +432,6 @@
                                             <constraint firstItem="i3j-79-lqD" firstAttribute="trailing" secondItem="rdT-De-7Fv" secondAttribute="trailing" id="fvK-Fy-UpP"/>
                                             <constraint firstItem="BXH-QL-Tb1" firstAttribute="leading" secondItem="wdJ-Cx-3wl" secondAttribute="leading" constant="98" id="gIu-NV-WCm"/>
                                             <constraint firstAttribute="trailing" secondItem="qSM-ge-bhd" secondAttribute="trailing" constant="71" id="gKd-pf-1oL"/>
-                                            <constraint firstItem="5Ed-9e-SfJ" firstAttribute="top" secondItem="vdD-Vx-u8f" secondAttribute="bottom" constant="15" id="gdq-jb-zls"/>
                                             <constraint firstItem="5Ed-9e-SfJ" firstAttribute="top" secondItem="yay-v0-fEn" secondAttribute="bottom" constant="21" id="gzL-9K-U9E"/>
                                             <constraint firstItem="aTw-xP-oYq" firstAttribute="centerY" secondItem="ldZ-pU-pqO" secondAttribute="centerY" id="hCh-Ad-JFp"/>
                                             <constraint firstItem="ghe-EA-nRa" firstAttribute="top" secondItem="rdT-De-7Fv" secondAttribute="bottom" constant="5" id="hZC-05-BZj"/>
@@ -443,11 +440,13 @@
                                             <constraint firstItem="jgy-jj-o0K" firstAttribute="trailing" secondItem="efR-dv-2d7" secondAttribute="trailing" id="iQ3-hD-JCc"/>
                                             <constraint firstItem="jgy-jj-o0K" firstAttribute="leading" secondItem="wdJ-Cx-3wl" secondAttribute="leading" constant="27" id="kQ0-Fr-l8w"/>
                                             <constraint firstItem="329-Zt-jqd" firstAttribute="top" secondItem="wdJ-Cx-3wl" secondAttribute="top" constant="213" id="kgu-Zi-EWh"/>
+                                            <constraint firstItem="vdD-Vx-u8f" firstAttribute="trailing" secondItem="5Ed-9e-SfJ" secondAttribute="trailing" id="loB-EH-uxC"/>
                                             <constraint firstItem="BXH-QL-Tb1" firstAttribute="leading" secondItem="wdJ-Cx-3wl" secondAttribute="leading" constant="98" id="m0u-gs-Ydx"/>
                                             <constraint firstItem="OV2-mD-HM7" firstAttribute="trailing" secondItem="5Ed-9e-SfJ" secondAttribute="trailing" id="mZ8-CN-h0U"/>
                                             <constraint firstItem="i3j-79-lqD" firstAttribute="trailing" secondItem="MhW-Ac-LPV" secondAttribute="trailing" id="mfT-v2-Yyd"/>
                                             <constraint firstItem="jgy-jj-o0K" firstAttribute="centerY" secondItem="OV2-mD-HM7" secondAttribute="centerY" id="mn2-Bd-xMU"/>
                                             <constraint firstItem="OV2-mD-HM7" firstAttribute="leading" secondItem="wdJ-Cx-3wl" secondAttribute="leading" constant="98" id="nD3-Y3-FaW"/>
+                                            <constraint firstItem="vdD-Vx-u8f" firstAttribute="top" secondItem="efR-dv-2d7" secondAttribute="top" id="ofm-6G-4Sj"/>
                                             <constraint firstItem="BXH-QL-Tb1" firstAttribute="trailing" secondItem="aTw-xP-oYq" secondAttribute="trailing" id="pml-0k-8jH"/>
                                             <constraint firstItem="cYU-ef-K1N" firstAttribute="centerX" secondItem="aj3-TE-DcU" secondAttribute="centerX" id="pxF-KJ-8y2"/>
                                             <constraint firstItem="aj3-TE-DcU" firstAttribute="leading" secondItem="wdJ-Cx-3wl" secondAttribute="leading" constant="-7" id="s19-lm-JS0"/>
@@ -566,6 +565,7 @@
                         <segue destination="1JN-4x-91B" kind="show" identifier="toLocation" id="DX7-qZ-l2l"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2Lx-qf-W1w" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3585" y="427"/>
         </scene>

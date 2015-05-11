@@ -89,6 +89,14 @@ class CourseDetailViewController: UIViewController  {
         
 
         inCart = appDelegate.currentCart.cartContains(course)
+        if (inCart) {
+            addToCartImage.image = UIImage(named: "RemoveFromCart")
+            cartImage.image = UIImage(named: "InCart")
+        }
+        else {
+            addToCartImage.image = UIImage(named: "AddtoCartWhite")
+            cartImage.image = nil
+        }
         
         self.view.addSubview(trueScrollView)
         self.trueScrollView.addSubview(self.scrollView)
@@ -187,9 +195,6 @@ class CourseDetailViewController: UIViewController  {
         self.scrollView.frame = frm;*/
 
         
-        if appDelegate.currentCart.cartContains(course) {
-            print("CODY HELP ME!")
-        }
     }
     
 

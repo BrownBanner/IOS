@@ -16,12 +16,14 @@ class LocationViewController: UIViewController, UIWebViewDelegate {
     
     var location = ""
     
+    var webViewLoads = 0
+    
+    var final_loc = ""
+    
     var activityIndicator:UIActivityIndicatorView? = nil
     
     // For PPRD use this
     var URLPath = "http://www.brown.edu/Facilities/Facilities_Management/maps/#building/"
-    var firstLoad = true
-    var secondLoad = false
     
     // For DPRD use this
     //  var URLPath = "https://dshibproxycit.services.brown.edu/SSB_DPRD"
@@ -39,6 +41,11 @@ class LocationViewController: UIViewController, UIWebViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        var NSlocation = location as NSString
+        let charset = NSCharacterSet(charactersInString: "0123456789()")
+        let array = NSlocation.componentsSeparatedByCharactersInSet(charset) as NSArray
+        final_loc = array.componentsJoinedByString("") as String!
+        final_loc = final_loc.stringByReplacingOccurrencesOfString("&", withString: "and", options: NSStringCompareOptions.LiteralSearch, range: nil)
         URLPath = "http://www.brown.edu/Facilities/Facilities_Management/m/index.php" //+ location
         loadAddressURL()
 
@@ -56,29 +63,17 @@ class LocationViewController: UIViewController, UIWebViewDelegate {
     
     func webViewDidFinishLoad(webView : UIWebView) {
 
-        if (firstLoad == true){
+        if webViewLoads == 0 {
             let a = Webview.stringByEvaluatingJavaScriptFromString("document.getElementById('searchbtn').childNodes[0].click();")
             let b = Webview.stringByEvaluatingJavaScriptFromString("document.getElementById('btnsearch').click();")
-
-            firstLoad = false
-            secondLoad = true
-        }
-        else if (secondLoad) {
             
-            var setToRemove = NSCharacterSet(charactersInString: "0123456789")
-            var setToKeep = setToRemove.invertedSet
-        
-            var newString = "".join((location.componentsSeparatedByCharactersInSet(setToRemove)))
-            let c = Webview.stringByEvaluatingJavaScriptFromString("document.getElementById('txtsearch').value = '" + newString + "';")
-
-            let d = Webview.stringByEvaluatingJavaScriptFromString("window.searchlist();")
-            /*var loggedIn = webView.stringByEvaluatingJavaScriptFromString("window.location.href")
-            if (loggedIn! == "https://selfservice-qas.brown.edu/ssPPRD/twbkwbis.P_GenMenu?name=bmenu.P_MainMnu") {
-                webView.hidden = true;
-                nextPageTest.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
-            }*/
-            secondLoad = false
         }
+        else if webViewLoads == 1 {
+            let c = Webview.stringByEvaluatingJavaScriptFromString("document.getElementById('txtsearch').value = '" + final_loc + "';")
+            let d = Webview.stringByEvaluatingJavaScriptFromString("window.searchlist();")
+        }
+        webViewLoads = webViewLoads + 1
+
     }
 
 }
