@@ -42,7 +42,7 @@ class LocationViewController: UIViewController, UIWebViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         var NSlocation = location as NSString
-        let charset = NSCharacterSet(charactersInString: "0123456789")
+        let charset = NSCharacterSet(charactersInString: "0123456789()")
         let array = NSlocation.componentsSeparatedByCharactersInSet(charset) as NSArray
         final_loc = array.componentsJoinedByString("") as String!
         final_loc = final_loc.stringByReplacingOccurrencesOfString("&", withString: "and", options: NSStringCompareOptions.LiteralSearch, range: nil)
