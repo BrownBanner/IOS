@@ -36,7 +36,7 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
         }
         
         
-        self.spinner.center = CGPointMake(self.view.frame.width / 2, 20)
+        self.spinner.center = CGPointMake(self.view.frame.width / 2, 60)
         self.spinner.hidesWhenStopped = true;
         self.view.addSubview(spinner)
         spinner.startAnimating()
