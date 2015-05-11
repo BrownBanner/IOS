@@ -20,6 +20,8 @@ class LocationViewController: UIViewController, UIWebViewDelegate {
     
     // For PPRD use this
     var URLPath = "http://www.brown.edu/Facilities/Facilities_Management/maps/#building/"
+    var firstLoad = true
+    var secondLoad = false
     
     // For DPRD use this
     //  var URLPath = "https://dshibproxycit.services.brown.edu/SSB_DPRD"
@@ -53,15 +55,30 @@ class LocationViewController: UIViewController, UIWebViewDelegate {
     }
     
     func webViewDidFinishLoad(webView : UIWebView) {
-        let a = Webview.stringByEvaluatingJavaScriptFromString("document.getElementById('searchbtn').childNodes[0].click();")
-        let b = Webview.stringByEvaluatingJavaScriptFromString("document.getElementById('btnsearch').click();")
-        let c = Webview.stringByEvaluatingJavaScriptFromString("document.getElementById('txtsearch').value = '" + location + "';")
-        let d = Webview.stringByEvaluatingJavaScriptFromString("window.searchlist();")
-        /*var loggedIn = webView.stringByEvaluatingJavaScriptFromString("window.location.href")
-        if (loggedIn! == "https://selfservice-qas.brown.edu/ssPPRD/twbkwbis.P_GenMenu?name=bmenu.P_MainMnu") {
-            webView.hidden = true;
-            nextPageTest.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
-        }*/
+
+        if (firstLoad == true){
+            let a = Webview.stringByEvaluatingJavaScriptFromString("document.getElementById('searchbtn').childNodes[0].click();")
+            let b = Webview.stringByEvaluatingJavaScriptFromString("document.getElementById('btnsearch').click();")
+
+            firstLoad = false
+            secondLoad = true
+        }
+        else if (secondLoad) {
+            
+            var setToRemove = NSCharacterSet(charactersInString: "0123456789")
+            var setToKeep = setToRemove.invertedSet
+        
+            var newString = "".join((location.componentsSeparatedByCharactersInSet(setToRemove)))
+            let c = Webview.stringByEvaluatingJavaScriptFromString("document.getElementById('txtsearch').value = '" + newString + "';")
+
+            let d = Webview.stringByEvaluatingJavaScriptFromString("window.searchlist();")
+            /*var loggedIn = webView.stringByEvaluatingJavaScriptFromString("window.location.href")
+            if (loggedIn! == "https://selfservice-qas.brown.edu/ssPPRD/twbkwbis.P_GenMenu?name=bmenu.P_MainMnu") {
+                webView.hidden = true;
+                nextPageTest.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
+            }*/
+            secondLoad = false
+        }
     }
 
 }

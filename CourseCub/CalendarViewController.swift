@@ -50,12 +50,19 @@ class CalendarViewController: UIViewController {
         
         //#######Calendar Body
         addDayColumns();
+        print ("ALEC")
+        for (course: Course) in appDelegate.currentCart.getCourses() {
+            print (course.title)
+            print("\n")
+        }
     }
     
     func getCart() {
         var defaults = NSUserDefaults.standardUserDefaults()
         var termCode = defaults.objectForKey(appDelegate.COURSE_TERM_CODE) as! String
-        
+        print ("TERMCODE")
+        print (termCode)
+        print("\n")
         let urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/cartbyid?term=" + termCode + "&in_id=" + appDelegate.getSessionCookie()
         let url = NSURL(string: urlPath)
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: nil, delegateQueue: NSOperationQueue.mainQueue())

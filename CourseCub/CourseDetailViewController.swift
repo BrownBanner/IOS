@@ -11,8 +11,10 @@ import UIKit
 class CourseDetailViewController: UIViewController  {
 
     var course = Course(jsonCourse: JSON(""));
+    var inCart = false;
     
     @IBOutlet var scrollView: UIView!
+    @IBOutlet weak var cartImage: UIImageView!
     @IBOutlet var trueScrollView: UIScrollView!
     @IBOutlet var seatsImage: UIImageView!
     @IBOutlet var instructorImage: UIImageView!
@@ -38,9 +40,14 @@ class CourseDetailViewController: UIViewController  {
     @IBAction func addToCart(sender: AnyObject) {
         var defaults = NSUserDefaults.standardUserDefaults()
         var termCode = defaults.objectForKey(appDelegate.COURSE_TERM_CODE) as! String
-        let urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/cart?term=201420&in_id=" + appDelegate.getSessionCookie() + "&crn=" + course.crn + "&in_type=I"
+        var urlPath = ""
+        if (inCart) {
+            urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/cart?term=201420&in_id=" + appDelegate.getSessionCookie() + "&crn=" + course.crn + "&in_type=D"
+        }
+        else {
+            urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/cart?term=201420&in_id=" + appDelegate.getSessionCookie() + "&crn=" + course.crn + "&in_type=I"
+        }
         print (urlPath)
-        print(course.crn)
         let url = NSURL(string: urlPath)
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: nil, delegateQueue: NSOperationQueue.mainQueue())
         let task = session.dataTaskWithURL(url!, completionHandler: {data, response, error -> Void in
@@ -80,6 +87,8 @@ class CourseDetailViewController: UIViewController  {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+
+        inCart = appDelegate.currentCart.cartContains(course)
         
         self.view.addSubview(trueScrollView)
         self.trueScrollView.addSubview(self.scrollView)
@@ -124,9 +133,11 @@ class CourseDetailViewController: UIViewController  {
         meetingLabel.text = meetingParts[3] + " " + meetingParts[4]
     
         instructorLabel.text = course.instructor as String
-        
         seatsLabel.text = String(course.numStudentsRegistered) + " / " + String(course.numStudentsAllowed);
-        
+        if (inCart) {
+            
+        }
+
         locationLabel.text = course.location as String
         
         /*var coursePreviewLink = UIButton()

@@ -150,8 +150,8 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
         var subjectParts = courseList[row_increment + indexPath.row].subjectc.componentsSeparatedByString(" ")
         var meetingParts = courseList[row_increment + indexPath.row].meeting_time.componentsSeparatedByString(" ")
         var meetingTime = meetingParts[3] + " " + meetingParts[4];
-        cell.textLabel?.text = subjectParts[1] + " " + subjectParts[2] + " " + meetingTime;
-        cell.detailTextLabel?.text = courseList[row_increment + indexPath.row].title;
+         cell.detailTextLabel?.text = subjectParts[1] + " " + subjectParts[2] + " " + meetingTime;
+        cell.textLabel?.text = courseList[row_increment + indexPath.row].title;
         cell.detailTextLabel?.lineBreakMode = NSLineBreakMode.ByWordWrapping;
         cell.detailTextLabel?.numberOfLines = 0;
         cell.backgroundColor = UIColor(red: 0.976, green: 0.972, blue: 0.956, alpha: 1);
@@ -194,17 +194,17 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
         self.tableView.reloadData()
     }
     
-    override func sectionIndexTitlesForTableView(tableView: UITableView) -> [AnyObject]! {
-        return self.alphabet
-    }
-    
-    override func tableView(tableView: UITableView, sectionForSectionIndexTitle title: String, atIndex index: Int) -> Int {
-        return index
-    }
-    
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return alphabet[section]
-    }
+//    override func sectionIndexTitlesForTableView(tableView: UITableView) -> [AnyObject]! {
+//        return self.alphabet
+//    }
+//    
+//    override func tableView(tableView: UITableView, sectionForSectionIndexTitle title: String, atIndex index: Int) -> Int {
+//        return index
+//    }
+//    
+//    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        return alphabet[section]
+//    }
 
     func getClassesByDepartment(depAbbrev: String?, department: String) {
         
@@ -271,9 +271,9 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
         }
     }
     
-    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 0;
-    }
+//    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+//        return 0;
+//    }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath  indexPath: NSIndexPath) -> CGFloat {
         return 60;
