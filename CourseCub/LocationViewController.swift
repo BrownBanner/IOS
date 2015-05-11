@@ -62,6 +62,7 @@ class LocationViewController: UIViewController, UIWebViewDelegate {
     }
     
     func webViewDidFinishLoad(webView : UIWebView) {
+
         if webViewLoads == 0 {
             let a = Webview.stringByEvaluatingJavaScriptFromString("document.getElementById('searchbtn').childNodes[0].click();")
             let b = Webview.stringByEvaluatingJavaScriptFromString("document.getElementById('btnsearch').click();")

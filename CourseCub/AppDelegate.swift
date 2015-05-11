@@ -18,6 +18,8 @@ let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    var searchResults = [Course]();
+
     
     //These constants pertain to setting the term for the courses
     let COURSE_TERM_KEY = "COURSE_TERM"
@@ -27,6 +29,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var storedTerm = "Spring 2015"
     var storedCode = "201420"
     var currentCart = Cart(cartTitle: "", cartCourseArray: [Course]())
+    var clickedSearchCourse = false
+    var searchTextSave = ""
 
     let hardcoded_department_abrv = [
         "AFRI",

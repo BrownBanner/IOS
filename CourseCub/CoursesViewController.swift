@@ -150,13 +150,22 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
         var subjectParts = courseList[row_increment + indexPath.row].subjectc.componentsSeparatedByString(" ")
         var meetingParts = courseList[row_increment + indexPath.row].meeting_time.componentsSeparatedByString(" ")
         var meetingTime = meetingParts[3] + " " + meetingParts[4];
-        cell.textLabel?.text = subjectParts[1] + " " + subjectParts[2] + " " + meetingTime;
-        cell.detailTextLabel?.text = courseList[row_increment + indexPath.row].title;
+        cell.detailTextLabel?.text = subjectParts[1] + " " + subjectParts[2] + " " + meetingTime;
+        cell.textLabel?.text = courseList[row_increment + indexPath.row].title;
         cell.detailTextLabel?.lineBreakMode = NSLineBreakMode.ByWordWrapping;
         cell.detailTextLabel?.numberOfLines = 0;
-        cell.backgroundColor = UIColor(red: 0.976, green: 0.972, blue: 0.956, alpha: 1);
-        cell.textLabel?.textColor = UIColor(red: 0.2235, green: 0.1176, blue: 0.1058, alpha: 1);
-        cell.detailTextLabel?.textColor = UIColor(red: 0.2235, green: 0.1176, blue: 0.1058, alpha: 0.6);
+        print(appDelegate.currentCart.cartContains(courseList[row_increment + indexPath.row]))
+        if (appDelegate.currentCart.cartContains(courseList[row_increment + indexPath.row])) {
+            cell.backgroundColor = UIColor(red: 0.9411, green: 0.3254, blue: 0.3254, alpha: 0.8)
+            cell.textLabel?.textColor = UIColor.whiteColor()
+            cell.detailTextLabel?.textColor = UIColor.whiteColor()
+        }
+        else {
+            cell.backgroundColor = UIColor(red: 0.976, green: 0.972, blue: 0.956, alpha: 1);
+            cell.textLabel?.textColor = UIColor(red: 0.2235, green: 0.1176, blue: 0.1058, alpha: 1);
+            cell.detailTextLabel?.textColor = UIColor(red: 0.2235, green: 0.1176, blue: 0.1058, alpha: 0.6);
+        }
+
         
         cell.textLabel?.font = UIFont(name: "Avenir-Roman", size: 18)
         cell.detailTextLabel?.font = UIFont(name: "Avenir-Roman", size: 14)
@@ -194,17 +203,17 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
         self.tableView.reloadData()
     }
     
-    override func sectionIndexTitlesForTableView(tableView: UITableView) -> [AnyObject]! {
-        return self.alphabet
-    }
-    
-    override func tableView(tableView: UITableView, sectionForSectionIndexTitle title: String, atIndex index: Int) -> Int {
-        return index
-    }
-    
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return alphabet[section]
-    }
+//    override func sectionIndexTitlesForTableView(tableView: UITableView) -> [AnyObject]! {
+//        return self.alphabet
+//    }
+//    
+//    override func tableView(tableView: UITableView, sectionForSectionIndexTitle title: String, atIndex index: Int) -> Int {
+//        return index
+//    }
+//    
+//    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        return alphabet[section]
+//    }
 
     func getClassesByDepartment(depAbbrev: String?, department: String) {
         
@@ -271,9 +280,9 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
         }
     }
     
-    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 0;
-    }
+//    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+//        return 0;
+//    }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath  indexPath: NSIndexPath) -> CGFloat {
         return 60;
