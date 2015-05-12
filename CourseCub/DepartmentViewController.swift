@@ -65,7 +65,23 @@ class DepartmentViewController: UITableViewController, UITableViewDataSource, UI
         
         countSections()
         
-             println ("BUG")
+//        self.resultSearchController = ({
+//            let controller = UISearchController(searchResultsController: nil)
+//            controller.searchResultsUpdater = self
+//            controller.dimsBackgroundDuringPresentation = false
+//            controller.searchBar.sizeToFit()
+//            controller.searchBar.barTintColor = UIColor(red: 0.976, green: 0.972, blue: 0.956, alpha: 1)
+//            controller.searchBar.layer.borderWidth = 1
+//            controller.searchBar.layer.borderColor = UIColor(red: 0.976, green: 0.972, blue: 0.956, alpha: 1).CGColor
+//            controller.searchBar.layer.shadowColor = UIColor(red: 0.976, green: 0.972, blue: 0.956, alpha: 1).CGColor
+//            controller.searchBar.delegate = self
+//            controller.hidesNavigationBarDuringPresentation = false
+//            controller.definesPresentationContext = true
+//            self.tableView.tableHeaderView = controller.searchBar
+//
+//            return controller
+//        })()
+        
         self.resultSearchController = ({
             let controller = UISearchController(searchResultsController: nil)
             controller.searchResultsUpdater = self
@@ -75,11 +91,9 @@ class DepartmentViewController: UITableViewController, UITableViewDataSource, UI
             controller.searchBar.layer.borderWidth = 1
             controller.searchBar.layer.borderColor = UIColor(red: 0.976, green: 0.972, blue: 0.956, alpha: 1).CGColor
             controller.searchBar.layer.shadowColor = UIColor(red: 0.976, green: 0.972, blue: 0.956, alpha: 1).CGColor
-            controller.searchBar.delegate = self
             controller.hidesNavigationBarDuringPresentation = false
-            controller.definesPresentationContext = true
             self.tableView.tableHeaderView = controller.searchBar
-
+            
             return controller
         })()
         // Reload the table
@@ -87,47 +101,39 @@ class DepartmentViewController: UITableViewController, UITableViewDataSource, UI
         
     }
     
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        println ("WILLL")
-
-        
         appDelegate.searchResults.removeAll(keepCapacity: false)
         if (appDelegate.clickedSearchCourse == true) {
             self.resultSearchController.searchBar.text = appDelegate.searchTextSave
-            //self.resultSearchController.active = true
-            //self.resultSearchController.searchBar.becomeFirstResponder()
-            //self.resultSearchController.active = true
+            self.resultSearchController.becomeFirstResponder()
             appDelegate.clickedSearchCourse = false
         }
-        else {
-            tableView.reloadData()
-        }
         self.resultSearchController.searchBar.hidden = false
-
-        
     }
-    
-//    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-//        if (appDelegate.clickedSearchCourse == false) {
-//            self.resultSearchController.active = false
+//
+//    override func viewDidAppear(animated: Bool) {
+//
+//        if (appDelegate.clickedSearchCourse == true) {
+//            self.resultSearchController.becomeFirstResponder()
+//            self.resultSearchController.active = true
+//            appDelegate.clickedSearchCourse = false
 //        }
 //    }
+
+    
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        if (appDelegate.clickedSearchCourse == false) {
-            /*if (self.resultSearchController.active) {
-                print("Here")
-                self.resultSearchController.active = false
-            }*/
-        }
-        //self.resultSearchController.searchBar.text = ""
         self.resultSearchController.searchBar.resignFirstResponder()
         self.resultSearchController.searchBar.hidden = true
-
+        if (appDelegate.clickedSearchCourse == false) {
+            self.resultSearchController.active = false
+        }
         
     }
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

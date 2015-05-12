@@ -63,6 +63,7 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
 
             return controller
         })()
+        
         // Reload the table
         //self.tableView.reloadData()
 
