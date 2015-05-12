@@ -11,7 +11,7 @@ import UIKit
 class MenuViewController: UITableViewController {
 
     var carts = appDelegate.namedCarts
-    let NUM_STATIC_CELLS = 3
+    let NUM_STATIC_CELLS = 4
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,8 +26,6 @@ class MenuViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    
-    
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1;
     }
@@ -39,25 +37,38 @@ class MenuViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
             let cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "CartsLabel")
+            cell.textLabel!.font = UIFont(name: "Avenir-Roman", size: 20)!
             cell.textLabel?.text = "CARTS"
             cell.userInteractionEnabled = false
             return cell
         }
             
+            
         else if indexPath.row <= appDelegate.namedCarts.count {
             let cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "Carts")
             cell.textLabel?.text = appDelegate.namedCarts[indexPath.row - 1]
+            cell.textLabel!.font = UIFont(name: "Avenir-Roman", size: 20)!
             return cell
         }
             
         else if indexPath.row == appDelegate.namedCarts.count + 1 {
             let cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "AddCart")
-            cell.textLabel?.text = "Add Cart"
+            cell.textLabel?.text = "Save Cart"
+            cell.imageView?.image = UIImage(named: "SaveCart")
+            cell.textLabel!.font = UIFont(name: "Avenir-Roman", size: 20)!
+            return cell
+        }
+        else if indexPath.row == appDelegate.namedCarts.count + 2 {
+            let cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "Settings")
+            cell.textLabel?.text = "Settings"
+            cell.imageView?.image = UIImage(named: "Settings")
+            cell.textLabel!.font = UIFont(name: "Avenir-Roman", size: 20)!
             return cell
         }
         else {
-            let cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "Settings")
-            cell.textLabel?.text = "Settings"
+            let cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "Register")
+            cell.imageView?.image = UIImage(named: "Register")
+            cell.textLabel!.font = UIFont(name: "Avenir-Roman", size: 20)!
             return cell
         }
     }
@@ -68,24 +79,12 @@ class MenuViewController: UITableViewController {
         }
         else if (indexPath.row <= appDelegate.namedCarts.count) {
             //switch back to the calendar view and switch to the specified cart
-            if indexPath.row == 1 {
-                let sb = UIStoryboard(name: "Main", bundle: nil)
-                let calVC = sb.instantiateViewControllerWithIdentifier("cal") as! CalendarViewController
-                let calNAV = sb.instantiateViewControllerWithIdentifier("calNav") as! UINavigationController
-                calNAV.setViewControllers([calVC], animated: false)
-                self.revealViewController().rearViewRevealOverdraw = 0;
-                var rvc = self.revealViewController()
-                rvc.setFrontViewController(calNAV, animated: true)
-                rvc.pushFrontViewController(calNAV, animated: true)
-            }
-            else{
-                switchCart(appDelegate.namedCarts[indexPath.row - 1])
-            }
+            switchCart(appDelegate.namedCarts[indexPath.row - 1])
         }
         else if (indexPath.row == appDelegate.namedCarts.count + 1) {
             addCart()
         }
-        else {
+        else if (indexPath.row == appDelegate.namedCarts.count + 2) {
             let sb = UIStoryboard(name: "Main", bundle: nil)
             let settingsVC = sb.instantiateViewControllerWithIdentifier("settings") as! SettingsViewController
             let settingsNAV = sb.instantiateViewControllerWithIdentifier("settingsNav") as! UINavigationController
@@ -94,6 +93,9 @@ class MenuViewController: UITableViewController {
             var rvc = self.revealViewController()
             rvc.setFrontViewController(settingsNAV, animated: true)
             rvc.pushFrontViewController(settingsNAV, animated: true)
+        }
+        else {
+
         }
     }
     
@@ -205,7 +207,6 @@ class MenuViewController: UITableViewController {
         var defaults = NSUserDefaults.standardUserDefaults()
         var termCode = defaults.objectForKey(appDelegate.COURSE_TERM_CODE) as! String
         let urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/cartBulkDML?term=" + termCode + "&in_id=" + appDelegate.getSessionCookie() + "&crn_string=" + addCourses + "&in_type=I"
-        println(urlPath)
         let url = NSURL(string: urlPath)
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: nil, delegateQueue: NSOperationQueue.mainQueue())
         let task = session.dataTaskWithURL(url!, completionHandler: {data, response, error -> Void in
@@ -255,7 +256,6 @@ class MenuViewController: UITableViewController {
         return;
         } else {
             var err: NSError?
-            println(data)
 //            var jsonResult = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: &err) as! NSDictionary
             if(err != nil) {
             // If there is an error parsing JSON, print it to the console
@@ -298,7 +298,6 @@ class MenuViewController: UITableViewController {
                 
                 var charset = NSCharacterSet(charactersInString: ",")
                 
-                tempCartNames.append("Current Cart")
                 for (index: String, cart: JSON) in cartNames["items"] {
                     var crn_list = cart["crn_list"].string!
                     var array = crn_list.componentsSeparatedByCharactersInSet(charset) as NSArray
@@ -316,5 +315,9 @@ class MenuViewController: UITableViewController {
         
         task.resume()
 
+    }
+    
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath  indexPath: NSIndexPath) -> CGFloat {
+        return 55;
     }
 }

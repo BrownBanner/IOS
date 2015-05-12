@@ -104,6 +104,9 @@ class CourseDetailViewController: UIViewController  {
             addToCartImage.enabled = true
 
         }
+        if appDelegate.currentCart.getCourses().count == 20 {
+            addToCartImage.enabled = false
+        }
         
         self.view.addSubview(trueScrollView)
         self.trueScrollView.addSubview(self.scrollView)
