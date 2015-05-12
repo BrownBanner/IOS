@@ -24,7 +24,7 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
         super.viewDidLoad()
 
         // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
+//        self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
@@ -60,37 +60,27 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
             controller.hidesNavigationBarDuringPresentation = false
             controller.searchBar.placeholder = "Filter Courses"
             self.tableView.tableHeaderView = controller.searchBar
-            
+
             return controller
         })()
-
         // Reload the table
         //self.tableView.reloadData()
 
     
     }
     
-    /*override func viewWillAppear(animated: Bool) {
-        self.resultSearchController = ({
-            let controller = UISearchController(searchResultsController: nil)
-            controller.searchResultsUpdater = self
-            controller.dimsBackgroundDuringPresentation = false
-            controller.searchBar.sizeToFit()
-            controller.hidesNavigationBarDuringPresentation = false
-            
-            self.tableView.tableHeaderView = controller.searchBar
-            
-            return controller
-        })()
+    override func viewWillAppear(animated: Bool) {
+        self.resultSearchController.searchBar.hidden = false
         self.tableView.reloadData()
         self.tableView.becomeFirstResponder()
-    }*/
+    }
     
     
     override func viewWillDisappear(animated: Bool) {
         self.resultSearchController.resignFirstResponder()
         self.resultSearchController.searchBar.resignFirstResponder()
         self.resultSearchController.active = false
+        self.resultSearchController.searchBar.hidden = true
     }
 
     override func didReceiveMemoryWarning() {

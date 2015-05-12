@@ -12,6 +12,7 @@ class MenuViewController: UITableViewController {
 
     var carts = appDelegate.namedCarts
     let NUM_STATIC_CELLS = 4
+    let textField = UITextField()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -94,7 +95,20 @@ class MenuViewController: UITableViewController {
             }
         }
         else if (indexPath.row == appDelegate.namedCarts.count + 1) {
-            addCart()
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            var alert : UIAlertController = UIAlertController(title: "Save Cart:", message: "Name your cart. If you enter an existing list name, it will be overwritten with the current cart. The default cart name below is the one you were previously working with." + appDelegate.loadedCartName, preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "Save", style: UIAlertActionStyle.Default, handler: { alertAction in
+                alert.dismissViewControllerAnimated(true, completion: nil)
+            }))
+            
+            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: {alertAction in
+                alert.dismissViewControllerAnimated(true, completion: nil)
+            }))
+            
+            alert.addTextFieldWithConfigurationHandler { textField in
+                
+            }
+            self.presentViewController(alert, animated: true, completion: nil)
         }
         else if (indexPath.row == appDelegate.namedCarts.count + 2) {
             let sb = UIStoryboard(name: "Main", bundle: nil)
@@ -110,6 +124,7 @@ class MenuViewController: UITableViewController {
 
         }
     }
+    
     
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         if (indexPath.row > 1 && indexPath.row <= appDelegate.namedCarts.count) {
@@ -135,11 +150,7 @@ class MenuViewController: UITableViewController {
         }
     }
     
-    func addCart() {
-        appDelegate.namedCarts.append("New Cart")
-        self.tableView.reloadData()
-    }
-    
+
     func switchCart(name: String) {
         clearCurrentCart(name)
     }
@@ -163,7 +174,6 @@ class MenuViewController: UITableViewController {
                 return;
             } else {
                 var err: NSError?
-                println (data)
 //                var jsonResult = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: &err) as! NSDictionary
                 if(err != nil) {
                     // If there is an error parsing JSON, print it to the console
@@ -203,6 +213,7 @@ class MenuViewController: UITableViewController {
                 
                 var cartByNameCourses = JSON(jsonResult);
                 var addCrnList = cartByNameCourses["items"][0]["crn_list"].string!
+                appDelegate.loadedCartName = name
                 self.addCourses(addCrnList)
                 return;
             }
