@@ -67,6 +67,7 @@ class SettingsViewController: UIViewController, UIPickerViewDataSource, UIPicker
     }
     
     func logout(sender: UIButton!) {
+        logoutRequest()
         let sb = UIStoryboard(name: "Main", bundle: nil)
         let loginVC = sb.instantiateViewControllerWithIdentifier("loginView") as! ViewController
         
@@ -100,5 +101,36 @@ class SettingsViewController: UIViewController, UIPickerViewDataSource, UIPicker
         defaults.setObject(termCode[row], forKey: appDelegate.COURSE_TERM_CODE)
         defaults.synchronize()
     }
+    
+    
+    /* This function is a workaround for CIS's bad SSL*/
+    func URLSession(session: NSURLSession!, didReceiveChallenge challenge: NSURLAuthenticationChallenge!, completionHandler: ((NSURLSessionAuthChallengeDisposition, NSURLCredential!) -> Void)!) {
+        if challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust && challenge.protectionSpace.host == "ords-dev.brown.edu" {
+            let credential = NSURLCredential(forTrust: challenge.protectionSpace.serverTrust)
+            challenge.sender.useCredential(credential, forAuthenticationChallenge: challenge)
+            completionHandler(.UseCredential, NSURLCredential(forTrust: challenge.protectionSpace.serverTrust))
+        } else {
+            challenge.sender.performDefaultHandlingForAuthenticationChallenge!(challenge)
+        }
+        
+        
+    }
+    
+    func logoutRequest() {
+        
+        
+        var defaults = NSUserDefaults.standardUserDefaults()
+        var termCode = defaults.objectForKey(appDelegate.COURSE_TERM_CODE) as! String
+        let urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/bannerLogout?in_id=" + appDelegate.getSessionCookie()
+        let url = NSURL(string: urlPath)
+        let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: nil, delegateQueue: NSOperationQueue.mainQueue())
+        let task = session.dataTaskWithURL(url!, completionHandler: {data, response, error -> Void in
+           return
+            
+        })
+        
+        task.resume()
+    }
+
     
 }

@@ -43,6 +43,7 @@ class Cart {
         :param: Array of courses to add to cart
     */
     func setCourses(courses: [Course]){
+        courseArray = [Course]()
         for course in courses{
             addCourse(course)
         }

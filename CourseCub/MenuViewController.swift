@@ -10,17 +10,15 @@ import UIKit
 
 class MenuViewController: UITableViewController {
 
-    var carts = [Cart]()
+    var carts = appDelegate.namedCarts
     let NUM_STATIC_CELLS = 3
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        carts.append(Cart(cartTitle: "Current Cart", cartCourseArray: []))
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-        
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        getNamedCarts()
     }
     
     override func didReceiveMemoryWarning() {
@@ -35,7 +33,7 @@ class MenuViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return carts.count + NUM_STATIC_CELLS
+        return appDelegate.namedCarts.count + NUM_STATIC_CELLS
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -46,13 +44,13 @@ class MenuViewController: UITableViewController {
             return cell
         }
             
-        else if indexPath.row <= carts.count {
+        else if indexPath.row <= appDelegate.namedCarts.count {
             let cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "Carts")
-            cell.textLabel?.text = carts[indexPath.row - 1].title as String
+            cell.textLabel?.text = appDelegate.namedCarts[indexPath.row - 1]
             return cell
         }
             
-        else if indexPath.row == carts.count + 1 {
+        else if indexPath.row == appDelegate.namedCarts.count + 1 {
             let cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "AddCart")
             cell.textLabel?.text = "Add Cart"
             return cell
@@ -68,7 +66,7 @@ class MenuViewController: UITableViewController {
         if (indexPath.row == 0) {
             return
         }
-        else if (indexPath.row <= carts.count) {
+        else if (indexPath.row <= appDelegate.namedCarts.count) {
             //switch back to the calendar view and switch to the specified cart
             switchCart()
             let sb = UIStoryboard(name: "Main", bundle: nil)
@@ -80,7 +78,7 @@ class MenuViewController: UITableViewController {
             rvc.setFrontViewController(calNAV, animated: true)
             rvc.pushFrontViewController(calNAV, animated: true)
         }
-        else if (indexPath.row == carts.count + 1) {
+        else if (indexPath.row == appDelegate.namedCarts.count + 1) {
             addCart()
         }
         else {
@@ -96,7 +94,7 @@ class MenuViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        if (indexPath.row > 1 && indexPath.row <= carts.count) {
+        if (indexPath.row > 1 && indexPath.row <= appDelegate.namedCarts.count) {
             return true
         }
         else {
@@ -116,11 +114,61 @@ class MenuViewController: UITableViewController {
     }
     
     func addCart() {
-        self.carts.append(Cart(cartTitle:"New Cart", cartCourseArray: []))
+        appDelegate.namedCarts.append("New Cart")
         self.tableView.reloadData()
     }
     
     func switchCart() {
         
+    }
+    
+    func getNamedCarts() {
+//        if appDelegate.cartsLoaded != true {
+            var defaults = NSUserDefaults.standardUserDefaults()
+            var termCode = defaults.objectForKey(appDelegate.COURSE_TERM_CODE) as! String
+            let urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/getNamedCarts?term=" + termCode + "&in_id=" + appDelegate.getSessionCookie()
+            let url = NSURL(string: urlPath)
+            let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: nil, delegateQueue: NSOperationQueue.mainQueue())
+            let task = session.dataTaskWithURL(url!, completionHandler: {data, response, error -> Void in
+                if(error != nil) {
+                    // If there is an error in the web request, print it to the console
+                    println(error.localizedDescription)
+                    appDelegate.cartsLoaded = false
+                    return;
+                } else {
+                    var err: NSError?
+                    
+                    var jsonResult = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: &err) as! NSDictionary
+                    if(err != nil) {
+                        // If there is an error parsing JSON, print it to the console
+                        println("JSON Error \(err!.localizedDescription)")
+                    }
+                    
+                    var cartNames = JSON(jsonResult);
+                    var tempCartNames = [String]()
+                    
+                    
+                    var charset = NSCharacterSet(charactersInString: ",")
+                    
+                    tempCartNames.append("Current Cart")
+                    for (index: String, cart: JSON) in cartNames["items"] {
+                        println(cart)
+                        var crn_list = cart["crn_list"].string!
+                        var array = crn_list.componentsSeparatedByCharactersInSet(charset) as NSArray
+                        
+                        if array.count > 0 {
+                            tempCartNames.append(cart["cart_name"].string!)
+                        }
+                    }
+                    appDelegate.namedCarts = tempCartNames
+                    self.tableView.reloadData()
+                    return;
+                }
+                
+            })
+            
+            task.resume()
+
+//        }
     }
 }
