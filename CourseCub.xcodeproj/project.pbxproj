@@ -22,6 +22,7 @@
 		178A96E11A9E53DD000E74A9 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178A96E01A9E53DD000E74A9 /* SwiftyJSON.swift */; };
 		17967BD81A92A78100E48054 /* Course.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17967BD71A92A78100E48054 /* Course.swift */; };
 		17CAA9891AE9A3AA00EF95CB /* Avenir.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 17CAA9881AE9A38C00EF95CB /* Avenir.ttc */; };
+		17F6AD461B02532E00307954 /* LinkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F6AD451B02532E00307954 /* LinkViewController.swift */; };
 		7048D7A51AEB332100116B51 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7048D7A41AEB332100116B51 /* SettingsViewController.swift */; };
 		7048D7A71AEB334700116B51 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7048D7A61AEB334700116B51 /* MenuViewController.swift */; };
 		8C22280C1B01A15E008B03EB /* CCCourseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C22280B1B01A15E008B03EB /* CCCourseButton.swift */; };
@@ -62,6 +63,7 @@
 		178A96E01A9E53DD000E74A9 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = SOURCE_ROOT; };
 		17967BD71A92A78100E48054 /* Course.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Course.swift; sourceTree = "<group>"; };
 		17CAA9881AE9A38C00EF95CB /* Avenir.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = Avenir.ttc; sourceTree = "<group>"; };
+		17F6AD451B02532E00307954 /* LinkViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkViewController.swift; sourceTree = "<group>"; };
 		7048D7A01AEB285A00116B51 /* CourseCub-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CourseCub-Bridging-Header.h"; sourceTree = "<group>"; };
 		7048D7A41AEB332100116B51 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		7048D7A61AEB334700116B51 /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 				1748F26F1A929496000ACBCF /* LaunchScreen.xib */,
 				1748F2641A929496000ACBCF /* Supporting Files */,
 				173D2C571AF8241B00E53DA7 /* LocationViewController.swift */,
+				17F6AD451B02532E00307954 /* LinkViewController.swift */,
 			);
 			path = CourseCub;
 			sourceTree = "<group>";
@@ -280,6 +283,7 @@
 				1748F28B1A9299EE000ACBCF /* DepartmentViewController.swift in Sources */,
 				178A96E11A9E53DD000E74A9 /* SwiftyJSON.swift in Sources */,
 				173D2C581AF8241B00E53DA7 /* LocationViewController.swift in Sources */,
+				17F6AD461B02532E00307954 /* LinkViewController.swift in Sources */,
 				1748F28D1A929ABC000ACBCF /* CoursesViewController.swift in Sources */,
 				9C2B4CEC1AD1E73C002FD17F /* LocalSubstitutionCache.swift in Sources */,
 				7048D7A71AEB334700116B51 /* MenuViewController.swift in Sources */,
