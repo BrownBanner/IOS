@@ -41,6 +41,7 @@ class ViewController: UIViewController, UIWebViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         loadAddressURL()
+        Webview?.scrollView.scrollEnabled = false
         // Do any additional setup after loading the view, typically from a nib.
     }
 

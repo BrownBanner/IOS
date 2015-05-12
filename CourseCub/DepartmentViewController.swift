@@ -24,7 +24,6 @@ class DepartmentViewController: UITableViewController, UITableViewDataSource, UI
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("loaD")
         self.resultSearchController.searchBar.hidden = false
         appDelegate.searchResults.removeAll(keepCapacity: false)
         

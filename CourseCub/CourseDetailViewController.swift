@@ -47,7 +47,6 @@ class CourseDetailViewController: UIViewController  {
         else {
             urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/cart?term=" + termCode + "&in_id=" + appDelegate.getSessionCookie() + "&crn=" + course.crn + "&in_type=I"
         }
-        print (urlPath)
         let url = NSURL(string: urlPath)
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: nil, delegateQueue: NSOperationQueue.mainQueue())
         let task = session.dataTaskWithURL(url!, completionHandler: {data, response, error -> Void in
@@ -92,10 +91,18 @@ class CourseDetailViewController: UIViewController  {
         if (inCart) {
             addToCartImage.image = UIImage(named: "RemoveFromCart")
             cartImage.image = UIImage(named: "InCart")
+            if appDelegate.currentCart.isRegistered(course) {
+                addToCartImage.enabled = false
+            }
+            else {
+                addToCartImage.enabled = true
+            }
         }
         else {
             addToCartImage.image = UIImage(named: "AddtoCartWhite")
             cartImage.image = nil
+            addToCartImage.enabled = true
+
         }
         
         self.view.addSubview(trueScrollView)
