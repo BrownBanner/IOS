@@ -100,7 +100,7 @@ class MenuViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        if (indexPath.row > 1 && indexPath.row <= appDelegate.namedCarts.count) {
+        if (indexPath.row > 0 && indexPath.row <= appDelegate.namedCarts.count) {
             return true
         }
         else {

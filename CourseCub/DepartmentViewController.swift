@@ -295,11 +295,11 @@ class DepartmentViewController: UITableViewController, UITableViewDataSource, UI
     }
     
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
-        resultSearchController.active = false
         appDelegate.searchTextSave = ""
         appDelegate.searchResults.removeAll(keepCapacity: false)
         tableView.reloadData()
         countSections()
+
         
     }
 
