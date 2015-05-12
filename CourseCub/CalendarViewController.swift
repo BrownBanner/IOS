@@ -12,6 +12,7 @@ import UIKit
 class CalendarViewController: UIViewController {
     
     let blue = appDelegate.colorWithHexString("#3498db")//#3498db
+    let purple = appDelegate.colorWithHexString("#9b59b6")//#9b59b6
     let grey = appDelegate.colorWithHexString("#DEE1E2")//#bdc3c7
     let text_color = appDelegate.colorWithHexString("#666666")//#666666
     let background_color = appDelegate.colorWithHexString("#F9F8F4")//#F9F8F4
@@ -202,9 +203,9 @@ class CalendarViewController: UIViewController {
     }
     
     func addDayColumns(){
-        let screenSize: CGRect = UIScreen.mainScreen().bounds
-        let screenWidth = screenSize.width
-        let screenHeight = screenSize.height
+        var screenSize: CGRect = UIScreen.mainScreen().bounds
+        var screenWidth = screenSize.width
+        var screenHeight = screenSize.height
         var day_width = screenWidth/5
         
         for var i = 0; i < 5; i++
