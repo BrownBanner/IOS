@@ -62,7 +62,7 @@ class MenuViewController: UITableViewController {
             }
             else {
 
-                var name = UILabel(frame: CGRectMake(offset, 0, 45, 45))
+                var name = UILabel(frame: CGRectMake(offset, 0, self.view.frame.width, 45))
                 name.text = appDelegate.namedCarts[indexPath.row - 1]
                 name.font = UIFont(name: "Avenir-Roman", size: 20)!
                 cell.addSubview(name)
@@ -74,7 +74,7 @@ class MenuViewController: UITableViewController {
             
         else if indexPath.row == appDelegate.namedCarts.count + 1 {
             let cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "SaveCart")
-            cell.textLabel?.text = "      Save Cart"
+            cell.textLabel?.text = "       Save Cart"
             var sCImageView = UIImageView()
             sCImageView.image = UIImage(named: "SaveCart")
             sCImageView.frame = CGRectMake(7, 5, 45, 45)
@@ -87,7 +87,7 @@ class MenuViewController: UITableViewController {
         else if indexPath.row == appDelegate.namedCarts.count + 2 {
             let cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "Register")
             var sCImageView = UIImageView()
-            cell.textLabel?.text = "      Register"
+            cell.textLabel?.text = "       Register"
             sCImageView.image = UIImage(named: "Register")
             sCImageView.frame = CGRectMake(7, 5, 45, 45)
             cell.addSubview(sCImageView)
@@ -98,7 +98,7 @@ class MenuViewController: UITableViewController {
         }
         else {
             let cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "Settings")
-            cell.textLabel?.text = "      Settings"
+            cell.textLabel?.text = "       Settings"
             var sCImageView = UIImageView()
             sCImageView.image = UIImage(named: "Settings")
             sCImageView.frame = CGRectMake(7, 5, 45, 45)
