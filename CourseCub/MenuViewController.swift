@@ -38,67 +38,79 @@ class MenuViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
             let cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "CartsLabel")
+            cell.textLabel?.text = "       CARTS"
             var sCImageView = UIImageView()
             sCImageView.image = UIImage(named: "IconWhiteBG")
-            sCImageView.frame = CGRectMake(110, 5, 45, 45)
+            sCImageView.frame = CGRectMake(7, 5, 45, 45)
             cell.addSubview(sCImageView)
-            cell.textLabel!.font = UIFont(name: "Avenir-Roman", size: 20)!
-            //cell.textLabel?.text = "CARTS"
+            cell.textLabel!.font = UIFont(name: "Avenir-Roman", size: 24)!
             cell.userInteractionEnabled = false
+            cell.separatorInset = UIEdgeInsetsZero
+            cell.preservesSuperviewLayoutMargins = false
             return cell
         }
             
             
         else if indexPath.row <= appDelegate.namedCarts.count {
             let cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "Carts")
-            cell.textLabel?.text = appDelegate.namedCarts[indexPath.row - 1]
+            var offset = CGFloat(60)
             cell.textLabel!.font = UIFont(name: "Avenir-Roman", size: 20)!
+            if indexPath.row != appDelegate.namedCarts.count {
+                cell.separatorInset = UIEdgeInsetsMake(0, offset, 0, 0)
+                cell.preservesSuperviewLayoutMargins = false
+                cell.textLabel?.text = appDelegate.namedCarts[indexPath.row - 1]
+            }
+            else {
+
+                var name = UILabel(frame: CGRectMake(offset, 0, 45, 45))
+                name.text = appDelegate.namedCarts[indexPath.row - 1]
+                name.font = UIFont(name: "Avenir-Roman", size: 20)!
+                cell.addSubview(name)
+                cell.separatorInset = UIEdgeInsetsZero
+                cell.preservesSuperviewLayoutMargins = false
+            }
             return cell
         }
             
         else if indexPath.row == appDelegate.namedCarts.count + 1 {
-            let cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "AddCart")
-            cell.textLabel?.text = "        Save Cart"
+            let cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "SaveCart")
+            cell.textLabel?.text = "      Save Cart"
             var sCImageView = UIImageView()
             sCImageView.image = UIImage(named: "SaveCart")
-            sCImageView.frame = CGRectMake(6.5, 5, 45, 45)
+            sCImageView.frame = CGRectMake(7, 5, 45, 45)
             cell.addSubview(sCImageView)
-            cell.textLabel!.font = UIFont(name: "Avenir-Roman", size: 20)!
+            cell.textLabel!.font = UIFont(name: "Avenir-Roman", size: 24)!
+            cell.separatorInset = UIEdgeInsetsZero
+            cell.preservesSuperviewLayoutMargins = false
             return cell
         }
         else if indexPath.row == appDelegate.namedCarts.count + 2 {
-            let cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "Settings")
-            cell.textLabel?.text = "        Settings"
+            let cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "Register")
             var sCImageView = UIImageView()
-            sCImageView.image = UIImage(named: "Settings")
-            sCImageView.frame = CGRectMake(6.5, 5, 45, 45)
+            cell.textLabel?.text = "      Register"
+            sCImageView.image = UIImage(named: "Register")
+            sCImageView.frame = CGRectMake(7, 5, 45, 45)
             cell.addSubview(sCImageView)
-            cell.textLabel!.font = UIFont(name: "Avenir-Roman", size: 20)!
+            cell.textLabel!.font = UIFont(name: "Avenir-Roman", size: 24)!
+            cell.separatorInset = UIEdgeInsetsZero
+            cell.preservesSuperviewLayoutMargins = false
             return cell
         }
         else {
-            let cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "Register")
+            let cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "Settings")
+            cell.textLabel?.text = "      Settings"
             var sCImageView = UIImageView()
-            sCImageView.image = UIImage(named: "Register")
-            sCImageView.frame = CGRectMake((cell.frame.width/2)*0.75 - 65, 5, 150, 45)
+            sCImageView.image = UIImage(named: "Settings")
+            sCImageView.frame = CGRectMake(7, 5, 45, 45)
             cell.addSubview(sCImageView)
-            //sCImageView.center = CGPointMake(cell.contentView.bounds.size.width/2,cell.contentView.bounds.size.height/2);
-            cell.textLabel!.font = UIFont(name: "Avenir-Roman", size: 20)!
+            cell.textLabel!.font = UIFont(name: "Avenir-Roman", size: 24)!
+            cell.separatorInset = UIEdgeInsetsZero
+            cell.preservesSuperviewLayoutMargins = false
             return cell
         }
     }
     
-    /*func resizeToWidth(width:Int)-> UIImage {
-        let imageView = UIImageView(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: CGFloat(width), height: CGFloat(ceil(CGFloat(width)/size.width * size.height)))))
-        imageView.contentMode = UIViewContentMode.ScaleAspectFit
-        imageView.image = self
-        UIGraphicsBeginImageContext(imageView.bounds.size)
-        imageView.layer.renderInContext(UIGraphicsGetCurrentContext())
-        let result = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return result
-    }*/
-    
+
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if (indexPath.row == 0) {
             return
@@ -136,6 +148,22 @@ class MenuViewController: UITableViewController {
             self.presentViewController(alert, animated: true, completion: nil)
         }
         else if (indexPath.row == appDelegate.namedCarts.count + 2) {
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            var alert : UIAlertController = UIAlertController(title: "Register:", message: "Do you want to redirect to banner?", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "Accept", style: UIAlertActionStyle.Default, handler: { alertAction in
+                self.presentViewController(alert, animated: true, completion: nil)
+                var url = NSURL(string: "https://selfservice-qas.brown.edu/ssPPRD/twbkwbis.P_GenMenu?name=bmenu.P_StuMainMnu")
+                UIApplication.sharedApplication().openURL(url!)
+                alert.dismissViewControllerAnimated(true, completion: nil)
+            }))
+            
+            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: {alertAction in
+                alert.dismissViewControllerAnimated(true, completion: nil)
+            }))
+            
+            self.presentViewController(alert, animated: true, completion: nil)
+        }
+        else {
             let sb = UIStoryboard(name: "Main", bundle: nil)
             let settingsVC = sb.instantiateViewControllerWithIdentifier("settings") as! SettingsViewController
             let settingsNAV = sb.instantiateViewControllerWithIdentifier("settingsNav") as! UINavigationController
@@ -145,10 +173,8 @@ class MenuViewController: UITableViewController {
             rvc.setFrontViewController(settingsNAV, animated: true)
             rvc.pushFrontViewController(settingsNAV, animated: true)
         }
-        else {
-
-        }
     }
+    
     
     
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
@@ -369,6 +395,9 @@ class MenuViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath  indexPath: NSIndexPath) -> CGFloat {
+        if indexPath.row > 0 && indexPath.row <= appDelegate.namedCarts.count {
+            return 45
+        }
         return 55;
     }
 }
