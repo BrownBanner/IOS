@@ -79,7 +79,19 @@ class MenuViewController: UITableViewController {
         }
         else if (indexPath.row <= appDelegate.namedCarts.count) {
             //switch back to the calendar view and switch to the specified cart
-            switchCart(appDelegate.namedCarts[indexPath.row - 1])
+            if indexPath.row == 1 {
+                let sb = UIStoryboard(name: "Main", bundle: nil)
+                let calVC = sb.instantiateViewControllerWithIdentifier("cal") as! CalendarViewController
+                let calNAV = sb.instantiateViewControllerWithIdentifier("calNav") as! UINavigationController
+                calNAV.setViewControllers([calVC], animated: false)
+                self.revealViewController().rearViewRevealOverdraw = 0;
+                var rvc = self.revealViewController()
+                rvc.setFrontViewController(calNAV, animated: true)
+                rvc.pushFrontViewController(calNAV, animated: true)
+            }
+            else {
+                switchCart(appDelegate.namedCarts[indexPath.row - 1])
+            }
         }
         else if (indexPath.row == appDelegate.namedCarts.count + 1) {
             addCart()
@@ -100,7 +112,7 @@ class MenuViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        if (indexPath.row > 0 && indexPath.row <= appDelegate.namedCarts.count) {
+        if (indexPath.row > 1 && indexPath.row <= appDelegate.namedCarts.count) {
             return true
         }
         else {
@@ -111,10 +123,12 @@ class MenuViewController: UITableViewController {
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if (editingStyle == UITableViewCellEditingStyle.Delete) {
             // Delete the row from the data source
-            var name = appDelegate.namedCarts[(indexPath.row - 1)]
-            self.deleteNamedCart(name)
-            appDelegate.namedCarts.removeAtIndex(indexPath.row - 1)
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
+            if indexPath.row != 1 {
+                var name = appDelegate.namedCarts[(indexPath.row - 1)]
+                self.deleteNamedCart(name)
+                appDelegate.namedCarts.removeAtIndex(indexPath.row - 1)
+                tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
+            }
         }
         else if (editingStyle == UITableViewCellEditingStyle.Insert) {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
@@ -298,6 +312,7 @@ class MenuViewController: UITableViewController {
                 
                 var charset = NSCharacterSet(charactersInString: ",")
                 
+                tempCartNames.append("Current Cart")
                 for (index: String, cart: JSON) in cartNames["items"] {
                     var crn_list = cart["crn_list"].string!
                     var array = crn_list.componentsSeparatedByCharactersInSet(charset) as NSArray
