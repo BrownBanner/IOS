@@ -24,6 +24,7 @@
 		17CAA9891AE9A3AA00EF95CB /* Avenir.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 17CAA9881AE9A38C00EF95CB /* Avenir.ttc */; };
 		7048D7A51AEB332100116B51 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7048D7A41AEB332100116B51 /* SettingsViewController.swift */; };
 		7048D7A71AEB334700116B51 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7048D7A61AEB334700116B51 /* MenuViewController.swift */; };
+		8C22280C1B01A15E008B03EB /* CCCourseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C22280B1B01A15E008B03EB /* CCCourseButton.swift */; };
 		8C64B1451A9E6B0A000D555E /* Cart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C64B1441A9E6B0A000D555E /* Cart.swift */; };
 		9C0A0BDB1AE16E3F00B09EC2 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0A0BDA1AE16E3F00B09EC2 /* CalendarViewController.swift */; };
 		9C2B4CEC1AD1E73C002FD17F /* LocalSubstitutionCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2B4CEB1AD1E73C002FD17F /* LocalSubstitutionCache.swift */; };
@@ -64,6 +65,7 @@
 		7048D7A01AEB285A00116B51 /* CourseCub-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CourseCub-Bridging-Header.h"; sourceTree = "<group>"; };
 		7048D7A41AEB332100116B51 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		7048D7A61AEB334700116B51 /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
+		8C22280B1B01A15E008B03EB /* CCCourseButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CCCourseButton.swift; sourceTree = "<group>"; };
 		8C64B1441A9E6B0A000D555E /* Cart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cart.swift; sourceTree = "<group>"; };
 		9C0A0BDA1AE16E3F00B09EC2 /* CalendarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		9C2B4CEB1AD1E73C002FD17F /* LocalSubstitutionCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalSubstitutionCache.swift; sourceTree = "<group>"; };
@@ -113,6 +115,7 @@
 				17967BD71A92A78100E48054 /* Course.swift */,
 				8C64B1441A9E6B0A000D555E /* Cart.swift */,
 				9C0A0BDA1AE16E3F00B09EC2 /* CalendarViewController.swift */,
+				8C22280B1B01A15E008B03EB /* CCCourseButton.swift */,
 				1714C5EB1A950CEF00B74BAC /* Department(List).swift */,
 				1748F2661A929496000ACBCF /* AppDelegate.swift */,
 				1748F2681A929496000ACBCF /* ViewController.swift */,
@@ -273,6 +276,7 @@
 			files = (
 				17967BD81A92A78100E48054 /* Course.swift in Sources */,
 				1748F28F1A929B1F000ACBCF /* CourseDetailViewController.swift in Sources */,
+				8C22280C1B01A15E008B03EB /* CCCourseButton.swift in Sources */,
 				1748F28B1A9299EE000ACBCF /* DepartmentViewController.swift in Sources */,
 				178A96E11A9E53DD000E74A9 /* SwiftyJSON.swift in Sources */,
 				173D2C581AF8241B00E53DA7 /* LocationViewController.swift in Sources */,
