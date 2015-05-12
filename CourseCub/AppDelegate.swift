@@ -33,6 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var searchTextSave = ""
     var namedCarts = [String]()
     var cartsLoaded = false
+    var cartSwitched = false
 
 
     let hardcoded_department_abrv = [

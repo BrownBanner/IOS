@@ -12,6 +12,7 @@ import UIKit
 class CalendarViewController: UIViewController {
     
     let blue = appDelegate.colorWithHexString("#3498db")//#3498db
+    let purple = appDelegate.colorWithHexString("#9b59b6")//#9b59b6
     let grey = appDelegate.colorWithHexString("#DEE1E2")//#bdc3c7
     let text_color = appDelegate.colorWithHexString("#666666")//#666666
     let background_color = appDelegate.colorWithHexString("#F9F8F4")//#F9F8F4
@@ -129,7 +130,9 @@ class CalendarViewController: UIViewController {
                     var day_offset = day_width * day_num
                     
                     //Create courseBlock
-                    var courseBlock = UIView(frame: CGRectMake(day_offset, min_offset, day_width, duration))
+                    var courseBlock = CCCourseButton(frame: CGRectMake(day_offset, min_offset, day_width, duration))
+                    courseBlock.course = course
+                    courseBlock.addTarget(self, action: "courseBlockPressed:", forControlEvents: UIControlEvents.TouchUpInside)
                     courseBlock.backgroundColor=grey
                     //Create color bumbper
                     let cb_height = CGFloat(10)
@@ -151,6 +154,19 @@ class CalendarViewController: UIViewController {
             }
         }
 
+    }
+    
+    func courseBlockPressed(sender:CCCourseButton!){
+        println("Courseblock tapped")
+        println(sender.course)
+        
+        var course = sender.course
+        
+        let sb = UIStoryboard(name: "Main", bundle: nil)
+        let detailsCourse = sb.instantiateViewControllerWithIdentifier("courseDetail") as! CourseDetailViewController
+        detailsCourse.course = course!;
+        detailsCourse.navigationItem.title = course!.subjectc
+        self.navigationController?.pushViewController(detailsCourse, animated: true)
     }
     
 //    func getCourse(courseCRN: JSON) {
@@ -201,9 +217,9 @@ class CalendarViewController: UIViewController {
     }
     
     func addDayColumns(){
-        let screenSize: CGRect = UIScreen.mainScreen().bounds
-        let screenWidth = screenSize.width
-        let screenHeight = screenSize.height
+        var screenSize: CGRect = UIScreen.mainScreen().bounds
+        var screenWidth = screenSize.width
+        var screenHeight = screenSize.height
         var day_width = screenWidth/5
         
         for var i = 0; i < 5; i++

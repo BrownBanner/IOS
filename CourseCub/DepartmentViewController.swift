@@ -24,7 +24,6 @@ class DepartmentViewController: UITableViewController, UITableViewDataSource, UI
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("loaD")
         self.resultSearchController.searchBar.hidden = false
         appDelegate.searchResults.removeAll(keepCapacity: false)
         
@@ -296,11 +295,11 @@ class DepartmentViewController: UITableViewController, UITableViewDataSource, UI
     }
     
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
-        resultSearchController.active = false
         appDelegate.searchTextSave = ""
         appDelegate.searchResults.removeAll(keepCapacity: false)
         tableView.reloadData()
         countSections()
+
         
     }
 

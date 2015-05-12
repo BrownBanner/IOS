@@ -30,13 +30,11 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         
         
-        
         self.spinner.center = CGPointMake(self.view.frame.width / 2, 60)
         self.spinner.hidesWhenStopped = true;
         self.view.addSubview(spinner)
         spinner.startAnimating()
         getClassesByDepartment(self.abbrev, department: self.department)
-        
         
         self.view.backgroundColor = UIColor(red: 0.976, green: 0.972, blue: 0.956, alpha: 1)
         tableView.sectionIndexBackgroundColor = UIColor(red: 0.976, green: 0.972, blue: 0.956, alpha: 1)
@@ -60,7 +58,7 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
             controller.searchBar.layer.borderColor = UIColor(red: 0.976, green: 0.972, blue: 0.956, alpha: 1).CGColor
             controller.searchBar.layer.shadowColor = UIColor(red: 0.976, green: 0.972, blue: 0.956, alpha: 1).CGColor
             controller.hidesNavigationBarDuringPresentation = false
-            
+            controller.searchBar.placeholder = "Filter Courses"
             self.tableView.tableHeaderView = controller.searchBar
             
             return controller
@@ -187,6 +185,9 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
                 if (course.subjectc.rangeOfString(word as! String, options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil, locale: nil) != nil)  {
                     containsPart = true
                 }
+                if (course.instructor.rangeOfString(word as! String, options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil, locale: nil) != nil)  {
+                    containsPart = true
+                }
                 if (course.meeting_time.rangeOfString(word as! String, options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil, locale: nil) != nil)  {
                     containsPart = true
                 }
@@ -205,9 +206,13 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-
-        
-        var course  = courseList[indexPath.row];
+        var course: Course
+        if (self.resultSearchController.active) {
+            course = self.searchResults[indexPath.row]
+        }
+        else {
+            course  = courseList[indexPath.row];
+        }
         
         let sb = UIStoryboard(name: "Main", bundle: nil)
         let detailsCourse = sb.instantiateViewControllerWithIdentifier("courseDetail") as! CourseDetailViewController
