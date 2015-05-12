@@ -117,14 +117,15 @@ class DepartmentViewController: UITableViewController, UITableViewDataSource, UI
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         if (appDelegate.clickedSearchCourse == false) {
-            //self.resultSearchController.active = false
+            /*if (self.resultSearchController.active) {
+                print("Here")
+                self.resultSearchController.active = false
+            }*/
         }
         //self.resultSearchController.searchBar.text = ""
         self.resultSearchController.searchBar.resignFirstResponder()
         self.resultSearchController.searchBar.hidden = true
-        
 
-        //self.navigationController?.popViewControllerAnimated(animated)
         
     }
     

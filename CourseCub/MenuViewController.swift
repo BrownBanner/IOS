@@ -38,8 +38,12 @@ class MenuViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
             let cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "CartsLabel")
+            var sCImageView = UIImageView()
+            sCImageView.image = UIImage(named: "IconWhiteBG")
+            sCImageView.frame = CGRectMake(110, 5, 45, 45)
+            cell.addSubview(sCImageView)
             cell.textLabel!.font = UIFont(name: "Avenir-Roman", size: 20)!
-            cell.textLabel?.text = "CARTS"
+            //cell.textLabel?.text = "CARTS"
             cell.userInteractionEnabled = false
             return cell
         }
@@ -54,25 +58,46 @@ class MenuViewController: UITableViewController {
             
         else if indexPath.row == appDelegate.namedCarts.count + 1 {
             let cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "AddCart")
-            cell.textLabel?.text = "Save Cart"
-            cell.imageView?.image = UIImage(named: "SaveCart")
+            cell.textLabel?.text = "        Save Cart"
+            var sCImageView = UIImageView()
+            sCImageView.image = UIImage(named: "SaveCart")
+            sCImageView.frame = CGRectMake(6.5, 5, 45, 45)
+            cell.addSubview(sCImageView)
             cell.textLabel!.font = UIFont(name: "Avenir-Roman", size: 20)!
             return cell
         }
         else if indexPath.row == appDelegate.namedCarts.count + 2 {
             let cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "Settings")
-            cell.textLabel?.text = "Settings"
-            cell.imageView?.image = UIImage(named: "Settings")
+            cell.textLabel?.text = "        Settings"
+            var sCImageView = UIImageView()
+            sCImageView.image = UIImage(named: "Settings")
+            sCImageView.frame = CGRectMake(6.5, 5, 45, 45)
+            cell.addSubview(sCImageView)
             cell.textLabel!.font = UIFont(name: "Avenir-Roman", size: 20)!
             return cell
         }
         else {
             let cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "Register")
-            cell.imageView?.image = UIImage(named: "Register")
+            var sCImageView = UIImageView()
+            sCImageView.image = UIImage(named: "Register")
+            sCImageView.frame = CGRectMake((cell.frame.width/2)*0.75 - 65, 5, 150, 45)
+            cell.addSubview(sCImageView)
+            //sCImageView.center = CGPointMake(cell.contentView.bounds.size.width/2,cell.contentView.bounds.size.height/2);
             cell.textLabel!.font = UIFont(name: "Avenir-Roman", size: 20)!
             return cell
         }
     }
+    
+    /*func resizeToWidth(width:Int)-> UIImage {
+        let imageView = UIImageView(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: CGFloat(width), height: CGFloat(ceil(CGFloat(width)/size.width * size.height)))))
+        imageView.contentMode = UIViewContentMode.ScaleAspectFit
+        imageView.image = self
+        UIGraphicsBeginImageContext(imageView.bounds.size)
+        imageView.layer.renderInContext(UIGraphicsGetCurrentContext())
+        let result = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return result
+    }*/
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if (indexPath.row == 0) {
