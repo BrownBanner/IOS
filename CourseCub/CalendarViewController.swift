@@ -130,7 +130,9 @@ class CalendarViewController: UIViewController {
                     var day_offset = day_width * day_num
                     
                     //Create courseBlock
-                    var courseBlock = UIView(frame: CGRectMake(day_offset, min_offset, day_width, duration))
+                    var courseBlock = CCCourseButton(frame: CGRectMake(day_offset, min_offset, day_width, duration))
+                    courseBlock.course = course
+                    courseBlock.addTarget(self, action: "courseBlockPressed:", forControlEvents: UIControlEvents.TouchUpInside)
                     courseBlock.backgroundColor=grey
                     //Create color bumbper
                     let cb_height = CGFloat(10)
@@ -152,6 +154,19 @@ class CalendarViewController: UIViewController {
             }
         }
 
+    }
+    
+    func courseBlockPressed(sender:CCCourseButton!){
+        println("Courseblock tapped")
+        println(sender.course)
+        
+        var course = sender.course
+        
+        let sb = UIStoryboard(name: "Main", bundle: nil)
+        let detailsCourse = sb.instantiateViewControllerWithIdentifier("courseDetail") as! CourseDetailViewController
+        detailsCourse.course = course!;
+        detailsCourse.navigationItem.title = course!.subjectc
+        self.navigationController?.pushViewController(detailsCourse, animated: true)
     }
     
 //    func getCourse(courseCRN: JSON) {
