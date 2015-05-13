@@ -66,6 +66,17 @@ class Cart {
         return false
     }
     
+    func isRegistered(course: Course) -> Bool {
+        for cartCourse in courseArray {
+            if cartCourse.crn == course.crn {
+                if (cartCourse.reg_indicator == "Y") {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+    
     /**
         Checks if you can add courses to cart
     

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CourseDetailViewController: UIViewController  {
+class CourseDetailViewController: UIViewController, UIScrollViewDelegate  {
 
     var course = Course(jsonCourse: JSON(""));
     var inCart = false;
@@ -20,12 +20,13 @@ class CourseDetailViewController: UIViewController  {
     @IBOutlet var instructorImage: UIImageView!
     @IBOutlet var locationImage: UIImageView!
     @IBOutlet var meetingLabel: UILabel!
-    @IBOutlet var titleLabel: UILabel!
     @IBOutlet var seatsLabel: UILabel!
     @IBOutlet var instructorLabel: UILabel!
     @IBOutlet var locationLabel: UILabel!
     @IBOutlet var moreInfoImage: UIImageView!
     
+    @IBOutlet var titleLabel: UILabel!
+
     @IBOutlet var lineOne: UIImageView!
     @IBOutlet var lineTwo: UIImageView!
     @IBOutlet var lineThree: UIImageView!
@@ -36,6 +37,23 @@ class CourseDetailViewController: UIViewController  {
     @IBOutlet var descriptionLabel: UILabel!
     
     @IBOutlet var addToCartImage: UIBarButtonItem!
+    @IBOutlet var bookListButton: UIButton!
+    @IBAction func bookListClick(sender: AnyObject) {
+    }
+    @IBOutlet var critReviewButton: UIButton!
+    @IBAction func critReviewClick(sender: AnyObject) {
+        let sb = UIStoryboard(name: "Main", bundle:nil)
+        let linkController = sb.instantiateViewControllerWithIdentifier("linkViewController") as! LinkViewController
+        linkController.URLPath = course.critical_review
+        self.navigationController?.pushViewController(linkController, animated: true);
+    }
+    @IBOutlet var coursePreviewButton: UIButton!
+    @IBAction func coursePreviewClick(sender: AnyObject) {
+        let sb = UIStoryboard(name: "Main", bundle:nil)
+        let linkController = sb.instantiateViewControllerWithIdentifier("linkViewController") as! LinkViewController
+        linkController.URLPath = course.course_preview
+        self.navigationController?.pushViewController(linkController, animated: true);
+    }
     
     @IBAction func addToCart(sender: AnyObject) {
         var defaults = NSUserDefaults.standardUserDefaults()
@@ -47,7 +65,6 @@ class CourseDetailViewController: UIViewController  {
         else {
             urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/cart?term=" + termCode + "&in_id=" + appDelegate.getSessionCookie() + "&crn=" + course.crn + "&in_type=I"
         }
-        print (urlPath)
         let url = NSURL(string: urlPath)
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: nil, delegateQueue: NSOperationQueue.mainQueue())
         let task = session.dataTaskWithURL(url!, completionHandler: {data, response, error -> Void in
@@ -92,31 +109,24 @@ class CourseDetailViewController: UIViewController  {
         if (inCart) {
             addToCartImage.image = UIImage(named: "RemoveFromCart")
             cartImage.image = UIImage(named: "InCart")
+            if appDelegate.currentCart.isRegistered(course) {
+                addToCartImage.enabled = false
+            }
+            else {
+                addToCartImage.enabled = true
+            }
         }
         else {
             addToCartImage.image = UIImage(named: "AddtoCartWhite")
             cartImage.image = nil
+            addToCartImage.enabled = true
+
+        }
+        if appDelegate.currentCart.getCourses().count == 20 {
+            addToCartImage.enabled = false
         }
         
-        self.view.addSubview(trueScrollView)
-        self.trueScrollView.addSubview(self.scrollView)
-        self.scrollView.addSubview(seatsImage)
-        self.scrollView.addSubview(instructorImage)
-        self.scrollView.addSubview(locationImage)
-        self.scrollView.addSubview(meetingLabel)
-        self.scrollView.addSubview(titleLabel)
-        self.scrollView.addSubview(seatsLabel)
-        self.scrollView.addSubview(instructorLabel)
-        self.scrollView.addSubview(locationLabel)
-        self.scrollView.addSubview(moreInfoImage)
-        self.scrollView.addSubview(lineOne)
-        self.scrollView.addSubview(lineTwo)
-        self.scrollView.addSubview(lineThree)
-        self.scrollView.addSubview(lineFour)
-        self.scrollView.addSubview(lineFive)
-        self.scrollView.addSubview(lineSix)
-        self.scrollView.addSubview(moreInfoText)
-        self.scrollView.addSubview(descriptionLabel)
+
         var leftConstraint = NSLayoutConstraint(item: self.scrollView, attribute: NSLayoutAttribute.Leading, relatedBy: NSLayoutRelation.Equal, toItem: self.view, attribute: NSLayoutAttribute.Left, multiplier: 1.0, constant: 0)
         var rightConstraint = NSLayoutConstraint(item: self.scrollView, attribute: NSLayoutAttribute.Trailing, relatedBy: NSLayoutRelation.Equal, toItem: self.view, attribute: NSLayoutAttribute.Right, multiplier: 1.0, constant: 0)
         self.view.addConstraint(leftConstraint)
@@ -177,10 +187,11 @@ class CourseDetailViewController: UIViewController  {
         titleLabel.text = course.title as String
         titleLabel.numberOfLines = 0;
         titleLabel.preferredMaxLayoutWidth = 539
+        
         //titleLabel.sizeToFit()
         
         
-        descriptionLabel.text = course.description as String
+        descriptionLabel.text = course.description as String + "\n" //+ course.prereqs + course.examinfo
         descriptionLabel.numberOfLines = 0;
         descriptionLabel.preferredMaxLayoutWidth = 536
         //descriptionLabel.sizeToFit()
@@ -193,11 +204,64 @@ class CourseDetailViewController: UIViewController  {
         var frm = self.scrollView.frame
         frm.size.width = screenWidth;
         self.scrollView.frame = frm;*/
+        
+        titleLabel.sizeToFit()
+        
+        
+//        titleLabel.numberOfLines=0;
+//        
+//        titleLabel.lineBreakMode=NSLineBreakMode.ByWordWrapping
+//        let subfont = UIFont(name: "Avenir-Roman", size: 20)
+//        titleLabel.font=subfont
+//        var textViewSizesub = titleLabel.sizeThatFits(CGSizeMake(self.view.bounds.width, CGFloat.max))
+//        titleLabel.frame=CGRectMake(0, titleLabel.frame.origin.y, self.view.bounds.width-5, textViewSizesub.height)
+        
+        
+        descriptionLabel.sizeToFit()
+        
+        self.view.addSubview(trueScrollView)
+        self.trueScrollView.addSubview(self.scrollView)
+        self.scrollView.addSubview(seatsImage)
+        self.scrollView.addSubview(instructorImage)
+        self.scrollView.addSubview(locationImage)
+        self.scrollView.addSubview(meetingLabel)
+        self.scrollView.addSubview(titleLabel)
+        self.scrollView.addSubview(seatsLabel)
+        self.scrollView.addSubview(instructorLabel)
+        self.scrollView.addSubview(locationLabel)
+        self.scrollView.addSubview(moreInfoImage)
+        self.scrollView.addSubview(lineOne)
+        self.scrollView.addSubview(lineTwo)
+        self.scrollView.addSubview(lineThree)
+        self.scrollView.addSubview(lineFour)
+        self.scrollView.addSubview(lineFive)
+        self.scrollView.addSubview(lineSix)
+        self.scrollView.addSubview(moreInfoText)
+        self.scrollView.addSubview(descriptionLabel)
+        self.scrollView.addSubview(coursePreviewButton)
+        self.scrollView.addSubview(critReviewButton)
+        
+        //self.view.bringSubviewToFront(trueScrollView)
+        
+        
+        var timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: Selector("someSelector"), userInfo: nil, repeats: false)
+        
+        
 
         
     }
     
-
+    func someSelector() {
+        //self.titleLabel.sizeToFit()
+        //self.descriptionLabel.sizeToFit()
+        //self.scrollView.setNeedsLayout()
+        trueScrollView.contentSize = CGSizeMake(self.view.frame.width, coursePreviewButton.frame.maxY);
+        
+    }
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        print("scroll")
+    }
     
    override func viewWillLayoutSubviews()
     {

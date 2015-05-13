@@ -24,11 +24,10 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
         super.viewDidLoad()
 
         // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
+//        self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-        
         
         
         self.spinner.center = CGPointMake(self.view.frame.width / 2, 60)
@@ -36,7 +35,6 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
         self.view.addSubview(spinner)
         spinner.startAnimating()
         getClassesByDepartment(self.abbrev, department: self.department)
-        
         
         self.view.backgroundColor = UIColor(red: 0.976, green: 0.972, blue: 0.956, alpha: 1)
         tableView.sectionIndexBackgroundColor = UIColor(red: 0.976, green: 0.972, blue: 0.956, alpha: 1)
@@ -60,39 +58,30 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
             controller.searchBar.layer.borderColor = UIColor(red: 0.976, green: 0.972, blue: 0.956, alpha: 1).CGColor
             controller.searchBar.layer.shadowColor = UIColor(red: 0.976, green: 0.972, blue: 0.956, alpha: 1).CGColor
             controller.hidesNavigationBarDuringPresentation = false
-            
+            controller.searchBar.placeholder = "Filter Courses"
             self.tableView.tableHeaderView = controller.searchBar
-            
+
             return controller
         })()
-
+        
         // Reload the table
         //self.tableView.reloadData()
 
     
     }
     
-    /*override func viewWillAppear(animated: Bool) {
-        self.resultSearchController = ({
-            let controller = UISearchController(searchResultsController: nil)
-            controller.searchResultsUpdater = self
-            controller.dimsBackgroundDuringPresentation = false
-            controller.searchBar.sizeToFit()
-            controller.hidesNavigationBarDuringPresentation = false
-            
-            self.tableView.tableHeaderView = controller.searchBar
-            
-            return controller
-        })()
+    override func viewWillAppear(animated: Bool) {
+        self.resultSearchController.searchBar.hidden = false
         self.tableView.reloadData()
         self.tableView.becomeFirstResponder()
-    }*/
+    }
     
     
     override func viewWillDisappear(animated: Bool) {
         self.resultSearchController.resignFirstResponder()
         self.resultSearchController.searchBar.resignFirstResponder()
         self.resultSearchController.active = false
+        self.resultSearchController.searchBar.hidden = true
     }
 
     override func didReceiveMemoryWarning() {
@@ -187,6 +176,9 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
                 if (course.subjectc.rangeOfString(word as! String, options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil, locale: nil) != nil)  {
                     containsPart = true
                 }
+                if (course.instructor.rangeOfString(word as! String, options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil, locale: nil) != nil)  {
+                    containsPart = true
+                }
                 if (course.meeting_time.rangeOfString(word as! String, options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil, locale: nil) != nil)  {
                     containsPart = true
                 }
@@ -205,9 +197,13 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-
-        
-        var course  = courseList[indexPath.row];
+        var course: Course
+        if (self.resultSearchController.active) {
+            course = self.searchResults[indexPath.row]
+        }
+        else {
+            course  = courseList[indexPath.row];
+        }
         
         let sb = UIStoryboard(name: "Main", bundle: nil)
         let detailsCourse = sb.instantiateViewControllerWithIdentifier("courseDetail") as! CourseDetailViewController

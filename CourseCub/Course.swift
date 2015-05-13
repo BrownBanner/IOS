@@ -22,7 +22,7 @@ class Course {
     var location: NSString;
     var meeting_time: String;
     //var description: NSString;
-    var instructor: NSString;
+    var instructor: String;
     var booklist: NSString;
     //var course_links: [String: String];
     

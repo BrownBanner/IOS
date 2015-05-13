@@ -52,6 +52,9 @@ class CalendarViewController: UIViewController {
         
         //#######Calendar Body
         addDayColumns();
+        var defaults = NSUserDefaults.standardUserDefaults()
+        var termArray = ["Fall 2013", "Spring 2014", "Fall 2014", "Spring 2015"]
+        self.title = termArray[defaults.objectForKey(appDelegate.COURSE_TERM_INDEX) as! Int]
     }
     
     func getCart() {

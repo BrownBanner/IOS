@@ -26,6 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let COURSE_TERM_INDEX = "COURSE_INDEX"
     let COURSE_TERM_CODE = "COURSE_CODE"
     var storedIndex = 2
+    var searchLoadedOnce = false
     var storedTerm = "Spring 2015"
     var storedCode = "201420"
     var currentCart = Cart(cartTitle: "", cartCourseArray: [Course]())
@@ -33,6 +34,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var searchTextSave = ""
     var namedCarts = [String]()
     var cartsLoaded = false
+    var cartSwitched = false
+    var loadedCartName = ""
 
 
     let hardcoded_department_abrv = [
@@ -168,7 +171,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         
-        print (hardcoded_department_abrv.count == hardcoded_department_title.count)
         if (hardcoded_department_abrv.count == hardcoded_department_title.count) {
             for (var index = 0; index < hardcoded_department_abrv.count; index++) {
                 var new_dep = Department()
