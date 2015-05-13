@@ -12,7 +12,7 @@ class MenuViewController: UITableViewController {
 
     var carts = appDelegate.namedCarts
     let NUM_STATIC_CELLS = 4
-    let textField = UITextField()
+    var saveTextField = UITextField()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,12 +58,12 @@ class MenuViewController: UITableViewController {
             if indexPath.row != appDelegate.namedCarts.count {
                 cell.separatorInset = UIEdgeInsetsMake(0, offset, 0, 0)
                 cell.preservesSuperviewLayoutMargins = false
-                cell.textLabel?.text = appDelegate.namedCarts[indexPath.row - 1]
+                cell.textLabel?.text = " " + appDelegate.namedCarts[indexPath.row - 1]
             }
             else {
 
                 var name = UILabel(frame: CGRectMake(offset, 0, self.view.frame.width, 45))
-                name.text = appDelegate.namedCarts[indexPath.row - 1]
+                name.text = " " + appDelegate.namedCarts[indexPath.row - 1]
                 name.font = UIFont(name: "Avenir-Roman", size: 20)!
                 cell.addSubview(name)
                 cell.separatorInset = UIEdgeInsetsZero
@@ -133,9 +133,10 @@ class MenuViewController: UITableViewController {
         }
         else if (indexPath.row == appDelegate.namedCarts.count + 1) {
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
-            var alert : UIAlertController = UIAlertController(title: "Save Cart:", message: "Name your cart. If you enter an existing list name, it will be overwritten with the current cart. The default cart name below is the one you were previously working with." + appDelegate.loadedCartName, preferredStyle: UIAlertControllerStyle.Alert)
+            var alert : UIAlertController = UIAlertController(title: "Save Cart:", message: "If you enter an existing list name, it will be overwritten with the current cart.", preferredStyle: UIAlertControllerStyle.Alert)
             alert.addAction(UIAlertAction(title: "Save", style: UIAlertActionStyle.Default, handler: { alertAction in
                 alert.dismissViewControllerAnimated(true, completion: nil)
+                self.saveCart(self.saveTextField.text)
             }))
             
             alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: {alertAction in
@@ -143,7 +144,9 @@ class MenuViewController: UITableViewController {
             }))
             
             alert.addTextFieldWithConfigurationHandler { textField in
-                
+                self.saveTextField = textField!
+                self.saveTextField.text = appDelegate.loadedCartName
+                self.saveTextField.placeholder = "Cart Name"
             }
             self.presentViewController(alert, animated: true, completion: nil)
         }
@@ -175,6 +178,58 @@ class MenuViewController: UITableViewController {
         }
     }
     
+    func saveCart(cartName: String) {
+        if cartName == "" {
+            return
+        }
+        appDelegate.loadedCartName = cartName
+//        var replace = false
+//        for name in appDelegate.namedCarts {
+//            if name == cartName {
+//                replace = true
+//            }
+//        }
+        addCart(cartName)
+    }
+    
+    func addCart(cartName: String) {
+        var crn_list = ""
+        for course in appDelegate.currentCart.getCourses() {
+            crn_list += (course.crn) + ","
+        }
+        
+        var defaults = NSUserDefaults.standardUserDefaults()
+        var termCode = defaults.objectForKey(appDelegate.COURSE_TERM_CODE) as! String
+        let urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/cartbyname?term=" + termCode + "&in_id=" + appDelegate.getSessionCookie() + "&cart_name=" + cartName + "&crn_list=" + crn_list + "&in_type=I"
+        println("ADDINGCART")
+        println(urlPath)
+        let url = NSURL(string: urlPath)
+        let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: nil, delegateQueue: NSOperationQueue.mainQueue())
+        let task = session.dataTaskWithURL(url!, completionHandler: {data, response, error -> Void in
+            if(error != nil) {
+                // If there is an error in the web request, print it to the console
+                println(error.localizedDescription)
+                appDelegate.cartsLoaded = false
+                return;
+            } else {
+                var err: NSError?
+                //                var jsonResult = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: &err) as! NSDictionary
+                if(err != nil) {
+                    // If there is an error parsing JSON, print it to the console
+                    println("JSON Error \(err!.localizedDescription)")
+                }
+                self.getNamedCarts()
+                return;
+            }
+            
+        })
+        
+        task.resume()
+    }
+    
+    func replaceCart(cartName: String) {
+        
+    }
     
     
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
@@ -208,13 +263,23 @@ class MenuViewController: UITableViewController {
     
     func clearCurrentCart(cartToAdd: String) {
         var crn_list = ""
+        var crns = [String]()
         for course in appDelegate.currentCart.getCourses() {
-            crn_list += (course.crn) + ","
+            if !appDelegate.currentCart.isRegistered(course) {
+                crns.append(course.crn)
+            }
+        }
+        crn_list = ",".join(crns)
+        if crn_list == "" {
+            self.getCartByName(cartToAdd)
+            return
         }
         
         var defaults = NSUserDefaults.standardUserDefaults()
         var termCode = defaults.objectForKey(appDelegate.COURSE_TERM_CODE) as! String
         let urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/cartBulkDML?term=" + termCode + "&in_id=" + appDelegate.getSessionCookie() + "&crn_string=" + crn_list + "&in_type=D"
+        println("DELETING")
+        print (urlPath)
         let url = NSURL(string: urlPath)
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: nil, delegateQueue: NSOperationQueue.mainQueue())
         let task = session.dataTaskWithURL(url!, completionHandler: {data, response, error -> Void in
@@ -245,6 +310,8 @@ class MenuViewController: UITableViewController {
         var defaults = NSUserDefaults.standardUserDefaults()
         var termCode = defaults.objectForKey(appDelegate.COURSE_TERM_CODE) as! String
         let urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/cartbyname?term=" + termCode + "&in_id=" + appDelegate.getSessionCookie() + "&cart_name=" + name
+        println("\nGETCARTBYNAME")
+        println(urlPath)
         let url = NSURL(string: urlPath)
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: nil, delegateQueue: NSOperationQueue.mainQueue())
         let task = session.dataTaskWithURL(url!, completionHandler: {data, response, error -> Void in
@@ -276,13 +343,17 @@ class MenuViewController: UITableViewController {
     
     func addCourses(addCourses: String) {
         var crn_list = ""
+        var crns = [String]()
         for course in appDelegate.currentCart.getCourses() {
-            crn_list += (course.crn) + ","
+            crns.append(course.crn)
         }
+        crn_list = ",".join(crns)
         
         var defaults = NSUserDefaults.standardUserDefaults()
         var termCode = defaults.objectForKey(appDelegate.COURSE_TERM_CODE) as! String
         let urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/cartBulkDML?term=" + termCode + "&in_id=" + appDelegate.getSessionCookie() + "&crn_string=" + addCourses + "&in_type=I"
+        println("ADDING")
+        println(urlPath)
         let url = NSURL(string: urlPath)
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: nil, delegateQueue: NSOperationQueue.mainQueue())
         let task = session.dataTaskWithURL(url!, completionHandler: {data, response, error -> Void in
@@ -294,8 +365,6 @@ class MenuViewController: UITableViewController {
             } else {
                 var err: NSError?
                 
-//                var jsonResult = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: &err) as! NSDictionary
-                println(data)
                 if(err != nil) {
                     // If there is an error parsing JSON, print it to the console
                     println("JSON Error \(err!.localizedDescription)")
@@ -321,7 +390,6 @@ class MenuViewController: UITableViewController {
         var defaults = NSUserDefaults.standardUserDefaults()
         var termCode = defaults.objectForKey(appDelegate.COURSE_TERM_CODE) as! String
         let urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/cartbyname?term=" + termCode + "&in_id=" + appDelegate.getSessionCookie() + "&cart_name=" + name + "&crn_list=1&in_type=D"
-        println(urlPath)
         let url = NSURL(string: urlPath)
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: nil, delegateQueue: NSOperationQueue.mainQueue())
         let task = session.dataTaskWithURL(url!, completionHandler: {data, response, error -> Void in

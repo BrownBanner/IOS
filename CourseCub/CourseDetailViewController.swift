@@ -206,8 +206,17 @@ class CourseDetailViewController: UIViewController, UIScrollViewDelegate  {
         self.scrollView.frame = frm;*/
         
         titleLabel.sizeToFit()
-        print(titleLabel.frame.height)
-        println()
+        
+        
+//        titleLabel.numberOfLines=0;
+//        
+//        titleLabel.lineBreakMode=NSLineBreakMode.ByWordWrapping
+//        let subfont = UIFont(name: "Avenir-Roman", size: 20)
+//        titleLabel.font=subfont
+//        var textViewSizesub = titleLabel.sizeThatFits(CGSizeMake(self.view.bounds.width, CGFloat.max))
+//        titleLabel.frame=CGRectMake(0, titleLabel.frame.origin.y, self.view.bounds.width-5, textViewSizesub.height)
+        
+        
         descriptionLabel.sizeToFit()
         
         self.view.addSubview(trueScrollView)

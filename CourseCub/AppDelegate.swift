@@ -171,7 +171,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         
-        print (hardcoded_department_abrv.count == hardcoded_department_title.count)
         if (hardcoded_department_abrv.count == hardcoded_department_title.count) {
             for (var index = 0; index < hardcoded_department_abrv.count; index++) {
                 var new_dep = Department()

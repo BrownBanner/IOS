@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Darwin
 
 class ViewController: UIViewController, UIWebViewDelegate {
 
@@ -40,7 +41,32 @@ class ViewController: UIViewController, UIWebViewDelegate {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadAddressURL()
+        self.checkInternet(false, completionHandler:
+            {(internet:Bool) -> Void in
+                
+                if (internet)
+                {
+                    self.loadAddressURL()
+                }
+                else
+                {
+//                    var launchImage = UIImage(named: "Launch")
+//                    var launchView = UIImageView(frame: CGRectMake(0, 0, self.view.frame.width, self.view.frame.height))
+//                    launchView.image = launchImage
+//                    self.view.addSubview(launchView)
+                    let alertController = UIAlertController(title: "No Internet:", message:
+                        "There is no internet connection and so we cannot sync with banner. Please fix your connection again later.", preferredStyle: UIAlertControllerStyle.Alert)
+                    alertController.addAction(UIAlertAction(title: "Exit", style: UIAlertActionStyle.Cancel, handler: {alertAction in
+                        alertController.dismissViewControllerAnimated(true, completion: nil)
+                        exit(0)
+                        
+                    }))
+                    
+                    self.presentViewController(alertController, animated: true, completion: nil)
+                   
+                }
+        })
+        
         Webview?.scrollView.scrollEnabled = false
         // Do any additional setup after loading the view, typically from a nib.
     }
@@ -64,5 +90,28 @@ class ViewController: UIViewController, UIWebViewDelegate {
             nextPageTest.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
         }
     }
+    
+    func checkInternet(flag:Bool, completionHandler:(internet:Bool) -> Void)
+    {
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        
+        let url = NSURL(string: "http://www.google.com/")
+        let request = NSMutableURLRequest(URL: url!)
+        
+        request.HTTPMethod = "HEAD"
+        request.cachePolicy = NSURLRequestCachePolicy.ReloadIgnoringLocalAndRemoteCacheData
+        request.timeoutInterval = 10.0
+        
+        NSURLConnection.sendAsynchronousRequest(request, queue:NSOperationQueue.mainQueue(), completionHandler:
+            {(response: NSURLResponse!, data: NSData!, error: NSError!) -> Void in
+                
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                
+                let rsp = response as! NSHTTPURLResponse?
+                
+                completionHandler(internet:rsp?.statusCode == 200)
+        })
+    }
+
 }
 
