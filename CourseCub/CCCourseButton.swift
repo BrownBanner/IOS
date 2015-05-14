@@ -74,7 +74,16 @@ class CCCourseButton: UIButton {
     func addBumper(color: UIColor){
         
         color_bumper = UIView(frame: CGRectMake(0, 0, self.frame.width, cb_height))
-        color_bumper!.backgroundColor=color
+        if course!.reg_indicator == "Y"{
+            color_bumper!.backgroundColor=color
+        }else{
+            let lines = UIImage(named: "lines.png")
+            let crossHatch = UIImageView(image:lines)
+            crossHatch.frame = CGRectMake(0, 0, self.frame.width, cb_height)
+            crossHatch.alpha = 0.3
+            color_bumper!.addSubview(crossHatch)
+            color_bumper!.backgroundColor=color.colorWithAlphaComponent(0.6)
+        }
         self.addSubview(color_bumper!)
     }
     func addCourseLabel(){

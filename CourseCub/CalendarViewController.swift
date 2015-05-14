@@ -94,7 +94,7 @@ class CalendarViewController: UIViewController {
             var hourLabel = UILabel(frame: CGRectMake(2, hourPoint, margin, 10))
             hourLabel.font = UIFont(name: "Avenir-Roman", size: 9)
             hourLabel.text = hour
-            hourLabel.textColor = blue
+            hourLabel.textColor = text_color
             self.view.addSubview(hourLabel)
             ++i
         }
@@ -127,7 +127,7 @@ class CalendarViewController: UIViewController {
             var dayLabel = UILabel(frame: CGRectMake(dayLabelPoint-3, 2, margin, 10))
             dayLabel.text = days[i]
             dayLabel.font = UIFont(name: "Avenir-Roman", size: 9)
-            dayLabel.textColor = blue
+            dayLabel.textColor = text_color
             day_column.addSubview(dayLabel)
         }
     }
