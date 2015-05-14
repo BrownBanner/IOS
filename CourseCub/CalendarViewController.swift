@@ -468,7 +468,7 @@ class CalendarViewController: UIViewController {
         var xImage = UIImage(named: "CancelX")
         var xImageWhite = colorizeWith(xImage!, color: UIColor.whiteColor())
         let xImageView = UIImageView(image: xImageWhite)
-        xImageView.frame = CGRectMake(10, 10, 20, 20)
+        xImageView.frame = CGRectMake(15, 15, 20, 20)
         var cancelButton = UIButton(frame: CGRectMake(0, 0, 35, 35))
         cancelButton.addSubview(xImageView)
         cancelButton.addTarget(self, action: "dismissPopUp", forControlEvents: UIControlEvents.TouchUpInside)
@@ -486,17 +486,26 @@ class CalendarViewController: UIViewController {
     func displayConflictsOnPopup(sender: CCCourseButton){
         println(sender.conflictArray)
         var i = 0
+        var headerMargin = CGFloat(60)
         for course in sender.conflictArray!{
-            var conflictButton = CCCourseButton(frame: CGRectMake(10, 50+CGFloat(i*40), popup!.frame.width, 35))
+            
+            var conflictButton = CCCourseButton(frame: CGRectMake(10, headerMargin+CGFloat(i*40), popup!.frame.width, 35))
             conflictButton.course = course
             conflictButton.addTarget(self, action: "conflictPressed:", forControlEvents: UIControlEvents.TouchUpInside)
             popup?.addSubview(conflictButton)
             
-            var conflictLabel = UILabel(frame: CGRectMake(10, 50+CGFloat(i*40), popup!.frame.width, 35))
+            var conflictLabel = UILabel(frame: CGRectMake(10, headerMargin+CGFloat(i*40), popup!.frame.width, 35))
             conflictLabel.text = course.subjectc
             conflictLabel.textColor = UIColor.whiteColor()
             conflictLabel.font = UIFont(name: "Avenir-Roman", size: 20)
             popup?.addSubview(conflictLabel)
+            
+            var arrowImage = UIImage(named: "Rarrow")
+            var arrowImageWhite = colorizeWith(arrowImage!, color: UIColor.whiteColor())
+            let arrowImageView = UIImageView(image: arrowImageWhite)
+            arrowImageView.frame = CGRectMake(popup!.frame.width-30, headerMargin+CGFloat(i*40)+8, 20, 20)
+            popup!.addSubview(arrowImageView)
+            
             ++i
         }
     }
