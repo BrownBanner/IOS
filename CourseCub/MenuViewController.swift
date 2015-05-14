@@ -16,6 +16,7 @@ class MenuViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = UIColor(red: 0.976, green: 0.972, blue: 0.956, alpha: 1)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -47,6 +48,7 @@ class MenuViewController: UITableViewController {
             cell.userInteractionEnabled = false
             cell.separatorInset = UIEdgeInsetsZero
             cell.preservesSuperviewLayoutMargins = false
+            cell.backgroundColor = UIColor(red: 0.976, green: 0.972, blue: 0.956, alpha: 1)
             return cell
         }
             
@@ -69,6 +71,7 @@ class MenuViewController: UITableViewController {
                 cell.separatorInset = UIEdgeInsetsZero
                 cell.preservesSuperviewLayoutMargins = false
             }
+            cell.backgroundColor = UIColor(red: 0.976, green: 0.972, blue: 0.956, alpha: 1)
             return cell
         }
             
@@ -81,6 +84,7 @@ class MenuViewController: UITableViewController {
             cell.addSubview(sCImageView)
             cell.textLabel!.font = UIFont(name: "Avenir-Roman", size: 24)!
             cell.separatorInset = UIEdgeInsetsZero
+            cell.backgroundColor = UIColor(red: 0.976, green: 0.972, blue: 0.956, alpha: 1)
             cell.preservesSuperviewLayoutMargins = false
             return cell
         }
@@ -94,6 +98,7 @@ class MenuViewController: UITableViewController {
             cell.textLabel!.font = UIFont(name: "Avenir-Roman", size: 24)!
             cell.separatorInset = UIEdgeInsetsZero
             cell.preservesSuperviewLayoutMargins = false
+            cell.backgroundColor = UIColor(red: 0.976, green: 0.972, blue: 0.956, alpha: 1)
             return cell
         }
         else {
@@ -106,6 +111,7 @@ class MenuViewController: UITableViewController {
             cell.textLabel!.font = UIFont(name: "Avenir-Roman", size: 24)!
             cell.separatorInset = UIEdgeInsetsZero
             cell.preservesSuperviewLayoutMargins = false
+            cell.backgroundColor = UIColor(red: 0.976, green: 0.972, blue: 0.956, alpha: 1)
             return cell
         }
     }

@@ -18,6 +18,7 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
     var spinner = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
     var searchResults = [Course]()
     var resultSearchController = UISearchController()
+    var emptyLabel = UILabel()
 
     
     override func viewDidLoad() {
@@ -244,6 +245,17 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
                 for (index: String, courseJson: JSON) in self.jsonCourseList["items"] {
                     var new_course = Course(jsonCourse: courseJson)
                     self.courseList.append(new_course)
+                }
+                
+                if self.courseList.count <= 0 {
+                    self.emptyLabel = UILabel(frame: CGRectMake(15, 35, self.view.frame.width, 60))
+                    self.emptyLabel.text = "No courses are available."
+                    self.emptyLabel.font = UIFont(name: "Avenir-Roman", size: 18)
+                    self.view.addSubview(self.emptyLabel)
+                    
+                }
+                else {
+                    self.emptyLabel.text = ""
                 }
                 
                 self.sortCourses()
