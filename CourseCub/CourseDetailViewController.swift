@@ -196,11 +196,11 @@ class CourseDetailViewController: UIViewController, UIScrollViewDelegate  {
         var locationImageView = UIImageView(frame: CGRectMake(buttonImageOffsetX, buttonImageOffsetY, imageDimension, imageDimension))
         var locationImage = UIImage(named: "Location")
         locationImageView.image = locationImage
-        locationLabel = UILabel(frame: CGRectMake(locationImageView.frame.width + textImageOffset + buttonImageOffsetX, 0, locationView.frame.width - locationImageView.frame.width - textImageOffset - buttonImageOffsetX - arrowSize - lineOffset - lineOffset, locationView.frame.height))
+        locationLabel = UILabel(frame: CGRectMake(locationImageView.frame.width + textImageOffset + buttonImageOffsetX, 0, locationView.frame.width - locationImageView.frame.width - textImageOffset - buttonImageOffsetX - arrowSize - lineOffset - lineOffset - imageOffsetX, locationView.frame.height))
         locationLabel.text = course.location as String
         locationLabel.textColor = UIColor(red: 0.2235, green: 0.1176, blue: 0.1058, alpha: 1);
         locationLabel.font = UIFont(name: "Avenir-Roman", size: 20)!
-        var locationArrow = UIImageView(frame: CGRectMake(locationView.frame.width - arrowSize - lineOffset, (locationView.frame.height - arrowSize) / 2, arrowSize, arrowSize))
+        var locationArrow = UIImageView(frame: CGRectMake(locationView.frame.width - arrowSize - lineOffset - imageOffsetX, (locationView.frame.height - arrowSize) / 2, arrowSize, arrowSize))
         locationLabel.numberOfLines = 0
         locationLabel.lineBreakMode = NSLineBreakMode.ByWordWrapping
         locationLabel.preferredMaxLayoutWidth = locationLabel.frame.width
@@ -275,11 +275,11 @@ class CourseDetailViewController: UIViewController, UIScrollViewDelegate  {
         var bookListImageView = UIImageView(frame: CGRectMake(buttonImageOffsetX, buttonImageOffsetY, imageDimension, imageDimension))
         var bookListImage = UIImage(named: "Books")
         bookListImageView.image = bookListImage
-        bookListLabel = UILabel(frame: CGRectMake(bookListImageView.frame.width + textImageOffset + buttonImageOffsetX, 0, bookListView.frame.width - bookListImageView.frame.width - textImageOffset - buttonImageOffsetX, bookListView.frame.height))
+        bookListLabel = UILabel(frame: CGRectMake(bookListImageView.frame.width + textImageOffset + buttonImageOffsetX, 0, bookListView.frame.width - bookListImageView.frame.width - textImageOffset - buttonImageOffsetX - arrowSize - imageOffsetX, bookListView.frame.height))
         bookListLabel.text = "Book List"
         bookListLabel.textColor = UIColor(red: 0.2235, green: 0.1176, blue: 0.1058, alpha: 1)
         bookListLabel.font = UIFont(name: "Avenir-Roman", size: 20)!
-        var bookListArrow = UIImageView(frame: CGRectMake(bookListView.frame.width - arrowSize - lineOffset, (bookListView.frame.height - arrowSize) / 2, arrowSize, arrowSize))
+        var bookListArrow = UIImageView(frame: CGRectMake(bookListView.frame.width - arrowSize - lineOffset - imageOffsetX, (bookListView.frame.height - arrowSize) / 2, arrowSize, arrowSize))
         bookListArrow.image = UIImage(named: "Arrow")
         bookListView.addSubview(bookListArrow)
         bookListView.addSubview(bookListImageView)
@@ -298,11 +298,11 @@ class CourseDetailViewController: UIViewController, UIScrollViewDelegate  {
         var coursePreviewImageView = UIImageView(frame: CGRectMake(buttonImageOffsetX, buttonImageOffsetY, imageDimension, imageDimension))
         var coursePreviewImage = UIImage(named: "Link")
         coursePreviewImageView.image = coursePreviewImage
-        coursePreviewLabel = UILabel(frame: CGRectMake(coursePreviewImageView.frame.width + textImageOffset + buttonImageOffsetX, 0, coursePreviewView.frame.width - coursePreviewImageView.frame.width - textImageOffset - buttonImageOffsetX, coursePreviewView.frame.height))
+        coursePreviewLabel = UILabel(frame: CGRectMake(coursePreviewImageView.frame.width + textImageOffset + buttonImageOffsetX, 0, coursePreviewView.frame.width - coursePreviewImageView.frame.width - textImageOffset - buttonImageOffsetX - arrowSize - imageOffsetX, coursePreviewView.frame.height))
         coursePreviewLabel.text = "Course Preview"
         coursePreviewLabel.textColor = UIColor(red: 0.2235, green: 0.1176, blue: 0.1058, alpha: 1)
         coursePreviewLabel.font = UIFont(name: "Avenir-Roman", size: 20)!
-        var coursePreviewArrow = UIImageView(frame: CGRectMake(coursePreviewView.frame.width - arrowSize - lineOffset, (coursePreviewView.frame.height - arrowSize) / 2, arrowSize, arrowSize))
+        var coursePreviewArrow = UIImageView(frame: CGRectMake(coursePreviewView.frame.width - arrowSize - lineOffset - imageOffsetX, (coursePreviewView.frame.height - arrowSize) / 2, arrowSize, arrowSize))
         coursePreviewArrow.image = UIImage(named: "Arrow")
         coursePreviewView.addSubview(coursePreviewArrow)
         coursePreviewView.addSubview(coursePreviewImageView)
@@ -321,11 +321,11 @@ class CourseDetailViewController: UIViewController, UIScrollViewDelegate  {
         var criticalReviewImageView = UIImageView(frame: CGRectMake(buttonImageOffsetX, buttonImageOffsetY, imageDimension, imageDimension))
         var criticalReviewImage = UIImage(named: "Link")
         criticalReviewImageView.image = criticalReviewImage
-        criticalReviewLabel = UILabel(frame: CGRectMake(criticalReviewImageView.frame.width + textImageOffset + buttonImageOffsetX, 0, criticalReviewView.frame.width - criticalReviewImageView.frame.width - textImageOffset - buttonImageOffsetX, criticalReviewView.frame.height))
+        criticalReviewLabel = UILabel(frame: CGRectMake(criticalReviewImageView.frame.width + textImageOffset + buttonImageOffsetX, 0, criticalReviewView.frame.width - criticalReviewImageView.frame.width - textImageOffset - buttonImageOffsetX - arrowSize - imageOffsetX, criticalReviewView.frame.height))
         criticalReviewLabel.text = "Critical Review"
         criticalReviewLabel.textColor = UIColor(red: 0.2235, green: 0.1176, blue: 0.1058, alpha: 1)
         criticalReviewLabel.font = UIFont(name: "Avenir-Roman", size: 20)!
-        var criticalReviewArrow = UIImageView(frame: CGRectMake(criticalReviewView.frame.width - arrowSize - lineOffset, (criticalReviewView.frame.height - arrowSize) / 2, arrowSize, arrowSize))
+        var criticalReviewArrow = UIImageView(frame: CGRectMake(criticalReviewView.frame.width - arrowSize - lineOffset - imageOffsetX, (criticalReviewView.frame.height - arrowSize) / 2, arrowSize, arrowSize))
         criticalReviewArrow.image = UIImage(named: "Arrow")
         criticalReviewView.addSubview(criticalReviewArrow)
         criticalReviewView.addSubview(criticalReviewImageView)
