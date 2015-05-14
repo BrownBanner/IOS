@@ -204,6 +204,16 @@ class MenuViewController: UITableViewController {
             
             self.presentViewController(alertController, animated: true, completion: nil)
         }
+        if count(cartName_final) >= 11 {
+            let alertController = UIAlertController(title: "Too many characters:", message:
+                "Names must be less than 11 characters.", preferredStyle: UIAlertControllerStyle.Alert)
+            alertController.addAction(UIAlertAction(title: "Accept", style: UIAlertActionStyle.Cancel, handler: {alertAction in
+                alertController.dismissViewControllerAnimated(true, completion: nil)
+            }))
+            
+            self.presentViewController(alertController, animated: true, completion: nil)
+
+        }
         else {
             addCart(cartName_final)
         }
