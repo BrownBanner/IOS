@@ -166,12 +166,12 @@
                             <inset key="imageInsets" minX="25" minY="8" maxX="0.0" maxY="5"/>
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
-                                <action selector="addToCart:" destination="8iH-3F-6f7" id="fZw-P9-IfO"/>
+                                <action selector="addToCart:" destination="8iH-3F-6f7" id="pay-Y7-Egr"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="addToCartImage" destination="smQ-Zq-5za" id="N7y-Wd-657"/>
+                        <outlet property="addToCartImage" destination="smQ-Zq-5za" id="X8c-1F-XsQ"/>
                         <segue destination="1JN-4x-91B" kind="show" identifier="toLocation" id="DX7-qZ-l2l"/>
                     </connections>
                 </viewController>

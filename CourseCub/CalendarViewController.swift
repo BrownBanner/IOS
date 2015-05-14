@@ -64,8 +64,8 @@ class CalendarViewController: UIViewController {
         var defaults = NSUserDefaults.standardUserDefaults()
         var termCode = defaults.objectForKey(appDelegate.COURSE_TERM_CODE) as! String
 
-//        let urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/cartbyid?term=" + termCode + "&in_id=" + appDelegate.getSessionCookie()
-        let urlPath = "https://ords-dev.services.brown.edu:8121/dprd/banner/mobile/cartbyid?term=" + termCode + "&in_id=" + appDelegate.getSessionCookie()
+        let urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/cartbyid?term=" + termCode + "&in_id=" + appDelegate.getSessionCookie()
+//        let urlPath = "https://ords-dev.services.brown.edu:8121/dprd/banner/mobile/cartbyid?term=" + termCode + "&in_id=" + appDelegate.getSessionCookie()
         
         let url = NSURL(string: urlPath)
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: nil, delegateQueue: NSOperationQueue.mainQueue())
@@ -211,8 +211,8 @@ class CalendarViewController: UIViewController {
                                 ++j
                                 
                                 //Reset target
-                                courseBlock.removeTarget(nil, action: nil, forControlEvents: UIControlEvents.AllEvents)
-                                courseBlock.addTarget(self, action: "displayConflictPopUp:", forControlEvents: UIControlEvents.TouchUpInside)
+//                                courseBlock.removeTarget(nil, action: nil, forControlEvents: UIControlEvents.AllEvents)
+//                                courseBlock.addTarget(self, action: "displayConflictPopUp:", forControlEvents: UIControlEvents.TouchUpInside)
                             }
                             
                             //Calculate overall block dimensions
@@ -279,6 +279,7 @@ class CalendarViewController: UIViewController {
                             
                         }
                         curConflictArray = []
+                        courseBlock.conflict = false
                     }
                 }
             }
@@ -295,9 +296,9 @@ class CalendarViewController: UIViewController {
     @return Nada, zip, zilch
     */
     func courseBlockPressed(sender:CCCourseButton!){
-//        if(sender.conflict){
-//            
-//        }else{
+        if(sender.conflict){
+            displayConflictPopUp(sender)
+        }else{
             //Get Course
             var course = sender.course
             
@@ -307,7 +308,7 @@ class CalendarViewController: UIViewController {
             detailsCourse.course = course!;
             detailsCourse.navigationItem.title = course!.subjectc
             self.navigationController?.pushViewController(detailsCourse, animated: true)
-//        }
+        }
     }
     
     
@@ -364,6 +365,7 @@ class CalendarViewController: UIViewController {
     }
     
     func displayConflictPopUp(sender: CCCourseButton){
+        println("Display conflict popup")
         var blur = UIView(frame: CGRectMake(0, 0, self.view.frame.width, self.view.frame.height))
         blur.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.7)
         let image = UIImage(named: "lightg.png")

@@ -182,19 +182,45 @@ class MenuViewController: UITableViewController {
         if cartName == "" {
             return
         }
-        appDelegate.loadedCartName = cartName
-//        var replace = false
-//        for name in appDelegate.namedCarts {
-//            if name == cartName {
-//                replace = true
-//            }
-//        }
-        addCart(cartName)
+        
+        var NScartName = cartName as NSString
+        let charset = NSCharacterSet(charactersInString: " ")
+        let array = NScartName.componentsSeparatedByCharactersInSet(charset) as NSArray
+        var cartName_final = array.componentsJoinedByString("_") as String!
+        
+        appDelegate.loadedCartName = cartName_final
+        var replace = false
+        for name in appDelegate.namedCarts {
+            if name == cartName_final {
+                replace = true
+            }
+        }
+        if replace == false && appDelegate.namedCarts.count > 5 {
+            let alertController = UIAlertController(title: "Too many carts:", message:
+                "Delete some of your carts or overwrite an existing cart.", preferredStyle: UIAlertControllerStyle.Alert)
+            alertController.addAction(UIAlertAction(title: "Accept", style: UIAlertActionStyle.Cancel, handler: {alertAction in
+                alertController.dismissViewControllerAnimated(true, completion: nil)
+            }))
+            
+            self.presentViewController(alertController, animated: true, completion: nil)
+        }
+        if count(cartName_final) >= 11 {
+            let alertController = UIAlertController(title: "Too many characters:", message:
+                "Names must be less than 11 characters.", preferredStyle: UIAlertControllerStyle.Alert)
+            alertController.addAction(UIAlertAction(title: "Accept", style: UIAlertActionStyle.Cancel, handler: {alertAction in
+                alertController.dismissViewControllerAnimated(true, completion: nil)
+            }))
+            
+            self.presentViewController(alertController, animated: true, completion: nil)
+
+        }
+        else {
+            addCart(cartName_final)
+        }
+        
     }
     
     func addCart(cartName: String) {
-        println("CARTNAME")
-        println(cartName)
         var crn_list = ""
         for course in appDelegate.currentCart.getCourses() {
             crn_list += (course.crn) + ","
@@ -309,9 +335,15 @@ class MenuViewController: UITableViewController {
     
     
     func getCartByName(name: String) {
+        var tempName = name
+        var NScartName = tempName as NSString
+        var charset2 = NSCharacterSet(charactersInString: " ")
+        var array = NScartName.componentsSeparatedByCharactersInSet(charset2) as NSArray
+        var name_final = array.componentsJoinedByString("_") as String!
         var defaults = NSUserDefaults.standardUserDefaults()
         var termCode = defaults.objectForKey(appDelegate.COURSE_TERM_CODE) as! String
-        let urlPath = "https://ords-qa.services.brown.edu:8121/dprd/banner/mobile/cartbyname?term=" + termCode + "&in_id=" + appDelegate.getSessionCookie() + "&cart_name=" + name
+
+        let urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/cartbyname?term=" + termCode + "&in_id=" + appDelegate.getSessionCookie() + "&cart_name=" + name_final
         println("\nGETCARTBYNAME")
         println(urlPath)
         let url = NSURL(string: urlPath)
@@ -333,7 +365,8 @@ class MenuViewController: UITableViewController {
                 
                 var cartByNameCourses = JSON(jsonResult);
                 var addCrnList = cartByNameCourses["items"][0]["crn_list"].string!
-                appDelegate.loadedCartName = name
+
+                appDelegate.loadedCartName = name_final
                 self.addCourses(addCrnList)
                 return;
             }
@@ -388,10 +421,15 @@ class MenuViewController: UITableViewController {
     }
     
     func deleteNamedCart(name: String) {
-    
+        var tempName = name
+        var NScartName = tempName as NSString
+        var charset2 = NSCharacterSet(charactersInString: " ")
+        var array = NScartName.componentsSeparatedByCharactersInSet(charset2) as NSArray
+        var name_final = array.componentsJoinedByString("_") as String!
+
         var defaults = NSUserDefaults.standardUserDefaults()
         var termCode = defaults.objectForKey(appDelegate.COURSE_TERM_CODE) as! String
-        let urlPath = "https://ords-qa.services.brown.edu:8121/dprd/banner/mobile/cartbyname?term=" + termCode + "&in_id=" + appDelegate.getSessionCookie() + "&cart_name=" + name + "&crn_list=1&in_type=D"
+        let urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/cartbyname?term=" + termCode + "&in_id=" + appDelegate.getSessionCookie() + "&cart_name=" + name_final + "&crn_list=1&in_type=D"
         let url = NSURL(string: urlPath)
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: nil, delegateQueue: NSOperationQueue.mainQueue())
         let task = session.dataTaskWithURL(url!, completionHandler: {data, response, error -> Void in
@@ -450,7 +488,12 @@ class MenuViewController: UITableViewController {
                     var array = crn_list.componentsSeparatedByCharactersInSet(charset) as NSArray
                     
                     if array.count > 0 {
-                        tempCartNames.append(cart["cart_name"].string!)
+                        var tempName = cart["cart_name"].string!
+                        var NScartName = tempName as NSString
+                        var charset2 = NSCharacterSet(charactersInString: "_")
+                        var array = NScartName.componentsSeparatedByCharactersInSet(charset2) as NSArray
+                        var cartName_final = array.componentsJoinedByString(" ") as String!
+                        tempCartNames.append(cartName_final)
                     }
                 }
                 appDelegate.namedCarts = tempCartNames
