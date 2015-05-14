@@ -22,6 +22,13 @@ class CalendarViewController: UIViewController {
     
     let cb_height = CGFloat(10)
     let label_height = CGFloat(20)
+    let margin = CGFloat(13)
+    
+    var blur: UIView?
+    var popup: UIView?
+    var calView: UIView?
+    
+    var conflictWindowUp = false //toggle to block calendar from refreshing until conflict popup is dismissed
     
     @IBOutlet weak var menuButton: UIBarButtonItem!
     @IBOutlet var browseDepartments: UIBarButtonItem!
@@ -31,11 +38,14 @@ class CalendarViewController: UIViewController {
     var cartCourses = JSON("")
     
     override func viewDidAppear(animated: Bool) {
-        getCart()
+        if !conflictWindowUp{
+            getCart()
+        }
     }
     
     override func viewDidLoad() {
         
+        conflictWindowUp = false
         var backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
         self.navigationItem.backBarButtonItem = backButton;
         
@@ -55,11 +65,88 @@ class CalendarViewController: UIViewController {
         
         //#######Calendar Body
         addDayColumns();
+        addCalView();
         var defaults = NSUserDefaults.standardUserDefaults()
         var termArray = ["Fall 2013", "Spring 2014", "Fall 2014", "Spring 2015"]
         self.title = termArray[defaults.objectForKey(appDelegate.COURSE_TERM_INDEX) as! Int]
     }
     
+    func addCalView(){
+        var screenSize: CGRect = UIScreen.mainScreen().bounds
+        var screenWidth = screenSize.width
+        var screenHeight = screenSize.height
+        calView = UIView(frame: CGRectMake(margin, margin, screenWidth-margin, screenHeight-margin))
+        addHours()
+        self.view.addSubview(calView!)
+    }
+    
+    func addHours(){
+        var screenSize: CGRect = UIScreen.mainScreen().bounds
+        var screenWidth = screenSize.width
+        var screenHeight = screenSize.height
+        let minHeight = screenHeight/(1800-800)
+        
+        
+        var hours = ["", "9", "10", "11", "12", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
+        var i = 0
+        for hour in hours{
+            var hourPoint = CGFloat(i)*(minHeight*CGFloat(60))
+            var hourLabel = UILabel(frame: CGRectMake(2, hourPoint, margin, 10))
+            hourLabel.font = UIFont(name: "Avenir-Roman", size: 9)
+            hourLabel.text = hour
+            hourLabel.textColor = blue
+            self.view.addSubview(hourLabel)
+            ++i
+        }
+    }
+    
+    func addDayColumns(){
+        var screenSize: CGRect = UIScreen.mainScreen().bounds
+        var screenWidth = screenSize.width - margin
+        var screenHeight = screenSize.height
+        var day_width = screenWidth/5
+        
+        //So that color behind numbers matches up
+        var backView = UIView(frame: CGRectMake(0, 0, screenWidth, screenHeight))
+        backView.backgroundColor = background_color_dos
+        self.view.addSubview(backView)
+        
+        var days = ["M", "T", "W", "R", "F"]
+        
+        for var i = 0; i < 5; i++
+        {
+            var day_column = UIView(frame: CGRectMake(CGFloat(i)*day_width+margin, 0, day_width, screenHeight))
+            if isEven(i){
+                day_column.backgroundColor = background_color
+            }else{
+                day_column.backgroundColor = background_color_dos
+            }
+            self.view .addSubview(day_column);
+            
+            var dayLabelPoint = day_width/CGFloat(2)
+            var dayLabel = UILabel(frame: CGRectMake(dayLabelPoint-3, 2, margin, 10))
+            dayLabel.text = days[i]
+            dayLabel.font = UIFont(name: "Avenir-Roman", size: 9)
+            dayLabel.textColor = blue
+            day_column.addSubview(dayLabel)
+        }
+    }
+    
+    func isEven(n:Int) -> Bool {
+        
+        // Bitwise check
+        if (n & 1 != 0) {
+            return false
+        }
+        
+        // Mod check
+        if (n % 2 != 0) {
+            return false
+        }
+        return true
+    }
+    
+    //####Cart and cal
     func getCart() {
         var defaults = NSUserDefaults.standardUserDefaults()
         var termCode = defaults.objectForKey(appDelegate.COURSE_TERM_CODE) as! String
@@ -108,11 +195,15 @@ class CalendarViewController: UIViewController {
         
         
         
-        var day_width = screenWidth/5
+        var day_width = (screenWidth-margin)/5
         
+        var courseArray = [String]()
         var day_dict = [String:[CCCourseButton]]()
         //Run through courses and construct initial courseblocks with data
         for (course: Course) in appDelegate.currentCart.getCourses() {
+            
+            courseArray += [course.crn]
+            
             //Get Course Info
             var meetingParts = course.meeting_time.componentsSeparatedByString(" ")
             
@@ -142,6 +233,7 @@ class CalendarViewController: UIViewController {
                     
                     //Create courseBlock
                     var courseBlock = CCCourseButton(frame: CGRectMake(day_offset, min_offset, day_width, duration))
+                    courseBlock.cart = courseArray
                     courseBlock.course = course
                     courseBlock.populateData()
                     courseBlock.addCourseLabel()
@@ -161,7 +253,7 @@ class CalendarViewController: UIViewController {
                     }
                     
                     //Add to view
-                    self.view.addSubview(courseBlock)
+                    calView!.addSubview(courseBlock)
                     
                 }
             }
@@ -211,8 +303,13 @@ class CalendarViewController: UIViewController {
                                 ++j
                                 
                                 //Reset target
-//                                courseBlock.removeTarget(nil, action: nil, forControlEvents: UIControlEvents.AllEvents)
-//                                courseBlock.addTarget(self, action: "displayConflictPopUp:", forControlEvents: UIControlEvents.TouchUpInside)
+                                courseBlock.removeTarget(nil, action: nil, forControlEvents: UIControlEvents.AllEvents)
+                                courseBlock.addTarget(self, action: "displayConflictPopUp:", forControlEvents: UIControlEvents.TouchUpInside)
+                                
+                                courseBlock.conflictArray = []
+                                for b in curConflictArray{
+                                    courseBlock.conflictArray?.append(b.course!)
+                                }
                             }
                             
                             //Calculate overall block dimensions
@@ -249,6 +346,7 @@ class CalendarViewController: UIViewController {
                                 //Display indicator subblocks
                                 var subBlock = UIView(frame: CGRectMake(0, min_offset-overallStartOffset, CGFloat(width), duration))
                                 subBlock.backgroundColor = subBlock_color.colorWithAlphaComponent(0.1)
+                                subBlock.userInteractionEnabled = false
                                 courseBlock.addSubview(subBlock)
                                 
                                 //List the text
@@ -263,7 +361,7 @@ class CalendarViewController: UIViewController {
                                     
                                     var newCourseLabel = UILabel(frame: CGRectMake(2, cb_height+CGFloat(y_text_offset), day_width, label_height))
                                     if courseBlock.frame.height > (label_height+20)*CGFloat(i+1){newCourseLabel.text = courseLabelText}else{newCourseLabel.text = courseLabelText! + " +" + coursesNotDisplayed}
-                                    newCourseLabel.font = UIFont(name: "Avenir-Roman", size: 11)
+                                    newCourseLabel.font = UIFont(name: "Avenir-Roman", size: 10)
                                     newCourseLabel.textColor = text_color
                                     leftMostBlock?.addSubview(newCourseLabel)
                                     
@@ -311,6 +409,18 @@ class CalendarViewController: UIViewController {
         }
     }
     
+    func conflictPressed(sender:CCCourseButton!){
+            //Get Course
+            var course = sender.course
+            
+            //Send user to course detail page
+            let sb = UIStoryboard(name: "Main", bundle: nil)
+            let detailsCourse = sb.instantiateViewControllerWithIdentifier("courseDetail") as! CourseDetailViewController
+            detailsCourse.course = course!;
+            detailsCourse.navigationItem.title = course!.subjectc
+            self.navigationController?.pushViewController(detailsCourse, animated: true)
+    }
+    
     
     /* This function is a workaround for CIS's bad SSL*/
     func URLSession(session: NSURLSession!, didReceiveChallenge challenge: NSURLAuthenticationChallenge!, completionHandler: ((NSURLSessionAuthChallengeDisposition, NSURLCredential!) -> Void)!) {
@@ -325,37 +435,6 @@ class CalendarViewController: UIViewController {
         
     }
     
-    func addDayColumns(){
-        var screenSize: CGRect = UIScreen.mainScreen().bounds
-        var screenWidth = screenSize.width
-        var screenHeight = screenSize.height
-        var day_width = screenWidth/5
-        
-        for var i = 0; i < 5; i++
-        {
-            var day_column = UIView(frame: CGRectMake(CGFloat(i)*day_width, 0, day_width, screenHeight))
-            if isEven(i){
-                day_column.backgroundColor = background_color
-            }else{
-                day_column.backgroundColor = background_color_dos
-            }
-            self.view .addSubview(day_column);
-        }
-    }
-    
-    func isEven(n:Int) -> Bool {
-        
-        // Bitwise check
-        if (n & 1 != 0) {
-            return false
-        }
-        
-        // Mod check
-        if (n % 2 != 0) {
-            return false
-        }
-        return true
-    }
     func getClassName(obj : AnyObject) -> String
     {
         let objectClass : AnyClass! = object_getClass(obj)
@@ -365,25 +444,86 @@ class CalendarViewController: UIViewController {
     }
     
     func displayConflictPopUp(sender: CCCourseButton){
+        conflictWindowUp = true
         println("Display conflict popup")
-        var blur = UIView(frame: CGRectMake(0, 0, self.view.frame.width, self.view.frame.height))
-        blur.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.7)
+        blur = UIView(frame: CGRectMake(0, 0, self.view.frame.width, self.view.frame.height))
+        blur!.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.7)
         let image = UIImage(named: "lightg.png")
         let imageView = UIImageView(image: image)
         imageView.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
-        imageView.alpha = 0.4
-        blur.addSubview(imageView)
-        self.view.addSubview(blur)
+        imageView.alpha = 0.2
+        blur!.addSubview(imageView)
+        self.view.addSubview(blur!)
         
-        var popup = UIView(frame: CGRectMake(45, 100, 300, 300))
-        popup.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.6)
-        var conflictLabel = UILabel(frame: CGRectMake(0, 10, popup.frame.width, 30))
+        popup = UIView(frame: CGRectMake(45, 100, 300, 300))
+        popup!.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.6)
+        var conflictLabel = UILabel(frame: CGRectMake(0, 10, popup!.frame.width, 30))
         conflictLabel.textAlignment = NSTextAlignment.Center
         conflictLabel.textColor = UIColor.whiteColor()
         conflictLabel.font = UIFont(name: "Avenir-Roman", size: 30)
         conflictLabel.text = "Conflict"
-        popup.addSubview(conflictLabel)
-        blur.addSubview(popup)
+        popup!.addSubview(conflictLabel)
+        blur!.addSubview(popup!)
+        
+        var xImage = UIImage(named: "CancelX")
+        var xImageWhite = colorizeWith(xImage!, color: UIColor.whiteColor())
+        let xImageView = UIImageView(image: xImageWhite)
+        xImageView.frame = CGRectMake(10, 10, 20, 20)
+        var cancelButton = UIButton(frame: CGRectMake(0, 0, 35, 35))
+        cancelButton.addSubview(xImageView)
+        cancelButton.addTarget(self, action: "dismissPopUp", forControlEvents: UIControlEvents.TouchUpInside)
+        popup!.addSubview(cancelButton)
+        
+        displayConflictsOnPopup(sender)
+    }
+    
+    func dismissPopUp(){
+        blur!.removeFromSuperview()
+        conflictWindowUp = false
+        getCart()//Refresh calendar
+    }
+    
+    func displayConflictsOnPopup(sender: CCCourseButton){
+        println(sender.conflictArray)
+        var i = 0
+        for course in sender.conflictArray!{
+            var conflictButton = CCCourseButton(frame: CGRectMake(10, 50+CGFloat(i*40), popup!.frame.width, 35))
+            conflictButton.course = course
+            conflictButton.addTarget(self, action: "conflictPressed:", forControlEvents: UIControlEvents.TouchUpInside)
+            popup?.addSubview(conflictButton)
+            
+            var conflictLabel = UILabel(frame: CGRectMake(10, 50+CGFloat(i*40), popup!.frame.width, 35))
+            conflictLabel.text = course.subjectc
+            conflictLabel.textColor = UIColor.whiteColor()
+            conflictLabel.font = UIFont(name: "Avenir-Roman", size: 20)
+            popup?.addSubview(conflictLabel)
+            ++i
+        }
+    }
+    
+    func colorizeWith(image: UIImage, color: UIColor) -> UIImage {
+        UIGraphicsBeginImageContext(image.size)
+        let context = UIGraphicsGetCurrentContext()
+        color.setFill()
+        CGContextTranslateCTM(context, 0, image.size.height)
+        CGContextScaleCTM(context, 1.0, -1.0)
+        
+        // set the blend mode to color burn, and the original image
+        CGContextSetBlendMode(context, kCGBlendModeNormal);
+        let rect = CGRectMake(0, 0, image.size.width, image.size.height);
+        CGContextDrawImage(context, rect, image.CGImage);
+        
+        // set a mask that matches the shape of the image, then draw (color burn) a colored rectangle
+        CGContextClipToMask(context, rect, image.CGImage);
+        CGContextAddRect(context, rect);
+        CGContextDrawPath(context,kCGPathFill);
+        
+        // generate a new UIImage from the graphics context we drew onto
+        let coloredImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        //return the color-burned image
+        return coloredImage;
     }
 
 }

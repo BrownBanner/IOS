@@ -23,6 +23,7 @@ class CCCourseButton: UIButton {
     let 🐢 = appDelegate.colorWithHexString("#1abc9c")//#1abc9c
     let 🌞 = appDelegate.colorWithHexString("#f39c12")//#f39c12
     
+    var cart: [String]?
     var course: Course?
     var conflict: Bool = false
     var meetingTime: String?
@@ -62,11 +63,14 @@ class CCCourseButton: UIButton {
     }
     
     func getBumperColor(course: Course)->UIColor{
-        let diceRoll = Int(arc4random_uniform(7))
-        var color_array = [🌻, blue, purple, green, red, 🐢,🌞]
-        return color_array[diceRoll]
+        if let c = find(cart!, course.crn){
+            var color_array = [🌻, blue, purple, green, red, 🐢,🌞]
+            return color_array[c]
+        }
+        else{
+            return blue;
+        }
     }
-    
     func addBumper(color: UIColor){
         
         color_bumper = UIView(frame: CGRectMake(0, 0, self.frame.width, cb_height))
@@ -76,7 +80,7 @@ class CCCourseButton: UIButton {
     func addCourseLabel(){
         course_label = UILabel(frame: CGRectMake(2, cb_height, self.frame.width, label_height))
         course_label?.textColor = text_color
-        course_label?.font = UIFont(name: "Avenir-Roman", size: 11)
+        course_label?.font = UIFont(name: "Avenir-Roman", size: 10)
         course_label?.text = courseCode
         self.addSubview(course_label!);
     }
