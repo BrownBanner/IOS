@@ -193,6 +193,8 @@ class MenuViewController: UITableViewController {
     }
     
     func addCart(cartName: String) {
+        println("CARTNAME")
+        println(cartName)
         var crn_list = ""
         for course in appDelegate.currentCart.getCourses() {
             crn_list += (course.crn) + ","
