@@ -39,11 +39,11 @@ class MenuViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
             let cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "CartsLabel")
-            cell.textLabel?.text = "       CARTS"
-            var sCImageView = UIImageView()
-            sCImageView.image = UIImage(named: "IconWhiteBG")
-            sCImageView.frame = CGRectMake(7, 5, 45, 45)
-            cell.addSubview(sCImageView)
+            cell.textLabel?.text = "CARTS"
+//            var sCImageView = UIImageView()
+//            sCImageView.image = UIImage(named: "IconWhiteBG")
+//            sCImageView.frame = CGRectMake(7, 5, 45, 45)
+//            cell.addSubview(sCImageView)
             cell.textLabel!.font = UIFont(name: "Avenir-Roman", size: 24)!
             cell.userInteractionEnabled = false
             cell.separatorInset = UIEdgeInsetsZero
@@ -311,7 +311,7 @@ class MenuViewController: UITableViewController {
         
         var defaults = NSUserDefaults.standardUserDefaults()
         var termCode = defaults.objectForKey(appDelegate.COURSE_TERM_CODE) as! String
-        let urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/cartBulkDML?term=" + termCode + "&in_id=" + appDelegate.getSessionCookie() + "&crn_string=" + crn_list + "&in_type=D"
+        let urlPath = "https://ords-qa.services.brown.edu:8121/dprd/banner/mobile/cartBulkDML?term=" + termCode + "&in_id=" + appDelegate.getSessionCookie() + "&crn_string=" + crn_list + "&in_type=D"
         println("DELETING")
         print (urlPath)
         let url = NSURL(string: urlPath)
@@ -348,6 +348,7 @@ class MenuViewController: UITableViewController {
         var name_final = array.componentsJoinedByString("_") as String!
         var defaults = NSUserDefaults.standardUserDefaults()
         var termCode = defaults.objectForKey(appDelegate.COURSE_TERM_CODE) as! String
+
         let urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/cartbyname?term=" + termCode + "&in_id=" + appDelegate.getSessionCookie() + "&cart_name=" + name_final
         println("\nGETCARTBYNAME")
         println(urlPath)
@@ -391,7 +392,7 @@ class MenuViewController: UITableViewController {
         
         var defaults = NSUserDefaults.standardUserDefaults()
         var termCode = defaults.objectForKey(appDelegate.COURSE_TERM_CODE) as! String
-        let urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/cartBulkDML?term=" + termCode + "&in_id=" + appDelegate.getSessionCookie() + "&crn_string=" + addCourses + "&in_type=I"
+        let urlPath = "https://ords-qa.services.brown.edu:8121/dprd/banner/mobile/cartBulkDML?term=" + termCode + "&in_id=" + appDelegate.getSessionCookie() + "&crn_string=" + addCourses + "&in_type=I"
         println("ADDING")
         println(urlPath)
         let url = NSURL(string: urlPath)
@@ -463,7 +464,7 @@ class MenuViewController: UITableViewController {
     func getNamedCarts() {
         var defaults = NSUserDefaults.standardUserDefaults()
         var termCode = defaults.objectForKey(appDelegate.COURSE_TERM_CODE) as! String
-        let urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/getNamedCarts?term=" + termCode + "&in_id=" + appDelegate.getSessionCookie()
+        let urlPath = "https://ords-dev.services.brown.edu:8121/dprd/banner/mobile/getNamedCarts?term=" + termCode + "&in_id=" + appDelegate.getSessionCookie()
         let url = NSURL(string: urlPath)
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: nil, delegateQueue: NSOperationQueue.mainQueue())
         let task = session.dataTaskWithURL(url!, completionHandler: {data, response, error -> Void in

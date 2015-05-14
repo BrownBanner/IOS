@@ -13,11 +13,15 @@ class CalendarViewController: UIViewController {
     
     let blue = appDelegate.colorWithHexString("#3498db")//#3498db
     let purple = appDelegate.colorWithHexString("#9b59b6")//#9b59b6
+    let yellow = appDelegate.colorWithHexString("#f1c40f")//#FCFBF7
     let grey = appDelegate.colorWithHexString("#DEE1E2")//#bdc3c7
     let text_color = appDelegate.colorWithHexString("#666666")//#666666
     let background_color = appDelegate.colorWithHexString("#F9F8F4")//#F9F8F4
     let background_color_dos = appDelegate.colorWithHexString("#FCFBF7")//#FCFBF7
+    let subBlock_color = appDelegate.colorWithHexString("#ACAEAF")//#ACAEAF
     
+    let cb_height = CGFloat(10)
+    let label_height = CGFloat(20)
     
     @IBOutlet weak var menuButton: UIBarButtonItem!
     @IBOutlet var browseDepartments: UIBarButtonItem!
@@ -59,9 +63,9 @@ class CalendarViewController: UIViewController {
     func getCart() {
         var defaults = NSUserDefaults.standardUserDefaults()
         var termCode = defaults.objectForKey(appDelegate.COURSE_TERM_CODE) as! String
+
         let urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/cartbyid?term=" + termCode + "&in_id=" + appDelegate.getSessionCookie()
 //        let urlPath = "https://ords-dev.services.brown.edu:8121/dprd/banner/mobile/cartbyid?term=" + termCode + "&in_id=" + appDelegate.getSessionCookie()
-        
         
         let url = NSURL(string: urlPath)
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: nil, delegateQueue: NSOperationQueue.mainQueue())
@@ -106,10 +110,12 @@ class CalendarViewController: UIViewController {
         
         var day_width = screenWidth/5
         
+        var day_dict = [String:[CCCourseButton]]()
+        //Run through courses and construct initial courseblocks with data
         for (course: Course) in appDelegate.currentCart.getCourses() {
             //Get Course Info
             var meetingParts = course.meeting_time.componentsSeparatedByString(" ")
-//            println(meetingParts)
+            
             //Time
             var start_stop_array = meetingParts[4].componentsSeparatedByString("-")
             var start_time = start_stop_array[0].toInt()!
@@ -119,8 +125,6 @@ class CalendarViewController: UIViewController {
             //Course Code
             var subjectc_array = course.subjectc.componentsSeparatedByString(" ")
             var course_code = subjectc_array[0]+subjectc_array[1]
-//            println(course_code)
-            
             
             //Course time info to pixel data
             var start_point = CGFloat(start_time-800)
@@ -128,30 +132,33 @@ class CalendarViewController: UIViewController {
             var min_offset = minHeight*start_point
             //Day to pixels
             var day_num = CGFloat(0);
+            
             for day in days_array{
                 if let d = find(day_letters, String(day))
                 {
-//                    println(d)
+                    //Add course times to times dict
                     var day_num = CGFloat(d)
                     var day_offset = day_width * day_num
                     
                     //Create courseBlock
                     var courseBlock = CCCourseButton(frame: CGRectMake(day_offset, min_offset, day_width, duration))
                     courseBlock.course = course
+                    courseBlock.populateData()
+                    courseBlock.addCourseLabel()
                     courseBlock.addTarget(self, action: "courseBlockPressed:", forControlEvents: UIControlEvents.TouchUpInside)
                     courseBlock.backgroundColor=grey
+                    
                     //Create color bumbper
                     let cb_height = CGFloat(10)
-                    var color_bumper = UIView(frame: CGRectMake(0, 0, day_width, cb_height))
-                    color_bumper.backgroundColor=blue
-                    courseBlock.addSubview(color_bumper);
+                    
                     //Create Courselabel
                     let label_height = CGFloat(20)
-                    var course_label = UILabel(frame: CGRectMake(2, cb_height, day_width, label_height))
-                    course_label.textColor = text_color
-                    course_label.font = UIFont(name: "Avenir-Roman", size: 13)
-                    course_label.text = course_code
-                    courseBlock.addSubview(course_label);
+                    
+                    if day_dict[String(d)] != nil{//Check other classes on same day for conflict
+                        day_dict[String(d)]! += [courseBlock]
+                    }else{
+                        day_dict[String(d)] = [courseBlock]
+                    }
                     
                     //Add to view
                     self.view.addSubview(courseBlock)
@@ -159,54 +166,150 @@ class CalendarViewController: UIViewController {
                 }
             }
         }
-
+        //Run through days, find conflicts and add courseblocks to screen
+        for day in day_letters{
+            if let d = find(day_letters, day){
+                if day_dict[String(d)] == nil{
+                }else{
+                    var courseblock_array_for_day = day_dict[String(d)]
+                    for courseBlock in courseblock_array_for_day!{
+                        var curConflictArray = [courseBlock]//Create conflict array for current courseblock
+                        for block in courseblock_array_for_day!{
+                            if courseBlock.startTime >= block.startTime && courseBlock.startTime <= block.stopTime{
+                                block.conflict = true
+                                if !contains(curConflictArray, block){
+                                    curConflictArray.append(block)
+                                }
+                            }
+                        }
+                        //Conflict array constructed now update courseblock to account for conflicts
+                        if curConflictArray.count>1{
+                            var i = 0
+                            var j = 0
+                            //Get leftmost block to add text to without overlay
+                            
+                            var leftMostBlock = CCCourseButton?()
+                            var minStart = 100000
+                            var maxStop = 0
+                            for courseBlock in curConflictArray{//Find min start time and max stop time
+                                if j == 0{
+                                    leftMostBlock = courseBlock
+                                }else{
+                                    for view in courseBlock.subviews{
+                                        println(getClassName(view))
+                                        if getClassName(view) == "UILabel"{
+                                            view.removeFromSuperview()
+                                        }
+                                    }
+                                }
+                                if courseBlock.startTime<minStart{
+                                    minStart = courseBlock.startTime!
+                                }
+                                if courseBlock.stopTime>maxStop{
+                                    maxStop = courseBlock.stopTime!
+                                }
+                                ++j
+                                
+                                //Reset target
+//                                courseBlock.removeTarget(nil, action: nil, forControlEvents: UIControlEvents.AllEvents)
+//                                courseBlock.addTarget(self, action: "displayConflictPopUp:", forControlEvents: UIControlEvents.TouchUpInside)
+                            }
+                            
+                            //Calculate overall block dimensions
+                            var overallStartPoint = CGFloat(minStart-800)
+                            var overallStartOffset = CGFloat(overallStartPoint*minHeight)
+                            var overallDuration = minHeight*CGFloat(maxStop-minStart)
+                            
+                            for courseBlock in curConflictArray{
+                                //Add coursebuttons to courseButtonArray
+//                                if !contains(courseBlock.conflictArray!, [courseBlock.course]){
+//                                    courseBlock.conflictArray += [courseBlock.course]
+//                                }
+//                                for block in curConflictArray{
+//                                    if !contains(courseBlock.conflictArray?, block.course?){
+//                                        courseBlock.conflictArray += [block.course]
+//                                    }
+//                                }
+                                
+                                //Split the block
+                                var count = curConflictArray.count
+                                var width = Int(day_width)/(count)
+                                var x_offset = i * width
+                                var d_offset = Int(day_width)*d
+                                
+                                var start_point = CGFloat(courseBlock.startTime!-800)
+                                var duration = minHeight*CGFloat(courseBlock.stopTime!-courseBlock.startTime!)
+                                var min_offset = minHeight*start_point
+                                
+                                println(CGFloat(d_offset)+CGFloat(x_offset))
+                                
+                                courseBlock.frame = CGRectMake(CGFloat(d_offset)+CGFloat(x_offset), overallStartOffset, CGFloat(width), overallDuration)
+                                courseBlock.color_bumper?.frame = CGRectMake(0, 0, CGFloat(width), cb_height)
+                                
+                                //Display indicator subblocks
+                                var subBlock = UIView(frame: CGRectMake(0, min_offset-overallStartOffset, CGFloat(width), duration))
+                                subBlock.backgroundColor = subBlock_color.colorWithAlphaComponent(0.1)
+                                courseBlock.addSubview(subBlock)
+                                
+                                //List the text
+                                if courseBlock.frame.height > (label_height+20)*CGFloat(i){
+                                    var y_text_offset = i*20
+                                    courseBlock.course_label?.frame = CGRectMake(2-CGFloat(x_offset), cb_height+CGFloat(y_text_offset), day_width, label_height)
+                                    courseBlock.course_label?.textColor = blue
+                                    
+                                    var courseLabelText = courseBlock.course_label?.text
+                                    courseBlock.course_label?.removeFromSuperview()
+                                    var coursesNotDisplayed = String(count-i-1)
+                                    
+                                    var newCourseLabel = UILabel(frame: CGRectMake(2, cb_height+CGFloat(y_text_offset), day_width, label_height))
+                                    if courseBlock.frame.height > (label_height+20)*CGFloat(i+1){newCourseLabel.text = courseLabelText}else{newCourseLabel.text = courseLabelText! + " +" + coursesNotDisplayed}
+                                    newCourseLabel.font = UIFont(name: "Avenir-Roman", size: 11)
+                                    newCourseLabel.textColor = text_color
+                                    leftMostBlock?.addSubview(newCourseLabel)
+                                    
+                                }
+                                
+                                
+                                
+                                i = i+1
+                                
+                                courseBlock.bringSubviewToFront(courseBlock.color_bumper!)
+                                self.view.bringSubviewToFront(leftMostBlock!)
+                            }
+                            
+                        }
+                        curConflictArray = []
+                        courseBlock.conflict = false
+                    }
+                }
+            }
     }
+    }
+   
+    /**
+    This the method that gets run when a user taps on a course in the calendar.
+    If conflict -> call to handle conflict
+    Else -> go straight to detail view
     
+    @param CCCourseButton
+    
+    @return Nada, zip, zilch
+    */
     func courseBlockPressed(sender:CCCourseButton!){
-        println("Courseblock tapped")
-        println(sender.course)
-        
-        var course = sender.course
-        
-        let sb = UIStoryboard(name: "Main", bundle: nil)
-        let detailsCourse = sb.instantiateViewControllerWithIdentifier("courseDetail") as! CourseDetailViewController
-        detailsCourse.course = course!;
-        detailsCourse.navigationItem.title = course!.subjectc
-        self.navigationController?.pushViewController(detailsCourse, animated: true)
+        if(sender.conflict){
+            displayConflictPopUp(sender)
+        }else{
+            //Get Course
+            var course = sender.course
+            
+            //Send user to course detail page
+            let sb = UIStoryboard(name: "Main", bundle: nil)
+            let detailsCourse = sb.instantiateViewControllerWithIdentifier("courseDetail") as! CourseDetailViewController
+            detailsCourse.course = course!;
+            detailsCourse.navigationItem.title = course!.subjectc
+            self.navigationController?.pushViewController(detailsCourse, animated: true)
+        }
     }
-    
-//    func getCourse(courseCRN: JSON) {
-//        let cartCourse = Course(jsonCourse: courseCRN)
-//        
-//        
-//        var defaults = NSUserDefaults.standardUserDefaults()
-//        var termCode = defaults.objectForKey(appDelegate.COURSE_TERM_CODE) as! String
-//        let urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/courses?term=" + termCode + "&crn=" + cartCourse.crn
-//        let url = NSURL(string: urlPath)
-//        let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: nil, delegateQueue: NSOperationQueue.mainQueue())
-//        let task = session.dataTaskWithURL(url!, completionHandler: {data, response, error -> Void in
-//            if(error != nil) {
-//                // If there is an error in the web request, print it to the console
-//                println(error.localizedDescription)
-//                return;
-//            } else {
-//                var err: NSError?
-//                
-//                var jsonResult = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: &err) as! NSDictionary
-//                if(err != nil) {
-//                    // If there is an error parsing JSON, print it to the console
-//                    println("JSON Error \(err!.localizedDescription)")
-//                }
-//                
-//                print(JSON(jsonResult));
-//              
-//                return;
-//            }
-//            
-//        })
-//        
-//        task.resume()
-//    }
     
     
     /* This function is a workaround for CIS's bad SSL*/
@@ -253,4 +356,34 @@ class CalendarViewController: UIViewController {
         }
         return true
     }
+    func getClassName(obj : AnyObject) -> String
+    {
+        let objectClass : AnyClass! = object_getClass(obj)
+        let className = objectClass.description()
+        
+        return className
+    }
+    
+    func displayConflictPopUp(sender: CCCourseButton){
+        println("Display conflict popup")
+        var blur = UIView(frame: CGRectMake(0, 0, self.view.frame.width, self.view.frame.height))
+        blur.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.7)
+        let image = UIImage(named: "lightg.png")
+        let imageView = UIImageView(image: image)
+        imageView.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
+        imageView.alpha = 0.4
+        blur.addSubview(imageView)
+        self.view.addSubview(blur)
+        
+        var popup = UIView(frame: CGRectMake(45, 100, 300, 300))
+        popup.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.6)
+        var conflictLabel = UILabel(frame: CGRectMake(0, 10, popup.frame.width, 30))
+        conflictLabel.textAlignment = NSTextAlignment.Center
+        conflictLabel.textColor = UIColor.whiteColor()
+        conflictLabel.font = UIFont(name: "Avenir-Roman", size: 30)
+        conflictLabel.text = "Conflict"
+        popup.addSubview(conflictLabel)
+        blur.addSubview(popup)
+    }
+
 }

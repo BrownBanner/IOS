@@ -48,10 +48,10 @@ class CourseDetailViewController: UIViewController, UIScrollViewDelegate  {
         var termCode = defaults.objectForKey(appDelegate.COURSE_TERM_CODE) as! String
         var urlPath = ""
         if (inCart) {
-            urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/cart?term=" + termCode + "&in_id=" + appDelegate.getSessionCookie() + "&crn=" + course.crn + "&in_type=D"
+            urlPath = "https://ords-dev.services.brown.edu:8121/dprd/banner/mobile/cart?term=" + termCode + "&in_id=" + appDelegate.getSessionCookie() + "&crn=" + course.crn + "&in_type=D"
         }
         else {
-            urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/cart?term=" + termCode + "&in_id=" + appDelegate.getSessionCookie() + "&crn=" + course.crn + "&in_type=I"
+            urlPath = "https://ords-dev.services.brown.edu:8121/dprd/banner/mobile/cart?term=" + termCode + "&in_id=" + appDelegate.getSessionCookie() + "&crn=" + course.crn + "&in_type=I"
         }
         let url = NSURL(string: urlPath)
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: nil, delegateQueue: NSOperationQueue.mainQueue())
@@ -146,7 +146,9 @@ class CourseDetailViewController: UIViewController, UIScrollViewDelegate  {
         if titleLabel.frame.width < (labelWidth) {
             titleLabel.frame = CGRectOffset(titleLabel.frame, (labelWidth - titleLabel.frame.width) / 2 , 0)
         }
-        
+//        titleLabel.text = course.crn as String
+//        titleLabel.numberOfLines = 0;
+//        titleLabel.preferredMaxLayoutWidth = 539
         scrollView.addSubview(titleLabel)
         
         var meetingTimeLabel = UILabel(frame: CGRectMake(margin, getPosition(titleLabel), labelWidth, 0))

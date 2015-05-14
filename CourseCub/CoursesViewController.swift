@@ -213,7 +213,6 @@ class CoursesViewController: UITableViewController, UITableViewDataSource, UITab
         self.navigationController?.pushViewController(detailsCourse, animated: true)
     }
     
-    
 
 
     func getClassesByDepartment(depAbbrev: String?, department: String) {

@@ -27,6 +27,7 @@
 		7048D7A71AEB334700116B51 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7048D7A61AEB334700116B51 /* MenuViewController.swift */; };
 		8C22280C1B01A15E008B03EB /* CCCourseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C22280B1B01A15E008B03EB /* CCCourseButton.swift */; };
 		8C64B1451A9E6B0A000D555E /* Cart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C64B1441A9E6B0A000D555E /* Cart.swift */; };
+		8CDE03321B040206000AAE9A /* lightg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8CDE03311B040206000AAE9A /* lightg@2x.png */; };
 		9C0A0BDB1AE16E3F00B09EC2 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0A0BDA1AE16E3F00B09EC2 /* CalendarViewController.swift */; };
 		9C2B4CEC1AD1E73C002FD17F /* LocalSubstitutionCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2B4CEB1AD1E73C002FD17F /* LocalSubstitutionCache.swift */; };
 		9C2B4CEE1AD1EA07002FD17F /* shib.css in Resources */ = {isa = PBXBuildFile; fileRef = 9C2B4CED1AD1EA07002FD17F /* shib.css */; };
@@ -69,6 +70,7 @@
 		7048D7A61AEB334700116B51 /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		8C22280B1B01A15E008B03EB /* CCCourseButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CCCourseButton.swift; sourceTree = "<group>"; };
 		8C64B1441A9E6B0A000D555E /* Cart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cart.swift; sourceTree = "<group>"; };
+		8CDE03311B040206000AAE9A /* lightg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lightg@2x.png"; sourceTree = "<group>"; };
 		9C0A0BDA1AE16E3F00B09EC2 /* CalendarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		9C2B4CEB1AD1E73C002FD17F /* LocalSubstitutionCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalSubstitutionCache.swift; sourceTree = "<group>"; };
 		9C2B4CED1AD1EA07002FD17F /* shib.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = shib.css; sourceTree = "<group>"; };
@@ -143,6 +145,7 @@
 		1748F2641A929496000ACBCF /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				8CDE03311B040206000AAE9A /* lightg@2x.png */,
 				1748F2651A929496000ACBCF /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -260,6 +263,7 @@
 				1748F2711A929496000ACBCF /* LaunchScreen.xib in Resources */,
 				1748F26E1A929496000ACBCF /* Images.xcassets in Resources */,
 				17CAA9891AE9A3AA00EF95CB /* Avenir.ttc in Resources */,
+				8CDE03321B040206000AAE9A /* lightg@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
