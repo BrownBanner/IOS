@@ -64,23 +64,7 @@ class DepartmentViewController: UITableViewController, UITableViewDataSource, UI
     
         
         countSections()
-        
-//        self.resultSearchController = ({
-//            let controller = UISearchController(searchResultsController: nil)
-//            controller.searchResultsUpdater = self
-//            controller.dimsBackgroundDuringPresentation = false
-//            controller.searchBar.sizeToFit()
-//            controller.searchBar.barTintColor = UIColor(red: 0.976, green: 0.972, blue: 0.956, alpha: 1)
-//            controller.searchBar.layer.borderWidth = 1
-//            controller.searchBar.layer.borderColor = UIColor(red: 0.976, green: 0.972, blue: 0.956, alpha: 1).CGColor
-//            controller.searchBar.layer.shadowColor = UIColor(red: 0.976, green: 0.972, blue: 0.956, alpha: 1).CGColor
-//            controller.searchBar.delegate = self
-//            controller.hidesNavigationBarDuringPresentation = false
-//            controller.definesPresentationContext = true
-//            self.tableView.tableHeaderView = controller.searchBar
-//
-//            return controller
-//        })()
+    
         
         self.resultSearchController = ({
             let controller = UISearchController(searchResultsController: nil)
