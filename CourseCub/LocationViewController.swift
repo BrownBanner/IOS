@@ -48,8 +48,7 @@ class LocationViewController: UIViewController, UIWebViewDelegate {
         final_loc = final_loc.stringByReplacingOccurrencesOfString("&", withString: "and", options: NSStringCompareOptions.LiteralSearch, range: nil)
         final_loc = final_loc.stringByReplacingOccurrencesOfString("Bldg.", withString: "", options:
             NSStringCompareOptions.LiteralSearch, range: nil)
-        final_loc = final_loc.stringByReplacingOccurrencesOfString("Bldg", withString: "", options:
-            NSStringCompareOptions.LiteralSearch, range: nil)
+        
         URLPath = "http://www.brown.edu/Facilities/Facilities_Management/m/index.php" //+ location
         loadAddressURL()
 
