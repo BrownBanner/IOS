@@ -48,10 +48,10 @@ class CourseDetailViewController: UIViewController, UIScrollViewDelegate  {
         var termCode = defaults.objectForKey(appDelegate.COURSE_TERM_CODE) as! String
         var urlPath = ""
         if (inCart) {
-            urlPath = "https://ords-dev.services.brown.edu:8121/dprd/banner/mobile/cart?term=" + termCode + "&in_id=" + appDelegate.getSessionCookie() + "&crn=" + course.crn + "&in_type=D"
+            urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/cart?term=" + termCode + "&in_id=" + appDelegate.getSessionCookie() + "&crn=" + course.crn + "&in_type=D"
         }
         else {
-            urlPath = "https://ords-dev.services.brown.edu:8121/dprd/banner/mobile/cart?term=" + termCode + "&in_id=" + appDelegate.getSessionCookie() + "&crn=" + course.crn + "&in_type=I"
+            urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/cart?term=" + termCode + "&in_id=" + appDelegate.getSessionCookie() + "&crn=" + course.crn + "&in_type=I"
         }
         let url = NSURL(string: urlPath)
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: nil, delegateQueue: NSOperationQueue.mainQueue())
