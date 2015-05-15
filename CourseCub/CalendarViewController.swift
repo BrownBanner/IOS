@@ -19,6 +19,7 @@ class CalendarViewController: UIViewController {
     let background_color = appDelegate.colorWithHexString("#F9F8F4")//#F9F8F4
     let background_color_dos = appDelegate.colorWithHexString("#FCFBF7")//#FCFBF7
     let subBlock_color = appDelegate.colorWithHexString("#ACAEAF")//#ACAEAF
+    let lightGrey = appDelegate.colorWithHexString("#E7EBEC")//#bdc3c7
     
     let cb_height = CGFloat(10)
     let label_height = CGFloat(20)
@@ -384,9 +385,10 @@ class CalendarViewController: UIViewController {
                                 
                                 //Display indicator subblocks
                                 var subBlock = UIView(frame: CGRectMake(0, min_offset-overallStartOffset, CGFloat(width), duration))
-                                subBlock.backgroundColor = subBlock_color.colorWithAlphaComponent(0.1)
+                                subBlock.backgroundColor = grey
                                 subBlock.userInteractionEnabled = false
                                 courseBlock.addSubview(subBlock)
+                                courseBlock.backgroundColor = lightGrey
                                 
                                 //List the text
                                 if courseBlock.frame.height > (label_height+20)*CGFloat(i){
