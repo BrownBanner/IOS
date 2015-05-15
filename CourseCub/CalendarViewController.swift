@@ -20,6 +20,7 @@ class CalendarViewController: UIViewController {
     let background_color_dos = appDelegate.colorWithHexString("#FCFBF7")//#FCFBF7
     let subBlock_color = appDelegate.colorWithHexString("#ACAEAF")//#ACAEAF
     let lightGrey = appDelegate.colorWithHexString("#E7EBEC")//#bdc3c7
+    let ccRed = appDelegate.colorWithHexString("#F05353")//#F05353
     
     let cb_height = CGFloat(10)
     let label_height = CGFloat(20)
@@ -136,6 +137,8 @@ class CalendarViewController: UIViewController {
             }else{
                 day_column.backgroundColor = background_color_dos
             }
+            
+            
             self.view.addSubview(day_column);
             
             var dayLabelPoint = day_width/CGFloat(2)
@@ -143,6 +146,17 @@ class CalendarViewController: UIViewController {
             dayLabel.text = days[i]
             dayLabel.font = UIFont(name: "Avenir-Roman", size: 9)
             dayLabel.textColor = text_color
+            
+            
+            var dateFormatter = NSDateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            let d = NSDate()
+            let s = dateFormatter.stringFromDate(d)
+            var day = getDayOfWeek(s)
+            if i == day-2{//-2 b/c sunday is day 1 and i starts at 0
+                dayLabel.textColor = ccRed
+                day_column.backgroundColor = blue.colorWithAlphaComponent(0.1)
+            }
             day_column.addSubview(dayLabel)
         }
     }
@@ -217,7 +231,7 @@ class CalendarViewController: UIViewController {
         var hourInt = hour.toInt()
         var extra_mins_int = extra_mins.toInt()
         var mins = (hourInt! * 60) + extra_mins_int!
-        println(mins)
+//        println(mins)
         return mins
     }
     
@@ -326,7 +340,7 @@ class CalendarViewController: UIViewController {
                                         calView?.insertSubview(courseBlock, belowSubview: leftMostBlock!)
                                     }
                                     for view in courseBlock.subviews{
-                                        println(getClassName(view))
+//                                        println(getClassName(view))
                                         if getClassName(view) == "UILabel"{
                                             view.removeFromSuperview()
                                         }
@@ -376,7 +390,7 @@ class CalendarViewController: UIViewController {
                                 var duration = minHeight*CGFloat(courseBlock.stopTime!-courseBlock.startTime!)
                                 var min_offset = minHeight*start_point
                                 
-                                println(CGFloat(d_offset)+CGFloat(x_offset))
+//                                println(CGFloat(d_offset)+CGFloat(x_offset))
                                 
                                 courseBlock.frame = CGRectMake(CGFloat(d_offset)+CGFloat(x_offset), overallStartOffset, CGFloat(width), overallDuration)
                                 courseBlock.color_bumper?.frame = CGRectMake(0, 0, CGFloat(width), cb_height)
@@ -495,7 +509,7 @@ class CalendarViewController: UIViewController {
     
     func displayConflictPopUp(sender: CCCourseButton){
         conflictWindowUp = true
-        println("Display conflict popup")
+//        println("Display conflict popup")
         blur = UIView(frame: CGRectMake(0, 0, self.view.frame.width, self.view.frame.height))
         blur!.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.7)
         let image = UIImage(named: "lightg.png")
@@ -534,7 +548,7 @@ class CalendarViewController: UIViewController {
     }
     
     func displayConflictsOnPopup(sender: CCCourseButton){
-        println(sender.conflictArray)
+//        println(sender.conflictArray)
         var i = 0
         var headerMargin = CGFloat(60)
         for course in sender.conflictArray!{
@@ -590,6 +604,16 @@ class CalendarViewController: UIViewController {
         
         //return the color-burned image
         return coloredImage;
+    }
+    func getDayOfWeek(today:String)->Int {
+        
+        let formatter  = NSDateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        let todayDate = formatter.dateFromString(today)!
+        let myCalendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)!
+        let myComponents = myCalendar.components(.CalendarUnitWeekday, fromDate: todayDate)
+        let weekDay = myComponents.weekday
+        return weekDay
     }
 
 }
