@@ -362,7 +362,11 @@ class CalendarViewController: UIViewController {
                                     var coursesNotDisplayed = String(count-i-1)
                                     
                                     var newCourseLabel = UILabel(frame: CGRectMake(2, cb_height+CGFloat(y_text_offset), day_width, label_height))
-                                    if courseBlock.frame.height > (label_height+20)*CGFloat(i+1){newCourseLabel.text = courseLabelText}else{newCourseLabel.text = courseLabelText! + " +" + coursesNotDisplayed}
+                                    if coursesNotDisplayed == "0"{
+                                        if courseBlock.frame.height > (label_height+20)*CGFloat(i+1){newCourseLabel.text = courseLabelText}else{newCourseLabel.text = courseLabelText!}
+                                    }else{
+                                        if courseBlock.frame.height > (label_height+20)*CGFloat(i+1){newCourseLabel.text = courseLabelText}else{newCourseLabel.text = courseLabelText! + " +" + coursesNotDisplayed}
+                                    }
                                     newCourseLabel.font = UIFont(name: "Avenir-Roman", size: 10)
                                     newCourseLabel.textColor = text_color
                                     leftMostBlock?.addSubview(newCourseLabel)
