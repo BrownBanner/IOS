@@ -20,10 +20,10 @@ class ViewController: UIViewController, UIWebViewDelegate {
     var activityIndicator:UIActivityIndicatorView? = nil
     
     // For PPRD use this
-//    var URLPath = "https://bannersso.cis-qas.brown.edu/SSB_PPRD"
+    var URLPath = "https://bannersso.cis-qas.brown.edu/SSB_PPRD"
     
     // For DPRD use this
-    var URLPath = "https://dshibproxycit.services.brown.edu/SSB_DPRD"
+//    var URLPath = "https://dshibproxycit.services.brown.edu/SSB_DPRD"
     
     var cookie : NSHTTPCookie = NSHTTPCookie()
     

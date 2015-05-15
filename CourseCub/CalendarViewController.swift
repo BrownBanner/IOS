@@ -151,8 +151,8 @@ class CalendarViewController: UIViewController {
         var defaults = NSUserDefaults.standardUserDefaults()
         var termCode = defaults.objectForKey(appDelegate.COURSE_TERM_CODE) as! String
 
-        let urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/cartbyid?term=" + termCode + "&in_id=" + appDelegate.getSessionCookie()
-//        let urlPath = "https://ords-dev.services.brown.edu:8121/dprd/banner/mobile/cartbyid?term=" + termCode + "&in_id=" + appDelegate.getSessionCookie()
+//        let urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/cartbyid?term=" + termCode + "&in_id=" + appDelegate.getSessionCookie()
+        let urlPath = "https://ords-dev.services.brown.edu:8121/dprd/banner/mobile/cartbyid?term=" + termCode + "&in_id=" + appDelegate.getSessionCookie()
         
         let url = NSURL(string: urlPath)
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: nil, delegateQueue: NSOperationQueue.mainQueue())
