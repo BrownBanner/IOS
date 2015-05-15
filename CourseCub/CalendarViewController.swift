@@ -342,6 +342,8 @@ class CalendarViewController: UIViewController {
                                 
                                 courseBlock.frame = CGRectMake(CGFloat(d_offset)+CGFloat(x_offset), overallStartOffset, CGFloat(width), overallDuration)
                                 courseBlock.color_bumper?.frame = CGRectMake(0, 0, CGFloat(width), cb_height)
+                                courseBlock.color_bumper!.subviews.map({ $0.removeFromSuperview() })
+                                courseBlock.addCrossHatch(courseBlock.color_bumper!)
                                 
                                 //Display indicator subblocks
                                 var subBlock = UIView(frame: CGRectMake(0, min_offset-overallStartOffset, CGFloat(width), duration))

@@ -93,14 +93,23 @@ class CCCourseButton: UIButton {
         if course!.reg_indicator == "Y"{
             color_bumper!.backgroundColor=color
         }else{
-            let lines = UIImage(named: "lines.png")
-            let crossHatch = UIImageView(image:lines)
-            crossHatch.frame = CGRectMake(0, 0, self.frame.width, cb_height)
-            crossHatch.alpha = 0.3
-            color_bumper!.addSubview(crossHatch)
+//            let lines = UIImage(named: "lines.png")
+//            let crossHatch = UIImageView(image:lines)
+//            crossHatch.frame = CGRectMake(0, 0, self.frame.width, cb_height)
+//            crossHatch.alpha = 0.3
+//            color_bumper!.addSubview(crossHatch)
+            addCrossHatch(color_bumper!)
             color_bumper!.backgroundColor=color.colorWithAlphaComponent(0.6)
         }
         self.addSubview(color_bumper!)
+    }
+    
+    func addCrossHatch(bumper: UIView){
+        let lines = UIImage(named: "lines.png")
+        let crossHatch = UIImageView(image:lines)
+        crossHatch.frame = CGRectMake(0, 0, self.frame.width, cb_height)
+        crossHatch.alpha = 0.5
+        bumper.addSubview(crossHatch)
     }
     func addCourseLabel(){
         course_label = UILabel(frame: CGRectMake(2, cb_height, self.frame.width, label_height))
