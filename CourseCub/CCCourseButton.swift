@@ -22,6 +22,22 @@ class CCCourseButton: UIButton {
     let red  = appDelegate.colorWithHexString("#e74c3c")//#e74c3c
     let 🐢 = appDelegate.colorWithHexString("#1abc9c")//#1abc9c
     let 🌞 = appDelegate.colorWithHexString("#f39c12")//#f39c12
+    let c1 = appDelegate.colorWithHexString("#34495e")//#1ABc9c
+    let c2 = appDelegate.colorWithHexString("#e67e22")//#1ABc9c
+    let c3 = appDelegate.colorWithHexString("#762f00")//#1ABc9c
+    let c4 = appDelegate.colorWithHexString("#16A085")//#1ABc9c
+    let c5 = appDelegate.colorWithHexString("#27ae60")//#1ABc9c
+    let c6 = appDelegate.colorWithHexString("#2980b9")//#1ABc9c
+    let c7 = appDelegate.colorWithHexString("#8e44ad")//#1ABc9c
+    let c8 = appDelegate.colorWithHexString("#2c3e50")//#1ABc9c
+    let c9 = appDelegate.colorWithHexString("#c0392b")//#1ABc9c
+    let c10 = appDelegate.colorWithHexString("#bdc3c7")//#1ABc9c
+    let c11 = appDelegate.colorWithHexString("#7f8c8d")//#1ABc9c
+    let c12 = appDelegate.colorWithHexString("#d35400")//#1ABc9c
+    let c13 = appDelegate.colorWithHexString("#f62459")//#1ABc9c
+    
+    
+    
     
     var cart: [String]?
     var course: Course?
@@ -64,7 +80,7 @@ class CCCourseButton: UIButton {
     
     func getBumperColor(course: Course)->UIColor{
         if let c = find(cart!, course.crn){
-            var color_array = [🌻, blue, purple, green, red, 🐢,🌞]
+            var color_array = [🌻, blue, purple, green, red, 🐢,🌞, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10,c11, c12, c13]
             return color_array[c]
         }
         else{
