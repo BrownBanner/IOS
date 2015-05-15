@@ -67,8 +67,8 @@ class CCCourseButton: UIButton {
             
             //Times
             var start_stop_array = meetingParts?[4].componentsSeparatedByString("-")
-            startTime = start_stop_array?[0].toInt()
-            stopTime = start_stop_array?[1].toInt()
+            startTime = hourToMin(start_stop_array![0])
+            stopTime = hourToMin(start_stop_array![1])
             duration = stopTime!-startTime!
             
             //CourseCode
@@ -125,6 +125,23 @@ class CCCourseButton: UIButton {
         course_label?.text = cc
         self.addSubview(course_label!);
     }
+    
+    func hourToMin(hourTime: String) -> Int{
+        var hour = hourTime.substringWithRange(Range<String.Index>(start: advance(hourTime.startIndex, 0), end: advance(hourTime.endIndex, -2)))
+        
+        var extra_mins = ""
+        if count(hourTime) > 3{
+            extra_mins = hourTime.substringWithRange(Range<String.Index>(start: advance(hourTime.startIndex, 2), end: advance(hourTime.endIndex, 0)))
+        }else{
+            extra_mins = hourTime.substringWithRange(Range<String.Index>(start: advance(hourTime.startIndex, 1), end: advance(hourTime.endIndex, 0)))
+        }
+        
+        var hourInt = hour.toInt()
+        var extra_mins_int = extra_mins.toInt()
+        var mins = (hourInt! * 60) + extra_mins_int!
+        println(mins)
+        return mins
+    }
     /*
     // Only override drawRect: if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.
@@ -132,5 +149,4 @@ class CCCourseButton: UIButton {
         // Drawing code
     }
     */
-
 }

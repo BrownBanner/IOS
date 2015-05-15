@@ -19,6 +19,8 @@ class CalendarViewController: UIViewController {
     let background_color = appDelegate.colorWithHexString("#F9F8F4")//#F9F8F4
     let background_color_dos = appDelegate.colorWithHexString("#FCFBF7")//#FCFBF7
     let subBlock_color = appDelegate.colorWithHexString("#ACAEAF")//#ACAEAF
+    let lightGrey = appDelegate.colorWithHexString("#E7EBEC")//#bdc3c7
+    let ccRed = appDelegate.colorWithHexString("#F05353")//#F05353
     
     let cb_height = CGFloat(10)
     let label_height = CGFloat(20)
@@ -27,6 +29,7 @@ class CalendarViewController: UIViewController {
     var blur: UIView?
     var popup: UIView?
     var calView: UIView?
+    var scroll: UIScrollView?
     
     var conflictWindowUp = false //toggle to block calendar from refreshing until conflict popup is dismissed
     
@@ -63,8 +66,20 @@ class CalendarViewController: UIViewController {
         
 //        self.view.backgroundColor = UIColor(red: 0.976, green: 0.972, blue: 0.956, alpha: 1)
         
-        //#######Calendar Body
+        //Background
         addDayColumns();
+        
+        //ScrollView
+        var screenSize: CGRect = UIScreen.mainScreen().bounds
+        var screenWidth = screenSize.width
+        var screenHeight = screenSize.height
+        let minHeight = screenHeight/CGFloat(hourToMin("1800")-hourToMin("800"))
+        scroll = UIScrollView(frame: CGRectMake(0, 0, screenWidth, screenHeight))
+        scroll?.contentSize = CGSizeMake(screenWidth, 1000*minHeight)
+        self.view.addSubview(scroll!)
+        
+        //#######Calendar Body
+        
         addCalView();
         var defaults = NSUserDefaults.standardUserDefaults()
         var termArray = ["Fall 2013", "Spring 2014", "Fall 2014", "Spring 2015"]
@@ -75,16 +90,17 @@ class CalendarViewController: UIViewController {
         var screenSize: CGRect = UIScreen.mainScreen().bounds
         var screenWidth = screenSize.width
         var screenHeight = screenSize.height
-        calView = UIView(frame: CGRectMake(margin, margin, screenWidth-margin, screenHeight-margin))
+        let minHeight = screenHeight/CGFloat(hourToMin("1800")-hourToMin("800"))
+        calView = UIView(frame: CGRectMake(margin, margin, screenWidth-margin, 1000*minHeight))
         addHours()
-        self.view.addSubview(calView!)
+        scroll!.addSubview(calView!)
     }
     
     func addHours(){
         var screenSize: CGRect = UIScreen.mainScreen().bounds
         var screenWidth = screenSize.width
         var screenHeight = screenSize.height
-        let minHeight = screenHeight/(1800-800)
+        let minHeight = screenHeight/CGFloat(hourToMin("1800")-hourToMin("800"))
         
         
         var hours = ["", "9", "10", "11", "12", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
@@ -95,7 +111,7 @@ class CalendarViewController: UIViewController {
             hourLabel.font = UIFont(name: "Avenir-Roman", size: 9)
             hourLabel.text = hour
             hourLabel.textColor = text_color
-            self.view.addSubview(hourLabel)
+            scroll!.addSubview(hourLabel)
             ++i
         }
     }
@@ -121,18 +137,34 @@ class CalendarViewController: UIViewController {
             }else{
                 day_column.backgroundColor = background_color_dos
             }
-            self.view .addSubview(day_column);
+            
+            
+            self.view.addSubview(day_column);
             
             var dayLabelPoint = day_width/CGFloat(2)
             var dayLabel = UILabel(frame: CGRectMake(dayLabelPoint-3, 2, margin, 10))
             dayLabel.text = days[i]
             dayLabel.font = UIFont(name: "Avenir-Roman", size: 9)
             dayLabel.textColor = text_color
+            
+            
+            var dateFormatter = NSDateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            let d = NSDate()
+            let s = dateFormatter.stringFromDate(d)
+            var day = getDayOfWeek(s)
+            if i == day-2{//-2 b/c sunday is day 1 and i starts at 0
+                dayLabel.textColor = ccRed
+                day_column.backgroundColor = blue.colorWithAlphaComponent(0.1)
+            }
             day_column.addSubview(dayLabel)
         }
     }
     
     func isEven(n:Int) -> Bool {
+        
+        hourToMin("1800")
+        hourToMin("800")
         
         // Bitwise check
         if (n & 1 != 0) {
@@ -186,12 +218,29 @@ class CalendarViewController: UIViewController {
         task.resume()
     }
     
+    func hourToMin(hourTime: String) -> Int{
+        var hour = hourTime.substringWithRange(Range<String.Index>(start: advance(hourTime.startIndex, 0), end: advance(hourTime.endIndex, -2)))
+        
+        var extra_mins = ""
+        if count(hourTime) > 3{
+            extra_mins = hourTime.substringWithRange(Range<String.Index>(start: advance(hourTime.startIndex, 2), end: advance(hourTime.endIndex, 0)))
+        }else{
+            extra_mins = hourTime.substringWithRange(Range<String.Index>(start: advance(hourTime.startIndex, 1), end: advance(hourTime.endIndex, 0)))
+        }
+        
+        var hourInt = hour.toInt()
+        var extra_mins_int = extra_mins.toInt()
+        var mins = (hourInt! * 60) + extra_mins_int!
+//        println(mins)
+        return mins
+    }
+    
     func refreshCalendar() {
         var day_letters = ["M","T","W","R","F"]
         let screenSize: CGRect = UIScreen.mainScreen().bounds
         let screenWidth = screenSize.width
         let screenHeight = screenSize.height
-        let minHeight = screenHeight/(1800-800)
+        let minHeight = screenHeight/CGFloat(hourToMin("1800")-hourToMin("800"))
         
         
         
@@ -209,8 +258,8 @@ class CalendarViewController: UIViewController {
             
             //Time
             var start_stop_array = meetingParts[4].componentsSeparatedByString("-")
-            var start_time = start_stop_array[0].toInt()!
-            var stop_time = start_stop_array[1].toInt()!
+            var start_time = hourToMin(start_stop_array[0])
+            var stop_time = hourToMin(start_stop_array[1])
             //Day
             var days_array = Array(meetingParts[3])
             //Course Code
@@ -218,7 +267,7 @@ class CalendarViewController: UIViewController {
             var course_code = subjectc_array[0]+subjectc_array[1]
             
             //Course time info to pixel data
-            var start_point = CGFloat(start_time-800)
+            var start_point = CGFloat(start_time-hourToMin("800"))
             var duration = minHeight*CGFloat(stop_time-start_time)
             var min_offset = minHeight*start_point
             //Day to pixels
@@ -287,8 +336,11 @@ class CalendarViewController: UIViewController {
                                 if j == 0{
                                     leftMostBlock = courseBlock
                                 }else{
+                                    if leftMostBlock != nil{
+                                        calView?.insertSubview(courseBlock, belowSubview: leftMostBlock!)
+                                    }
                                     for view in courseBlock.subviews{
-                                        println(getClassName(view))
+//                                        println(getClassName(view))
                                         if getClassName(view) == "UILabel"{
                                             view.removeFromSuperview()
                                         }
@@ -313,7 +365,7 @@ class CalendarViewController: UIViewController {
                             }
                             
                             //Calculate overall block dimensions
-                            var overallStartPoint = CGFloat(minStart-800)
+                            var overallStartPoint = CGFloat(minStart-hourToMin("800"))
                             var overallStartOffset = CGFloat(overallStartPoint*minHeight)
                             var overallDuration = minHeight*CGFloat(maxStop-minStart)
                             
@@ -334,22 +386,25 @@ class CalendarViewController: UIViewController {
                                 var x_offset = i * width
                                 var d_offset = Int(day_width)*d
                                 
-                                var start_point = CGFloat(courseBlock.startTime!-800)
+                                var start_point = CGFloat(courseBlock.startTime!-hourToMin("800"))
                                 var duration = minHeight*CGFloat(courseBlock.stopTime!-courseBlock.startTime!)
                                 var min_offset = minHeight*start_point
                                 
-                                println(CGFloat(d_offset)+CGFloat(x_offset))
+//                                println(CGFloat(d_offset)+CGFloat(x_offset))
                                 
                                 courseBlock.frame = CGRectMake(CGFloat(d_offset)+CGFloat(x_offset), overallStartOffset, CGFloat(width), overallDuration)
                                 courseBlock.color_bumper?.frame = CGRectMake(0, 0, CGFloat(width), cb_height)
                                 courseBlock.color_bumper!.subviews.map({ $0.removeFromSuperview() })
-                                courseBlock.addCrossHatch(courseBlock.color_bumper!)
+                                if courseBlock.course?.reg_indicator=="N"{
+                                    courseBlock.addCrossHatch(courseBlock.color_bumper!)
+                                }
                                 
                                 //Display indicator subblocks
                                 var subBlock = UIView(frame: CGRectMake(0, min_offset-overallStartOffset, CGFloat(width), duration))
-                                subBlock.backgroundColor = subBlock_color.colorWithAlphaComponent(0.1)
+                                subBlock.backgroundColor = grey
                                 subBlock.userInteractionEnabled = false
                                 courseBlock.addSubview(subBlock)
+                                courseBlock.backgroundColor = lightGrey
                                 
                                 //List the text
                                 if courseBlock.frame.height > (label_height+20)*CGFloat(i){
@@ -362,11 +417,20 @@ class CalendarViewController: UIViewController {
                                     var coursesNotDisplayed = String(count-i-1)
                                     
                                     var newCourseLabel = UILabel(frame: CGRectMake(2, cb_height+CGFloat(y_text_offset), day_width, label_height))
-                                    if courseBlock.frame.height > (label_height+20)*CGFloat(i+1){newCourseLabel.text = courseLabelText}else{newCourseLabel.text = courseLabelText! + " +" + coursesNotDisplayed}
+                                    if coursesNotDisplayed == "0"{
+                                        if courseBlock.frame.height > (label_height+20)*CGFloat(i+1){newCourseLabel.text = courseLabelText}else{newCourseLabel.text = courseLabelText!}
+                                    }else{
+                                        if courseBlock.frame.height > (label_height+20)*CGFloat(i+1){newCourseLabel.text = courseLabelText}else{newCourseLabel.text = courseLabelText! + " +" + coursesNotDisplayed}
+                                    }
                                     newCourseLabel.font = UIFont(name: "Avenir-Roman", size: 10)
                                     newCourseLabel.textColor = text_color
                                     leftMostBlock?.addSubview(newCourseLabel)
                                     
+                                }
+                                for view in courseBlock.subviews{
+                                    if getClassName(view) == "UILabel"{
+                                        courseBlock.bringSubviewToFront(view as! UIView)
+                                    }
                                 }
                                 
                                 
@@ -447,7 +511,7 @@ class CalendarViewController: UIViewController {
     
     func displayConflictPopUp(sender: CCCourseButton){
         conflictWindowUp = true
-        println("Display conflict popup")
+//        println("Display conflict popup")
         blur = UIView(frame: CGRectMake(0, 0, self.view.frame.width, self.view.frame.height))
         blur!.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.7)
         let image = UIImage(named: "lightg.png")
@@ -486,7 +550,7 @@ class CalendarViewController: UIViewController {
     }
     
     func displayConflictsOnPopup(sender: CCCourseButton){
-        println(sender.conflictArray)
+//        println(sender.conflictArray)
         var i = 0
         var headerMargin = CGFloat(60)
         for course in sender.conflictArray!{
@@ -542,6 +606,16 @@ class CalendarViewController: UIViewController {
         
         //return the color-burned image
         return coloredImage;
+    }
+    func getDayOfWeek(today:String)->Int {
+        
+        let formatter  = NSDateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        let todayDate = formatter.dateFromString(today)!
+        let myCalendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)!
+        let myComponents = myCalendar.components(.CalendarUnitWeekday, fromDate: todayDate)
+        let weekDay = myComponents.weekday
+        return weekDay
     }
 
 }
