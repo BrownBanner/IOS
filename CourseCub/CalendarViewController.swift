@@ -500,6 +500,13 @@ class CalendarViewController: UIViewController {
             conflictLabel.font = UIFont(name: "Avenir-Roman", size: 20)
             popup?.addSubview(conflictLabel)
             
+            var timeLabel = UILabel(frame: CGRectMake(popup!.frame.width-118, headerMargin+CGFloat(i*40), popup!.frame.width, 35))
+            var meetingParts = course.meeting_time.componentsSeparatedByString(" ")
+            timeLabel.text = meetingParts[3] + " " + meetingParts[4]
+            timeLabel.textColor = UIColor.whiteColor()
+            timeLabel.font = UIFont(name: "Avenir-Roman", size: 12)
+            popup?.addSubview(timeLabel)
+            
             var arrowImage = UIImage(named: "Rarrow")
             var arrowImageWhite = colorizeWith(arrowImage!, color: UIColor.whiteColor())
             let arrowImageView = UIImageView(image: arrowImageWhite)

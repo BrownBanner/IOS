@@ -310,7 +310,7 @@ class DepartmentViewController: UITableViewController, UITableViewDataSource, UI
             return;
         }
         var newSearchTerm = searchTerm.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
-        let urlPath = "http://blooming-bastion-7117.herokuapp.com/search?term=201420&num_results=20&search=" + newSearchTerm
+        let urlPath = "http://blooming-bastion-7117.herokuapp.com/search?term=201420&num_results=50&search=" + newSearchTerm
         let url = NSURL(string: urlPath)
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: nil, delegateQueue: NSOperationQueue.mainQueue())
         self.spinner.startAnimating()
