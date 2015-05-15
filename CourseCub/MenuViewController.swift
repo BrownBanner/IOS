@@ -234,7 +234,7 @@ class MenuViewController: UITableViewController {
         
         var defaults = NSUserDefaults.standardUserDefaults()
         var termCode = defaults.objectForKey(appDelegate.COURSE_TERM_CODE) as! String
-        let urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/cartbyname?term=" + termCode + "&in_id=" + appDelegate.getSessionCookie() + "&cart_name=" + cartName + "&crn_list=" + crn_list + "&in_type=I"
+        let urlPath = "https://ords-dev.services.brown.edu:8121/dprd/banner/mobile/cartbyname?term=" + termCode + "&in_id=" + appDelegate.getSessionCookie() + "&cart_name=" + cartName + "&crn_list=" + crn_list + "&in_type=I"
         println("ADDINGCART")
         println(urlPath)
         let url = NSURL(string: urlPath)
@@ -349,7 +349,7 @@ class MenuViewController: UITableViewController {
         var defaults = NSUserDefaults.standardUserDefaults()
         var termCode = defaults.objectForKey(appDelegate.COURSE_TERM_CODE) as! String
 
-        let urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/cartbyname?term=" + termCode + "&in_id=" + appDelegate.getSessionCookie() + "&cart_name=" + name_final
+        let urlPath = "https://ords-dev.services.brown.edu:8121/dprd/banner/mobile/cartbyname?term=" + termCode + "&in_id=" + appDelegate.getSessionCookie() + "&cart_name=" + name_final
         println("\nGETCARTBYNAME")
         println(urlPath)
         let url = NSURL(string: urlPath)
@@ -435,7 +435,7 @@ class MenuViewController: UITableViewController {
 
         var defaults = NSUserDefaults.standardUserDefaults()
         var termCode = defaults.objectForKey(appDelegate.COURSE_TERM_CODE) as! String
-        let urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/cartbyname?term=" + termCode + "&in_id=" + appDelegate.getSessionCookie() + "&cart_name=" + name_final + "&crn_list=1&in_type=D"
+        let urlPath = "https://ords-dev.services.brown.edu:8121/dprd/banner/mobile/cartbyname?term=" + termCode + "&in_id=" + appDelegate.getSessionCookie() + "&cart_name=" + name_final + "&crn_list=1&in_type=D"
         let url = NSURL(string: urlPath)
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: nil, delegateQueue: NSOperationQueue.mainQueue())
         let task = session.dataTaskWithURL(url!, completionHandler: {data, response, error -> Void in
