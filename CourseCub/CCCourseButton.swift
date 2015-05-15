@@ -149,5 +149,4 @@ class CCCourseButton: UIButton {
         // Drawing code
     }
     */
-
 }
