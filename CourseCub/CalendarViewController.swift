@@ -287,6 +287,9 @@ class CalendarViewController: UIViewController {
                                 if j == 0{
                                     leftMostBlock = courseBlock
                                 }else{
+                                    if leftMostBlock != nil{
+                                        calView?.insertSubview(courseBlock, belowSubview: leftMostBlock!)
+                                    }
                                     for view in courseBlock.subviews{
                                         println(getClassName(view))
                                         if getClassName(view) == "UILabel"{
@@ -371,6 +374,11 @@ class CalendarViewController: UIViewController {
                                     newCourseLabel.textColor = text_color
                                     leftMostBlock?.addSubview(newCourseLabel)
                                     
+                                }
+                                for view in courseBlock.subviews{
+                                    if getClassName(view) == "UILabel"{
+                                        courseBlock.bringSubviewToFront(view as! UIView)
+                                    }
                                 }
                                 
                                 
