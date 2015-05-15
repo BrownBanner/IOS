@@ -30,6 +30,7 @@ class ViewController: UIViewController, UIWebViewDelegate {
     var cookieJar : NSHTTPCookieStorage = NSHTTPCookieStorage.sharedHTTPCookieStorage()
     
     func loadAddressURL() {
+        let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: nil, delegateQueue: NSOperationQueue.mainQueue())
         let requestURL = NSURL(string:URLPath)
         let request = NSURLRequest(URL:requestURL!)
         Webview?.delegate = self
@@ -50,10 +51,6 @@ class ViewController: UIViewController, UIWebViewDelegate {
                 }
                 else
                 {
-//                    var launchImage = UIImage(named: "Launch")
-//                    var launchView = UIImageView(frame: CGRectMake(0, 0, self.view.frame.width, self.view.frame.height))
-//                    launchView.image = launchImage
-//                    self.view.addSubview(launchView)
                     let alertController = UIAlertController(title: "No Internet:", message:
                         "There is no internet connection and so we cannot sync with banner. Please fix your connection again later.", preferredStyle: UIAlertControllerStyle.Alert)
                     alertController.addAction(UIAlertAction(title: "Exit", style: UIAlertActionStyle.Cancel, handler: {alertAction in
@@ -90,6 +87,18 @@ class ViewController: UIViewController, UIWebViewDelegate {
             nextPageTest.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
         }
     }
+//    
+//    func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+//
+//       
+//            
+//            var urlConnection = NSURLConnection(request: request, delegate: self)
+//            
+//            urlConnection?.start()
+//            
+//            return false;
+//
+//    }
     
     func checkInternet(flag:Bool, completionHandler:(internet:Bool) -> Void)
     {
@@ -112,6 +121,20 @@ class ViewController: UIViewController, UIWebViewDelegate {
                 completionHandler(internet:rsp?.statusCode == 200)
         })
     }
+    
+//    func connection(connection: NSURLConnection, canAuthenticateAgainstProtectionSpace protectionSpace: NSURLProtectionSpace) -> Bool {
+//        print ("ALEC")
+//        return true
+//    }
+//
+//    func connection(connection: NSURLConnection, didReceiveAuthenticationChallenge challenge: NSURLAuthenticationChallenge) {
+//        challenge.sender.useCredential(NSURLCredential(forTrust: challenge.protectionSpace.serverTrust), forAuthenticationChallenge: challenge)
+//        challenge.sender.continueWithoutCredentialForAuthenticationChallenge(challenge)
+//
+//    }
+    
 
+
+    
 }
 

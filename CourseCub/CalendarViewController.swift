@@ -21,6 +21,7 @@ class CalendarViewController: UIViewController {
     let subBlock_color = appDelegate.colorWithHexString("#ACAEAF")//#ACAEAF
     let lightGrey = appDelegate.colorWithHexString("#E7EBEC")//#bdc3c7
     let ccRed = appDelegate.colorWithHexString("#F05353")//#F05353
+    var spinner = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
     
     let cb_height = CGFloat(10)
     let label_height = CGFloat(20)
@@ -52,6 +53,7 @@ class CalendarViewController: UIViewController {
         var backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
         self.navigationItem.backBarButtonItem = backButton;
         
+        
         if self.revealViewController() != nil {
             menuButton.target = self.revealViewController()
             menuButton.action = "revealToggle:"
@@ -81,6 +83,7 @@ class CalendarViewController: UIViewController {
         //#######Calendar Body
         
         addCalView();
+        
         var defaults = NSUserDefaults.standardUserDefaults()
         var termArray = ["Fall 2013", "Spring 2014", "Fall 2014", "Spring 2015"]
         self.title = termArray[defaults.objectForKey(appDelegate.COURSE_TERM_INDEX) as! Int]
@@ -93,6 +96,10 @@ class CalendarViewController: UIViewController {
         let minHeight = screenHeight/CGFloat(hourToMin("1800")-hourToMin("800"))
         calView = UIView(frame: CGRectMake(margin, margin, screenWidth-margin, 1000*minHeight))
         addHours()
+        self.spinner.center = CGPointMake(self.view.frame.width / 2 - 5, 30)
+        self.spinner.hidesWhenStopped = true;
+        self.spinner.startAnimating()
+        self.calView?.addSubview(spinner)
         scroll!.addSubview(calView!)
     }
     
@@ -183,8 +190,8 @@ class CalendarViewController: UIViewController {
         var defaults = NSUserDefaults.standardUserDefaults()
         var termCode = defaults.objectForKey(appDelegate.COURSE_TERM_CODE) as! String
 
-//        let urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/cartbyid?term=" + termCode + "&in_id=" + appDelegate.getSessionCookie()
-        let urlPath = "https://ords-dev.services.brown.edu:8121/dprd/banner/mobile/cartbyid?term=" + termCode + "&in_id=" + appDelegate.getSessionCookie()
+        let urlPath = "https://ords-qa.services.brown.edu:8443/pprd/banner/mobile/cartbyid?term=" + termCode + "&in_id=" + appDelegate.getSessionCookie()
+//        let urlPath = "https://ords-dev.services.brown.edu:8121/dprd/banner/mobile/cartbyid?term=" + termCode + "&in_id=" + appDelegate.getSessionCookie()
         
         let url = NSURL(string: urlPath)
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: nil, delegateQueue: NSOperationQueue.mainQueue())
@@ -209,6 +216,7 @@ class CalendarViewController: UIViewController {
                     tempCart.append(tempCourse)
                 }
                 appDelegate.currentCart.setCourses(tempCart)
+                self.spinner.stopAnimating()
                 self.refreshCalendar()
                 return;
             }
